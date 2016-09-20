@@ -27,7 +27,7 @@ From `PyPI <https://pypi.python.org/pypi/pymeshfix>`__
 
     pip install pymeshfix
 
-From source at [GitHub] (https://github.com/akaszynski/pymeshfix)
+From source at `GitHub (https://github.com/akaszynski/pymeshfix`__
 
 .. code:: bash
 
