@@ -3,9 +3,11 @@
 *.pyc
 *.pyd
 *.c
-*.cpp
 *.so
 *.o
+
+# Cython generated files #
+pymeshfix/cython/_meshfix.cpp
 
 # OS generated files #
 ######################
