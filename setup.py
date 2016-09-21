@@ -18,10 +18,31 @@ if not os.name == 'nt':
     extra_args.append('-std=gnu++11')
     # extra_args.append('-std=c++11') # might have to use this instead
 
+# Files for Meshfix and cython wrapper
+files = ['pymeshfix/cython/meshfix.cpp',
+'pymeshfix/cython/tin.cpp',
+'pymeshfix/cython/checkAndRepair.cpp',
+'pymeshfix/cython/coordinates.cpp',
+'pymeshfix/cython/detectIntersections.cpp',
+'pymeshfix/cython/edge.cpp',
+'pymeshfix/cython/graph.cpp',
+'pymeshfix/cython/heap.cpp',
+'pymeshfix/cython/holeFilling.cpp',
+'pymeshfix/cython/io.cpp',
+'pymeshfix/cython/jqsort.cpp',
+'pymeshfix/cython/list.cpp',
+'pymeshfix/cython/marchIntersections.cpp',
+'pymeshfix/cython/matrix.cpp',
+'pymeshfix/cython/orientation.c',
+'pymeshfix/cython/point.cpp',
+'pymeshfix/cython/tmesh.cpp',
+'pymeshfix/cython/triangle.cpp',
+'pymeshfix/cython/vertex.cpp',
+'pymeshfix/cython/_meshfix.pyx']
 
 setup(
     name='pymeshfix',
-    packages = ['pymeshfix'],
+    packages = ['pymeshfix', 'pymeshfix.Tests'],
 
     # Version
     version='0.10',
@@ -41,9 +62,10 @@ setup(
         'Intended Audience :: Science/Research',
 
         # MIT License
-        'License :: OSI Approved :: MIT License',
+        'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
 
-        # Tested only on Python 2.7 (untested with 3)
+        # Tested with on Python 2.7 and 3.5
+        'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 2.7',
     ],
 
@@ -53,29 +75,10 @@ setup(
     # Build cython modules
     cmdclass={'build_ext': build_ext},
     ext_modules = [Extension("pymeshfix._meshfix", 
-                             ['pymeshfix/cython/_meshfix.pyx',
-                              'pymeshfix/cython/meshfix.cpp',
-                              'pymeshfix/cython/tin.cpp',
-                              'pymeshfix/cython/checkAndRepair.cpp',
-                              'pymeshfix/cython/coordinates.cpp',
-                              'pymeshfix/cython/detectIntersections.cpp',
-                              'pymeshfix/cython/edge.cpp',
-                              'pymeshfix/cython/graph.cpp',
-                              'pymeshfix/cython/heap.cpp',
-                              'pymeshfix/cython/holeFilling.cpp',
-                              'pymeshfix/cython/io.cpp',
-                              'pymeshfix/cython/jqsort.cpp',
-                              'pymeshfix/cython/list.cpp',
-                              'pymeshfix/cython/marchIntersections.cpp',
-                              'pymeshfix/cython/matrix.cpp',
-                              'pymeshfix/cython/orientation.c',
-                              'pymeshfix/cython/point.cpp',
-                              'pymeshfix/cython/tmesh.cpp',
-                              'pymeshfix/cython/triangle.cpp',
-                              'pymeshfix/cython/vertex.cpp'],
+                             files,
                              language='c++',
                              extra_compile_args=extra_args,
-                             define_macros=macros)],
+                             define_macros=macros),],
                      
                      
     keywords='meshfix',                           

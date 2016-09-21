@@ -3,7 +3,7 @@ Python module to interface with wrapped TetGen C++ code
 
 """
 # import cython libraries
-import _meshfix
+from pymeshfix import _meshfix
 
 # VTK import
 try:

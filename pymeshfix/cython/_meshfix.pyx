@@ -2,7 +2,8 @@
 Python/Cython wrapper for MeshFix by Marco Attene
 """
 from libcpp cimport bool
-from cpython.string cimport PyString_AsString
+
+#from cpython.unicode cimport PyUnicode_AsEncodedString as _AsString
 
 import warnings
 
@@ -79,7 +80,9 @@ cdef class PyTMesh:
         
         # Initializes triangulation
         
-        cdef char *cstring = PyString_AsString(filename)
+        #cdef char *cstring = _AsString(filename, "utf-8", "Error ~")
+        py_byte_string = filename.encode('UTF-8')
+        cdef char* cstring = py_byte_string
         result = self.c_tmesh.load(cstring);
         if result:
             raise IOError('MeshFix is unable to open {:s}'.format(filename))
@@ -105,7 +108,9 @@ cdef class PyTMesh:
         """
         
         # Convert filename to c string and save
-        cdef char *cstring = PyString_AsString(filename)
+        py_byte_string = filename.encode('UTF-8')
+        cdef char* cstring = py_byte_string
+        #cdef char *cstring = _AsString(filename, "utf-8", "Error ~")
         result = self.c_tmesh.save(cstring, back_approx)
 
         if result:
@@ -273,7 +278,6 @@ def Repair(tin, verbose, joincomp):
         if verbose:
             print('Performing final check...')
         result = tin.MeshClean()
-
 
     if result:
         warnings.warn('MeshFix could not fix everything')
