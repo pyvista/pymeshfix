@@ -92,13 +92,13 @@ class MeshFixClass(object):
         if not vtkenabled:
             raise Exception('Cannot import vtk mesh without vtk installed.')
         
-        if type(vtkpoly) is vtk.vtkPolyData:
-            # Store vertices and faces from mesh internally
-            self.v = vtkhelper.GetPoints(vtkpoly)
-            self.f = vtkhelper.GetFaces(vtkpoly)
+#        if type(vtkpoly) is vtk.vtkPolyData:
+        # Store vertices and faces from mesh internally
+        self.v = vtkhelper.GetPoints(vtkpoly)
+        self.f = vtkhelper.GetFaces(vtkpoly)
             
-        else:
-            raise Exception('Input must be a vtkPolyData mesh')
+#        else:
+#            raise Exception('Input must be a vtkPolyData mesh')
         
     
     def DisplayInputSurface(self, showbound=True):

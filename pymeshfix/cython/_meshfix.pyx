@@ -1,20 +1,20 @@
 """
 Python/Cython wrapper for MeshFix by Marco Attene
 """
-from libcpp cimport bool
-
-#from cpython.unicode cimport PyUnicode_AsEncodedString as _AsString
-
+import ctypes
 import warnings
+
+from libcpp cimport bool
 
 import numpy as np
 cimport numpy as np
 
-import ctypes
 
 # Numpy must be initialized. When using numpy from C or Cython you must
 # _always_ do that, or you will have segfaults
 np.import_array()
+
+ctypedef unsigned short UINT16
 
 """ Wrapped tetgen class """
 cdef extern from "meshfix.h" namespace "T_MESH":
@@ -32,6 +32,11 @@ cdef extern from "meshfix.h" namespace "T_MESH":
         int fillSmallBoundaries(int, bool)
         int meshclean(int, int)
         int save(const char*, bool)
+
+        # Select self intersecting triangles
+        int selectIntersectingTriangles(UINT16, bool)
+        void GetSelected(int*)
+#        void IntersectionRemoval()
 
         # Settings
         void SetVerbose(int)
@@ -208,7 +213,35 @@ cdef class PyTMesh:
         repair
         """
         self.c_tmesh.Join()
+        
+        
+    def SelectIntersectingTriangles(self, UINT16 tris_per_cell, bool justproper):
+        """
+        
+        Selects all the triangles that unproperly intersect other parts of
+        the mesh and return their number. The parameter 'tris_per_cell'
+        determines the depth of the recursive space subdivision used to keep
+        the complexity under a resonable threchold. The default value is safe
+        in most cases.
+        
+        if 'justproper' is true, coincident edges and vertices are not regarded
+        as intersections even if they are not common subsimplexes.
+        
+        """
+        
+        # Returns the number of intersecting triangles
+        its = self.c_tmesh.selectIntersectingTriangles(tris_per_cell, justproper)
+        
+        # Create a face array and populate it with the intersecting faces
+        cdef int [::1] faces = np.empty(its, ctypes.c_int)
+        self.c_tmesh.GetSelected(&faces[0])
+        
+        return np.asarray(faces)
 
+#    def IntersectionRemoval(self):
+#        """ Remove intersections """
+#        self.c_tmesh.IntersectionRemoval()
+#        
         
 def CleanFromFile(infile, outfile, verbose=True, joincomp=False):
     """ Performs default cleaning procedure on input file """

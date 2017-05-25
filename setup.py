@@ -26,7 +26,7 @@ setup(
     packages = ['pymeshfix', 'pymeshfix.Tests'],
 
     # Version
-    version='0.10',
+    version='0.10.1',
 
     description='Repairs triangular meshes',
     long_description=open('README.rst').read(),
@@ -46,8 +46,8 @@ setup(
         'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
 
         # Tested with on Python 2.7 and 3.5
-        'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3.5',
     ],
 
     # Website

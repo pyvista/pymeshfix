@@ -696,7 +696,7 @@ class Basic_TMesh
 
 		//! Removes all the connected components whose area is less than 'epsilon'.
 		//! Returns the number of components removed.
-		int       removeSmallestComponents(double epsilon);
+		int removeSmallestComponents(double epsilon);
 
 
 		/////////////////////////////////////////////////////////////////////////////

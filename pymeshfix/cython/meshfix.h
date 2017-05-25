@@ -1,17 +1,15 @@
-#include "tmesh.h"
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
 
-//int MeshFix(const char*, int quiet, const char*);
-//int MeshFix(int nv, double *points, int nt, int *faces, int quiet);
+#include "tmesh.h"
+//#include "detectIntersections.h"
 
 
 namespace T_MESH
 {
 
 // Adds additional functionality to original tetgen object
-//class Basic_TMesh_wrap : public T_MESH::Basic_TMesh
 class Basic_TMesh_wrap : public Basic_TMesh
 {
     public:
@@ -31,8 +29,9 @@ class Basic_TMesh_wrap : public Basic_TMesh
 
         void Join();
 
-        //destructor
-//        ~myRectangle();
+        // Used to select self-intersecting triangles
+//        int selectIntersectingTriangles(UINT16, bool);
+        void GetSelected(int *faces);
 
 };
 
