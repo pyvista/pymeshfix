@@ -212,7 +212,7 @@ int Basic_TMesh_wrap::loadArray(int nv, double *points, int nt, int *faces)
   TMesh::info("Loaded %d vertices and %d faces.\n", nv, nt);
 
   // Fix connectivity
-  //fixConnectivity();
+  fixConnectivity();
   d_boundaries = d_handles = d_shells = 1;
 
   return 0;
