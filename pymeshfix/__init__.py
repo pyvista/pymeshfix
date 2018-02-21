@@ -1,3 +1,2 @@
-__version__ = '0.10.2'
-from pymeshfix import vtkhelper
-from pymeshfix import meshfix
+from pymeshfix.meshfix import *
+from pymeshfix import _meshfix

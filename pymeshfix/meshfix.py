@@ -5,19 +5,18 @@ Python module to interface with wrapped TetGen C++ code
 from pymeshfix import _meshfix
 import numpy as np
 import ctypes
+import warnings
 
-# VTK import
+# optional VTK import
 try:
-    import vtk
+    import vtkInterface
     vtkenabled = True
 except BaseException:
+    warnings.warn('Unable to import vtk.  To plot meshes install vtkInterface')
     vtkenabled = False
 
-if vtkenabled:
-    from pymeshfix import vtkhelper
 
-
-class MeshFixClass(object):
+class MeshFix(object):
     """
     Class to clean, and tetrahedralize surface meshes using MeshFix
 
@@ -68,40 +67,27 @@ class MeshFixClass(object):
         Allowable filetypes: *.ply, *.stl, and *.vtk files
 
         """
-
-        # Check to see if vtk exists
         if not vtkenabled:
             raise Exception(
                 'Cannot import mesh from file without vtk installed')
 
         # Store vertices and faces
-        vtkpoly = vtkhelper.LoadMesh(filename)
-        self.v = vtkhelper.GetPoints(vtkpoly)
-        self.f = vtkhelper.GetFaces(vtkpoly)
+        mesh = vtkInterface.PolyData(filename)
+        self.LoadMesh(mesh)
 
-    def LoadMesh(self, vtkpoly):
+    def LoadMesh(self, mesh):
         """
         Loads triangular mesh from a vtk.vtkPolyData object
-
-        TetGenClass(filename=filename)
-        If vtk is installed, meshes can be loaded directly from file.  Accepts:
-        *.ply, *.stl, and *.vtk files
 
         """
 
         # Various load methods depending on input
         if not vtkenabled:
             raise Exception('Cannot import vtk mesh without vtk installed.')
+        self.v = mesh.points
+        self.f = mesh.GetNumpyFaces(force_C_CONTIGUOUS=True)
 
-#        if type(vtkpoly) is vtk.vtkPolyData:
-        # Store vertices and faces from mesh internally
-        self.v = vtkhelper.GetPoints(vtkpoly)
-        self.f = vtkhelper.GetFaces(vtkpoly)
-
-#        else:
-#            raise Exception('Input must be a vtkPolyData mesh')
-
-    def DisplayInputSurface(self, showbound=True):
+    def PlotInput(self, showbound=True):
         """
         Displays input mesh
 
@@ -112,12 +98,12 @@ class MeshFixClass(object):
             raise Exception('Cannot display mesh without vtk.  ' +
                             'Please install vtk with python bindings.')
 
-        mesh = vtkhelper.MeshfromVF(self.v, self.f, clean=False)
+        mesh = vtkInterface.MeshfromVF(self.v, self.f)
 
         if showbound:
-            vtkhelper.PlotBoundaries(mesh)
+            vtkInterface.PlotBoundaries(mesh, showedges=True)
         else:
-            vtkhelper.Plot(mesh)
+            mesh.Plot(showedges=True)
 
     def Repair(self, verbose=True, joincomp=False,
                removeSmallestComponents=True):
@@ -136,13 +122,11 @@ class MeshFixClass(object):
         if not vtkenabled:
             raise Exception('Cannot display mesh without vtk.  ' +
                             'Please install vtk with python bindings.')
-
-        mesh = vtkhelper.MeshfromVF(self.vclean, self.fclean, False)
-
+        mesh = self.GenFixedMesh()
         if showbound:
-            vtkhelper.PlotBoundaries(mesh)
+            vtkInterface.PlotBoundaries(mesh, showedges=True)
         else:
-            vtkhelper.Plot(mesh)
+            mesh.Plot(showedges=True)
 
     def GenFixedMesh(self):
         """
@@ -164,12 +148,11 @@ class MeshFixClass(object):
         if not hasattr(self, 'vclean'):
             raise Exception('Run "Repair" first')
 
-        self.fixedmesh = vtkhelper.MeshfromVF(self.vclean, self.fclean)
+        self.fixedmesh = vtkInterface.MeshfromVF(self.vclean, self.fclean)
         return self.fixedmesh
 
     def SaveFixedMesh(self, filename):
         """ Saves mesh from meshfix to file """
-
         if not vtkenabled:
             raise Exception('Cannot save mesh without vtk.  ' +
                             'Please install vtk with python bindings.')
@@ -179,4 +162,4 @@ class MeshFixClass(object):
             self.GenFixedMesh()
 
         # Save grid
-        vtkhelper.WriteMesh(filename, self.fixedmesh)
+        self.fixedmesh.Write(filename)
