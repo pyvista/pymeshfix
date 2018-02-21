@@ -260,7 +260,8 @@ def CleanFromFile(infile, outfile, verbose=True, joincomp=False):
     tin.SaveFile(outfile)
     
     
-def CleanFromVF(v, f, verbose=True, joincomp=False):
+def CleanFromVF(v, f, verbose=True, joincomp=False,
+                removeSmallestComponents=True):
     """
     Performs default cleaning procedure on vertex and face arrays
 
@@ -272,13 +273,13 @@ def CleanFromVF(v, f, verbose=True, joincomp=False):
     tin = PyTMesh(verbose)
     tin.LoadArray(v, f)
 
-    Repair(tin, verbose, joincomp)
+    Repair(tin, verbose, joincomp, removeSmallestComponents)
         
     # return vertex and face arrays
     return tin.ReturnArrays()
     
     
-def Repair(tin, verbose, joincomp):
+def Repair(tin, verbose, joincomp, removeSmallestComponents=True):
     """ Performs mesh repair using default cleaning procedure """
     
     # Keep only the largest component (i.e. with most triangles)

@@ -119,7 +119,8 @@ class MeshFixClass(object):
         else:
             vtkhelper.Plot(mesh)
 
-    def Repair(self, verbose=True, joincomp=False):
+    def Repair(self, verbose=True, joincomp=False,
+               removeSmallestComponents=True):
         """
         Performs mesh repair using MeshFix's default repair process
 
@@ -128,7 +129,7 @@ class MeshFixClass(object):
             raise Exception('No mesh loaded')
 
         self.vclean, self.fclean = _meshfix.CleanFromVF(
-            self.v, self.f, verbose, joincomp)
+            self.v, self.f, verbose, joincomp, removeSmallestComponents)
 
     def DisplayFixedSurface(self, showbound=True):
         """ Displays input mesh """
@@ -144,15 +145,27 @@ class MeshFixClass(object):
             vtkhelper.Plot(mesh)
 
     def GenFixedMesh(self):
-        """ Generates a vtkPolyData mesh from the cleaned mesh data """
+        """
+        Generates a vtkPolyData mesh from the cleaned mesh data
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        fixedmesh : vtk.PolyData
+            Repaired mesh
+        """
         if not vtkenabled:
-            raise Exception('Cannot display mesh without vtk.  ' +
+            raise Exception('Cannot create mesh without vtk.  ' +
                             'Please install vtk with python bindings.')
 
         if not hasattr(self, 'vclean'):
             raise Exception('Run "Repair" first')
 
         self.fixedmesh = vtkhelper.MeshfromVF(self.vclean, self.fclean)
+        return self.fixedmesh
 
     def SaveFixedMesh(self, filename):
         """ Saves mesh from meshfix to file """

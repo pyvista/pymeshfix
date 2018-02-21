@@ -2,9 +2,11 @@
 ###################
 *.pyc
 *.pyd
-*.c
-*.cpp
 *.so
+*.o
+
+# Cython generated files #
+pymeshfix/cython/_meshfix.cpp
 
 # OS generated files #
 ######################
@@ -13,11 +15,6 @@
 
 # Pip generated folders #
 #########################
-pymeshfix.egg-info/
+*.egg-info/
 build/
 dist/
-
-# documentation
-Documentation/
-mkdoc
-mkpdf
