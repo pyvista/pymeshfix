@@ -27,13 +27,7 @@ From source at `GitHub <https://github.com/akaszynski/pymeshfix>`__
 
 Dependencies
 ------------
-Required: ``numpy``, ``cython``, ``vtkInterface``
-
-Minimum requirements are numpy and cython. To enable plotting and several other features, vtkInterface can be installed using:
-
-.. code:: bash
-
-   pip install vtk
+Requires ``numpy`` and ``vtkInterface``
 
 Tests
 -----
