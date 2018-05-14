@@ -9,11 +9,6 @@ from libcpp cimport bool
 import numpy as np
 cimport numpy as np
 
-
-# Numpy must be initialized. When using numpy from C or Cython you must
-# _always_ do that, or you will have segfaults
-# np.import_array()
-
 ctypedef unsigned short UINT16
 
 """ Wrapped tetgen class """
@@ -71,7 +66,6 @@ cdef class PyTMesh:
         # Enable/Disable printed progress
         self.c_tmesh.SetVerbose(not quiet)
 
-
     def LoadFile(self, filename):
         """
         Loads mesh from file
@@ -91,7 +85,6 @@ cdef class PyTMesh:
         result = self.c_tmesh.load(cstring);
         if result:
             raise IOError('MeshFix is unable to open {:s}'.format(filename))
-
 
     def SaveFile(self, filename, back_approx=False):
         """
@@ -120,7 +113,6 @@ cdef class PyTMesh:
 
         if result:
             raise IOError('MeshFix is unable to save mesh to {:s}'.format(filename))
-
 
     def LoadArray(self, v, f):
         """
@@ -154,8 +146,7 @@ cdef class PyTMesh:
         
         # Load to C object
         self.c_tmesh.loadArray(nv, &points[0], nt, &faces[0])
-        
-        
+
     def MeshClean(self, int max_iters=10, inner_loops=3):
         """
         Iteratively call strongDegeneracyRemoval and strongIntersectionRemoval
@@ -167,15 +158,12 @@ cdef class PyTMesh:
         
         self.c_tmesh.meshclean(max_iters, inner_loops)
 
-
     def Boundaries(self):
         """ Get the number of boundary loops of the triangle mesh """
         return self.c_tmesh.boundaries()
-        
-        
+
     def RemoveSmallestComponents(self):
         return self.c_tmesh.removeSmallestComponents()
-
 
     def FillSmallBoundaries(self, nbe=0, refine=True):
         """
@@ -186,9 +174,8 @@ cdef class PyTMesh:
         """
         return self.c_tmesh.fillSmallBoundaries(nbe, refine)
 
-
     def ReturnArrays(self):
-        """ Returns points array from tmesh object """
+        """ Return numpy arrays from self object """
         
         # Size point array
         cdef int npoints = self.c_tmesh.ReturnTotalPoints()
@@ -205,7 +192,6 @@ cdef class PyTMesh:
         f = np.asarray(faces).reshape((-1, 3))
         
         return v, f
-        
 
     def JoinClosestComponents(self):
         """
@@ -213,8 +199,7 @@ cdef class PyTMesh:
         repair
         """
         self.c_tmesh.Join()
-        
-        
+
     def SelectIntersectingTriangles(self, UINT16 tris_per_cell, bool justproper):
         """
         
@@ -242,7 +227,7 @@ cdef class PyTMesh:
 #        """ Remove intersections """
 #        self.c_tmesh.IntersectionRemoval()
 #        
-        
+
 def CleanFromFile(infile, outfile, verbose=True, joincomp=False):
     """ Performs default cleaning procedure on input file """
 
@@ -258,10 +243,8 @@ def CleanFromFile(infile, outfile, verbose=True, joincomp=False):
     if verbose:
         print('Saving repaired mesh to {:s}'.format(outfile))
     tin.SaveFile(outfile)
-    
-    
-def CleanFromVF(v, f, verbose=True, joincomp=False,
-                removeSmallestComponents=True):
+
+def CleanFromVF(v, f, verbose=True, joincomp=False, removeSmallestComponents=True):
     """
     Performs default cleaning procedure on vertex and face arrays
 
@@ -273,19 +256,22 @@ def CleanFromVF(v, f, verbose=True, joincomp=False,
     tin = PyTMesh(verbose)
     tin.LoadArray(v, f)
 
+    # repari and return vertex and face arrays
     Repair(tin, verbose, joincomp, removeSmallestComponents)
-        
-    # return vertex and face arrays
     return tin.ReturnArrays()
-    
-    
+
 def Repair(tin, verbose, joincomp, removeSmallestComponents=True):
     """ Performs mesh repair using default cleaning procedure """
-    
+
     # Keep only the largest component (i.e. with most triangles)
-    sc = tin.RemoveSmallestComponents();
-    if sc and verbose:
-        print('Removed {:d} small components'.format(sc))
+    if removeSmallestComponents:
+        sc = tin.RemoveSmallestComponents()
+        if sc and verbose:
+            print('Removed {:d} small components'.format(sc))
+
+    # join closest components
+    if joincomp:
+        tin.JoinClosestComponents()
     
     if tin.Boundaries():
         if verbose:

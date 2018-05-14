@@ -1,1 +1,1 @@
-from . import fix
+from pymeshfix.tests.fix import *

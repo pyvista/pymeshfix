@@ -1,3 +1,6 @@
+"""
+Setup for pymeshfix
+"""
 from io import open as io_open
 import sys
 import os
@@ -33,7 +36,7 @@ with io_open(version_file, mode='r') as fd:
 
 setup(
     name='pymeshfix',
-    packages=['pymeshfix', 'pymeshfix.Tests'],
+    packages=['pymeshfix'],
     version=__version__,
     description='Repairs triangular meshes',
     long_description=open('README.rst').read(),
@@ -77,6 +80,6 @@ setup(
 
     keywords='meshfix',
     include_dirs=[numpy.get_include()],
-    package_data={'pymeshfix.Tests': ['StanfordBunny.ply']},
-    install_requires=['numpy>1.9.3', 'cython>0.23.1']
+    package_data={'pymeshfix.tests': ['StanfordBunny.ply']},
+    install_requires=['numpy>1.9.3', 'vtkInterface']
 )

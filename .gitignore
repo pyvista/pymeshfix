@@ -18,3 +18,6 @@ pymeshfix/cython/_meshfix.cpp
 *.egg-info/
 build/
 dist/
+
+# MISC
+uploadpypi.sh

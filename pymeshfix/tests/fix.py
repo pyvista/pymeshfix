@@ -1,12 +1,11 @@
 """ Demonstrates mesh repair on the standford bunny mesh """
+
 from os.path import dirname, join, realpath
-# from pymeshfix import _meshfix
 import pymeshfix
 
 # get location of the example mesh
 pth = dirname(realpath(__file__))
 filename = join(pth, 'StanfordBunny.ply')
-
 
 def Native():
     """ Repair Stanford Bunny Mesh """
@@ -21,8 +20,10 @@ def WithVTK():
     except:
         raise Exception('Install vtkInterface to use this feature')
 
-    mfobj = pymeshfix.MeshFix()
-    mfobj.LoadFile(filename)
-    mfobj.PlotInput()
-    mfobj.Repair()
-    mfobj.DisplayFixedSurface()
+    mesh = vtkInterface.PolyData(filename)
+    meshfix = pymeshfix.MeshFix(mesh)
+    plot('Plotting input mesh')
+    meshfix.Plot()
+    meshfix.Repair()
+    plot('Plotting repaired mesh')
+    meshfix.Plot()
