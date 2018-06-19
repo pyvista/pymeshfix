@@ -13,8 +13,9 @@ import numpy
 filepath = os.path.dirname(__file__)
 
 # change path if necessary
-old_path = os.getcwd()
-os.chdir(filepath)
+if filepath:
+    old_path = os.getcwd()
+    os.chdir(filepath)
 
 # Define macros for cython
 macros = []
@@ -91,4 +92,5 @@ setup(
 )
 
 # revert to prior directory
-os.chdir(old_path)
+if filepath:
+    os.chdir(old_path)

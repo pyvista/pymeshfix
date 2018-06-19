@@ -12,13 +12,12 @@ for PYBIN in /opt/python/*/bin; do
     fi
 
     echo 'Running for' $PYBIN
-    "${PYBIN}/pip" install numpy  # required for setup.py
+    "${PYBIN}/pip" install numpy -q  # required for setup.py
 
     # build wheel
     "${PYBIN}/python" setup.py -q bdist_wheel
 
-    # test
-    "${PYBIN}/pip" install vtkInterface  # required for testing
-    "${PYBIN}/python" setup.py install
+    "${PYBIN}/pip" install vtkInterface -q  # required for testing
+    "${PYBIN}/python" setup.py -q install
     "${PYBIN}/python" pymeshfix/examples/fix.py
 done
