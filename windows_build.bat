@@ -1,10 +1,10 @@
 @echo off
 
-
-REM For Python 2.7 #####################################################
+REM For Python 2.7, 3.5, 3.6
 call:build_wheel "C:\Python27\python.exe"
 call:build_wheel "C:\Program Files\Python35\python.exe"
 call:build_wheel python
+
 
 ::--------------------------------------------------------
 ::-- Build and test a python wheel
