@@ -595,7 +595,7 @@ int Basic_TMesh::refineSelectedHolePatches(Triangle *t0)
  }
  else FOREACHTRIANGLE(t, n) if (IS_VISITED(t)) reg.appendHead(t);
 
- printf("%d\n",reg.numels());
+ // printf("%d\n",reg.numels());
 
  FOREACHVTTRIANGLE((&reg), t, n)
  {

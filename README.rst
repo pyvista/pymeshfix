@@ -29,20 +29,22 @@ Dependencies
 ------------
 Requires ``numpy`` and ``vtkInterface``
 
-Tests
------
+
+Examples
+--------
 
 Test installation with the following from Python:
 
 .. code:: python
 
-    from pymeshfix import tests
+    from pymeshfix import examples
 
     # Test of pymeshfix without VTK module
-    tests.Native()
+    examples.Native()
 
     # Performs same mesh repair while leveraging VTK's plotting/mesh loading
-    tests.WithVTK()
+    examples.WithVTK()
+
 
 Easy Example
 ------------
