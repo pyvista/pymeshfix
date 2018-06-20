@@ -21,3 +21,4 @@ dist/
 
 # MISC
 uploadpypi.sh
+.pytest_cache/

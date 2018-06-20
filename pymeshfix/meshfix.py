@@ -44,7 +44,7 @@ class MeshFix(object):
 
         Face arrays/lists are v and f.  Both vertex and face arrays should be
         2D arrays with each vertex containing XYZ data and each face containing
-        three points
+        three points.
         """
         # Check inputs
         if not isinstance(v, np.ndarray):
@@ -105,7 +105,7 @@ class MeshFix(object):
 
         joincomp : bool, optional
             Attempts to join nearby open components.
-        
+
         removeSmallestComponents : bool, optional
             Remove all but the largest isolated component from the mesh
             before beginning the repair process.  Default True

@@ -1,3 +1,2 @@
 include pymeshfix/cython/*.h
-include pymeshfix/cython/_meshfix2.pyx
-include pymeshfix/cython/_meshfix3.pyx
+include tests/*

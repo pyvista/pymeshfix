@@ -57,12 +57,12 @@ cdef class PyTMesh:
     
     """
     
-    cdef Basic_TMesh_wrap c_tmesh      # hold a C++ instance which we're wrapping
-    
+    cdef Basic_TMesh_wrap c_tmesh  # hold a C++ instance which we're wrapping
+
     def __cinit__(self, quiet=1):
         """ Create TMesh object """
         self.c_tmesh = Basic_TMesh_wrap()
-        
+
         # Enable/Disable printed progress
         self.c_tmesh.SetVerbose(not quiet)
 
@@ -73,13 +73,11 @@ cdef class PyTMesh:
         Currently, the following file formats are supported:
         Open Inventor (IV), VRML 1.0 and 2.0 (WRL), Object File Format (OFF),
         IMATI Ver-Tri (VER, TRI), PLY, OBJ, STL.
-        
+
         The loader automatically reconstructs a manifold triangle connectivity
         """
         
-        # Initializes triangulation
-        
-        #cdef char *cstring = _AsString(filename, "utf-8", "Error ~")
+        # Initializes triangulation        
         py_byte_string = filename.encode('UTF-8')
         cdef char* cstring = py_byte_string
         result = self.c_tmesh.load(cstring);
@@ -104,15 +102,14 @@ cdef class PyTMesh:
         coherence is necessary between in-memory and saved data.
         A non-zero return value is returned if errors occur.
         """
-        
+
         # Convert filename to c string and save
         py_byte_string = filename.encode('UTF-8')
         cdef char* cstring = py_byte_string
-        #cdef char *cstring = _AsString(filename, "utf-8", "Error ~")
         result = self.c_tmesh.save(cstring, back_approx)
 
         if result:
-            raise IOError('MeshFix is unable to save mesh to {:s}'.format(filename))
+            raise IOError('MeshFix is unable to save mesh to %s' % filename)
 
     def LoadArray(self, v, f):
         """
@@ -123,8 +120,7 @@ cdef class PyTMesh:
             if v.dtype != np.float:
                 v = np.ascontiguousarray(v, dtype=np.float)
             else:
-                v = np.ascontiguousarray(v)
-    
+                v = np.ascontiguousarray(v)    
         elif v.dtype != np.float:
             v = v.astype(np.float)
     
@@ -133,8 +129,7 @@ cdef class PyTMesh:
             if f.dtype != ctypes.c_int:
                 f = np.ascontiguousarray(f, dtype=ctypes.c_int)
             else:
-                f = np.ascontiguousarray(f)
-    
+                f = np.ascontiguousarray(f)    
         elif f.dtype != ctypes.c_int:
             f = f.astype(ctypes.c_int)
             
@@ -202,18 +197,15 @@ cdef class PyTMesh:
 
     def SelectIntersectingTriangles(self, UINT16 tris_per_cell, bool justproper):
         """
-        
         Selects all the triangles that unproperly intersect other parts of
         the mesh and return their number. The parameter 'tris_per_cell'
         determines the depth of the recursive space subdivision used to keep
         the complexity under a resonable threchold. The default value is safe
         in most cases.
-        
+
         if 'justproper' is true, coincident edges and vertices are not regarded
         as intersections even if they are not common subsimplexes.
-        
-        """
-        
+        """        
         # Returns the number of intersecting triangles
         its = self.c_tmesh.selectIntersectingTriangles(tris_per_cell, justproper)
         
@@ -226,11 +218,34 @@ cdef class PyTMesh:
 #    def IntersectionRemoval(self):
 #        """ Remove intersections """
 #        self.c_tmesh.IntersectionRemoval()
-#        
 
-def CleanFromFile(infile, outfile, verbose=True, joincomp=False):
-    """ Performs default cleaning procedure on input file """
 
+def CleanFromFile(infile, outfile, verbose=False, joincomp=False):
+    """
+    Performs default cleaning procedure on input file and writes the
+    repaired mesh to disk.  Output file will be a single manifold mesh.
+
+    Parameters
+    ----------
+    infile : str
+        Filename of input file to read.  Must be either a .stl, .off or 
+        .ply file.
+
+    outfile : str
+        Filename of input file to write.  Must be either a .stl, .off or 
+        .ply file.
+
+    verbose : bool, optional
+        Prints progress to stdout.  Default True.
+
+    joincomp : bool, optional
+        Attempts to join nearby open components.  Default False
+
+    Examples
+    --------
+    >>> CleanFromFile('inmesh.ply', 'outmesh.ply')
+
+    """
     # Create mesh object and load from file
     tin = PyTMesh(verbose)
     tin.LoadFile(infile)
@@ -238,20 +253,43 @@ def CleanFromFile(infile, outfile, verbose=True, joincomp=False):
         tin.JoinClosestComponents()
     
     Repair(tin, verbose, joincomp)
-    
+
     # Save to file
     if verbose:
-        print('Saving repaired mesh to {:s}'.format(outfile))
+        print('Saving repaired mesh to %s' % outfile)
     tin.SaveFile(outfile)
 
-def CleanFromVF(v, f, verbose=True, joincomp=False, removeSmallestComponents=True):
+
+def CleanFromVF(v, f, verbose=False, joincomp=False, removeSmallestComponents=True):
     """
     Performs default cleaning procedure on vertex and face arrays
 
     Returns cleaned vertex and face arrays
     
-    """
+    Parameters
+    ----------
+    v : numpy.ndarray
+        Numpy n x 3 array of vertices
 
+    f : numpy.ndarray
+        Numpy n x 3 array of faces.
+
+    verbose : bool, optional
+        Prints progress to stdout.  Default True.
+
+    joincomp : bool, optional
+        Attempts to join nearby open components.  Default False
+
+    removeSmallestComponents : bool, optional
+        Remove all but the largest isolated component from the mesh
+        before beginning the repair process.  Default True.
+
+    Examples
+    --------
+    >>>
+    >>> CleanFromFile('inmesh.ply', 'outmesh.ply')
+
+    """
     # Create mesh object and load from file
     tin = PyTMesh(verbose)
     tin.LoadArray(v, f)
@@ -260,8 +298,13 @@ def CleanFromVF(v, f, verbose=True, joincomp=False, removeSmallestComponents=Tru
     Repair(tin, verbose, joincomp, removeSmallestComponents)
     return tin.ReturnArrays()
 
-def Repair(tin, verbose, joincomp, removeSmallestComponents=True):
-    """ Performs mesh repair using default cleaning procedure """
+
+def Repair(tin, verbose=False, joincomp=True, removeSmallestComponents=True):
+    """
+    Performs mesh repair using default cleaning procedure using a tin object.
+
+    Internal function.  Use CleanFromFile or CleanFromVF.
+    """
 
     # Keep only the largest component (i.e. with most triangles)
     if removeSmallestComponents:

@@ -6,9 +6,12 @@ import sys
 import os
 
 from setuptools import setup, Extension
-from setuptools.command.build_ext import build_ext
+from setuptools.command.build_ext import build_ext as _build_ext
 
-import numpy
+if sys.version_info[0] < 3:
+    import __builtin__ as builtins
+else:
+    import builtins
 
 filepath = os.path.dirname(__file__)
 
@@ -40,6 +43,33 @@ with io_open(version_file, mode='r') as fd:
 # readme file
 readme_file = os.path.join(filepath, 'README.rst')
 
+# for: the cc1plus: warning: command line option '-Wstrict-prototypes'
+class build_ext(_build_ext):
+    def finalize_options(self):
+        _build_ext.finalize_options(self)
+        # prevent numpy from thinking it is still in its setup process:
+        try:
+            del builtins.__NUMPY_SETUP__
+        except AttributeError:
+            pass
+        import numpy
+        self.include_dirs.append(numpy.get_include())
+
+    def build_extensions(self):
+        try:
+            self.compiler.compiler_so.remove("-Wstrict-prototypes")
+        except (AttributeError, ValueError):
+            pass
+        _build_ext.build_extensions(self)
+
+try:
+    import numpy
+except ImportError:
+    build_requires = ['numpy']
+else:
+    build_requires = []
+
+
 setup(
     name='pymeshfix',
     packages=['pymeshfix', 'pymeshfix/examples'],
@@ -60,6 +90,7 @@ setup(
 
     # Build cython modules
     cmdclass={'build_ext': build_ext},
+    setup_requires=build_requires,
     ext_modules=[Extension("pymeshfix._meshfix",
                            ['pymeshfix/cython/meshfix.cpp',
                             'pymeshfix/cython/tin.cpp',
@@ -86,7 +117,7 @@ setup(
                            define_macros=macros)],
 
     keywords='meshfix',
-    include_dirs=[numpy.get_include()],
+    # include_dirs=[numpy.get_include()],  # included in custom build_ext
     package_data={'pymeshfix/examples': ['StanfordBunny.ply']},
     install_requires=['numpy>1.11.0', 'vtkInterface>=0.8.0']
 )

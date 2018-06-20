@@ -1,4 +1,4 @@
-@echo off
+rem @echo off
 
 REM For Python 2.7, 3.5, 3.6
 call:build_wheel "C:\Python27\python.exe"

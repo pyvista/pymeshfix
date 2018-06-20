@@ -11,4 +11,7 @@ python3 setup.py sdist
 # make manylinux wheels
 dockerbuild.sh
 
-# build windows wheels
+# build windows wheels manually (for now)
+
+# cleanup
+rm $DIR/dist/*egg

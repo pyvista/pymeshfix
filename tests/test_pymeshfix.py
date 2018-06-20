@@ -1,35 +1,20 @@
-""" Demonstrates mesh repair on the standford bunny mesh """
-import numpy as np
 import os
+
+import numpy as np
 import pymeshfix
-import vtkInterface as vtki
 from pymeshfix.examples import bunny_scan
+import vtkInterface as vtki
 
 
-def Native(outfile='repaired.ply'):
-    """ Repair Stanford Bunny Mesh """
-    pymeshfix._meshfix.CleanFromFile(bunny_scan, outfile)
-
-
-def WithVTK(plot=True):
-    """ Tests VTK interface and mesh repair of Stanford Bunny Mesh """
-    mesh = vtki.PolyData(bunny_scan)
-    meshfix = pymeshfix.MeshFix(mesh)
-    if plot:
-        print('Plotting input mesh')
-        meshfix.Plot()
-    meshfix.Repair()
-    if plot:
-        print('Plotting repaired mesh')
-        meshfix.Plot()
-
-    return meshfix.mesh
-
-
-if __name__ == '__main__':
-    """ Functional Test: vtk and native """
+def test_native():
     out_file = 'repaired.ply'
-    Native()
+
+    # test write permissions
+    curdir = os.getcwd()
+    if not os.access(curdir, os.W_OK):
+        raise Exception('Cannot write output mesh here at %s' % curdir)
+
+    pymeshfix._meshfix.CleanFromFile(bunny_scan, out_file, verbose=False)
     outmesh = vtki.PolyData(out_file)
     os.remove(out_file)
     assert outmesh.GetNumberOfPoints()
@@ -39,7 +24,8 @@ if __name__ == '__main__':
                                  manifold_edges=False)
     assert pdata.GetNumberOfPoints() == 0
 
-    # test vtk
+
+def test_repairVTK():
     meshin = vtki.PolyData(bunny_scan)
     meshfix = pymeshfix.MeshFix(meshin)
     meshfix.Repair()
@@ -54,5 +40,3 @@ if __name__ == '__main__':
     pdata = meshout.ExtractEdges(non_manifold_edges=False, feature_edges=False,
                                  manifold_edges=False)
     assert pdata.GetNumberOfPoints() == 0
-
-    print('PASS')
