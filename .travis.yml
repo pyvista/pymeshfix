@@ -40,7 +40,8 @@ env:
     - CIBW_BEFORE_BUILD="pip install numpy; pip install cython"
     - CIBW_TEST_REQUIRES="pytest"
     - CIBW_TEST_COMMAND="pytest {project}/tests/test_native.py"
-    - CIBW_SKIP="cp27-cp27m-manylinux1_x86_64 cp37-* cp34-* *manylinux1_i686*"
+    # - CIBW_SKIP="cp27-cp27m-manylinux1_x86_64 cp37-* cp34-* *manylinux1_i686*"
+    - CIBW_SKIP="*manylinux1_i686*"  # just skip 32-bit
     - TWINE_USERNAME=akaszynski
       # Note: TWINE_PASSWORD is set in Travis settings
 
