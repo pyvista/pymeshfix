@@ -1,5 +1,6 @@
 pymeshfix
 =========
+.. image:: https://travis-ci.org/akaszynski/pymeshfix.svg?branch=master
 
 Python/Cython wrapper of Marco Attene's wonderful, award-winning `MeshFix <https://github.com/MarcoAttene/MeshFix-V2.0>`__ software. This module brings the speed of C++ with the portability and ease of installation of Python.
 
