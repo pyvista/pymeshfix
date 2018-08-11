@@ -14,19 +14,25 @@ for PYBIN in /opt/python/*/bin; do
 	continue
     elif [[ $PYBIN =~ .*27mu.* ]]
     then  # must be ucs4
-	$PYBIN='/opt/_internal/cpython-2.7.15-ucs4/bin/python'
+	PYBIN='/opt/_internal/cpython-2.7.15-ucs4/bin'
     fi
 
-    echo 'Running for' $PYBIN
-    "${PYBIN}/pip" install numpy -q  # required for setup.py
-    "${PYBIN}/pip" install cython --upgrade -q
+    pyver="$(cut -d'/' -f4 <<<$PYBIN)"
+    echo 'Running for' $pyver
+    "${PYBIN}/pip" install numpy -q --no-cache-dir  # required for setup.py
+    "${PYBIN}/pip" install cython --upgrade -q --no-cache-dir
 
     # build wheel
     "${PYBIN}/python" setup.py -q bdist_wheel
 
     # test wheel
     wheelfile=$(ls /root/source/dist/*.whl)
-    "${PYBIN}/pip" install $wheelfile -q
+    auditwheel repair $wheelfile > /dev/null
+    rm dist/*
+
+    wheelfile=$(ls /root/source/wheelhouse/*.whl)
+    "${PYBIN}/pip" install $wheelfile -q --no-cache-dir
+    mv $wheelfile wheels/
 
     # pytest doesn't seem to work here
     # "${PYBIN}/pip" install pytest -q
@@ -36,12 +42,4 @@ for PYBIN in /opt/python/*/bin; do
 
     "${PYBIN}/python" pymeshfix/examples/fix.py
 
-    # get the wheel out of the way for next version
-    mv $wheelfile wheels/
-done
-
-# repair wheels
-for file in wheels/*linux*
-do
-    auditwheel repair $file
 done

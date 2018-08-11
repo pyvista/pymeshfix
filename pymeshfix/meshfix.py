@@ -118,7 +118,7 @@ class MeshFix(object):
 
         """
         self.v, self.f = _meshfix.CleanFromVF(self.v, self.f, verbose,
-                                              joincomp, removeSmallestComponents)
+                                              joincomp, removeSmallestComponents)        
 
     def Write(self, filename, ftype=None, binary=True):
         """

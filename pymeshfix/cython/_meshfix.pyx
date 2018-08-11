@@ -195,7 +195,7 @@ cdef class PyTMesh:
         """
         self.c_tmesh.Join()
 
-    def SelectIntersectingTriangles(self, UINT16 tris_per_cell, bool justproper):
+    def SelectIntersectingTriangles(self, UINT16 tris_per_cell=50, bool justproper=False):
         """
         Selects all the triangles that unproperly intersect other parts of
         the mesh and return their number. The parameter 'tris_per_cell'

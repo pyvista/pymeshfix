@@ -3,6 +3,7 @@ Setup for pymeshfix
 """
 from io import open as io_open
 import sys
+from sys import platform as _platform
 import os
 
 from setuptools import setup, Extension
@@ -28,8 +29,9 @@ extra_args = ['-w']
 if sys.maxsize > 2**32:
     macros.append(('IS64BITPLATFORM', None))
 
-# Check if Windows
-if not os.name == 'nt':
+# Check if linux
+# if not os.name == 'nt':
+if _platform == 'linux':
     extra_args.append('-std=gnu++11')
     # extra_args.append('-std=c++11') # might have to use this instead
 
