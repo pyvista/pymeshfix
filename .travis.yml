@@ -47,7 +47,7 @@ env:
 script:
   - $PIP install cibuildwheel==0.9.3
   - cibuildwheel --output-dir wheelhouse
-  - if [ "${TRAVIS_TAG:-}" != "" ]; then
+  - if [ "" == "" ]; then
       python3 setup.py sdist;
       cp dist/*.tar.gz wheelhouse/;
       pip3 install twine;
