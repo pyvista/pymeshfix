@@ -4,12 +4,12 @@
 # :License:   MIT License
 
 
-# only build cp35 and cp36 as vtk wheels is only offered in those versions
+# build cp35-cp37 as vtk wheels is only offered in those versions
 environment:
   CIBW_BEFORE_BUILD: "pip install numpy cython"
   CIBW_TEST_REQUIRES: "pytest"
-  CIBW_TEST_COMMAND: "pytest {project}\\tests\\test_native.py"
-  CIBW_SKIP: "*win32* cp27-* cp33* cp34* cp37*"
+  CIBW_TEST_COMMAND: "pytest {project}\\tests\\"
+  CIBW_SKIP: "*win32* cp27-* cp33* cp34*"
   TWINE_USERNAME: akaszynski
   # Note: TWINE_PASSWORD is set in Appveyor settings
   matrix:
@@ -20,7 +20,7 @@ install:
 
 
 build_script:
-  - "%PYTHON% -m pip install cibuildwheel==0.9.3"
+  - "%PYTHON% -m pip install cibuildwheel==0.10.0"
   - "%PYTHON% -m cibuildwheel --output-dir wheelhouse"
   - ps: If ($env:APPVEYOR_REPO_TAG -eq "true") { Invoke-Expression "twine upload --skip-existing wheelhouse/*" 2>$null } Else { Invoke-Expression "twine upload --skip-existing wheelhouse/*" 2>$null }
 

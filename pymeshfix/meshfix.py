@@ -8,6 +8,7 @@ import warnings
 from pymeshfix import _meshfix
 import vtki
 
+
 class MeshFix(object):
     """
     Cleans and tetrahedralize surface meshes using MeshFix
@@ -85,16 +86,16 @@ class MeshFix(object):
         triangles[:, 0] = 3
         return vtki.PolyData(self.v, triangles)
 
-    def plot(self, show_bound=True):
+    def plot(self, show_holes=True):
         """
         Plot the mesh.
 
         Parameters
         ----------
-        show_bound : bool, optional
+        show_holes : bool, optional
             Shows boundaries.  Default True
         """
-        if show_bound:
+        if show_holes:
             edges = self.mesh.extract_edges(boundary_edges=True,
                                             feature_edges=False,
                                             manifold_edges=False)
@@ -102,13 +103,12 @@ class MeshFix(object):
             plotter = vtki.Plotter()
             plotter.add_mesh(mesh, label='mesh')
             plotter.add_mesh(edges, 'r', label='edges')
-            # plotter.add_legend()
             plotter.plot()
 
         else:
             self.mesh.plot(show_edges=True)
 
-    def repair(self, verbose=False, joincomp=False, removeSmallestComponents=True):
+    def repair(self, verbose=False, joincomp=False, remove_smallest_components=True):
         """
         Performs mesh repair using MeshFix's default repair process
 
@@ -120,7 +120,7 @@ class MeshFix(object):
         joincomp : bool, optional
             Attempts to join nearby open components.
 
-        removeSmallestComponents : bool, optional
+        remove_smallest_components : bool, optional
             Remove all but the largest isolated component from the mesh
             before beginning the repair process.  Default True
 
@@ -135,7 +135,7 @@ class MeshFix(object):
         assert self.f.ndim == 2, 'Face array must be 2D'
         self.v, self.f = _meshfix.clean_from_arrays(self.v, self.f,
                                                     verbose, joincomp,
-                                                    removeSmallestComponents)
+                                                    remove_smallest_components)
 
     def write(self, filename, binary=True):
         """
