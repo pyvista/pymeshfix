@@ -7,7 +7,7 @@
 # https://github.com/python-rapidjson/python-rapidjson/blob/master/.appveyor.yml
 
 # Builds wheels for Linux using cibuildwheel, inside the manylinux1 Docker image.
-# builds 64-bit Python2.7, Python3.5, Python3.6
+# builds 64-bit Python2.7, Python3.5, Python3.6, Python3.7
 
 matrix:
   include:
@@ -44,9 +44,9 @@ env:
       # Note: TWINE_PASSWORD is set in Travis settings
 
 script:
-  - $PIP install cibuildwheel==0.10.0
+  - $PIP install cibuildwheel==0.9.3
   - cibuildwheel --output-dir wheelhouse
-  - if [ "${TRAVIS_TAG:-}" != "" ]; then  # conditional upload to PyPi
+  - if [ "${TRAVIS_TAG:-}" != "" ]; then
       python3 setup.py sdist;
       cp dist/*.tar.gz wheelhouse/;
       pip3 install twine;
