@@ -85,17 +85,26 @@ class MeshFix(object):
         triangles[:, 0] = 3
         return vtki.PolyData(self.v, triangles)
 
-    def plot(self, showbound=True):
+    def plot(self, show_bound=True):
         """
         Plot the mesh.
 
         Parameters
         ----------
-        showbound : bool, optional
+        show_bound : bool, optional
             Shows boundaries.  Default True
         """
-        if showbound:
-            vtki.PlotBoundaries(self.mesh, show_edges=True)
+        if show_bound:
+            edges = self.mesh.extract_edges(boundary_edges=True,
+                                            feature_edges=False,
+                                            manifold_edges=False)
+
+            plotter = vtki.Plotter()
+            plotter.add_mesh(mesh, label='mesh')
+            plotter.add_mesh(edges, 'r', label='edges')
+            # plotter.add_legend()
+            plotter.plot()
+
         else:
             self.mesh.plot(show_edges=True)
 
@@ -124,8 +133,9 @@ class MeshFix(object):
         """
         assert self.f.shape[1] == 3, 'Face array must contain three columns'
         assert self.f.ndim == 2, 'Face array must be 2D'
-        self.v, self.f = _meshfix.CleanFromVF(self.v, self.f, verbose,
-                                              joincomp, removeSmallestComponents)
+        self.v, self.f = _meshfix.clean_from_arrays(self.v, self.f,
+                                                    verbose, joincomp,
+                                                    removeSmallestComponents)
 
     def write(self, filename, binary=True):
         """

@@ -26,9 +26,10 @@ From source at `GitHub <https://github.com/akaszynski/pymeshfix>`__
     cd pymeshfix
     pip install .
 
+
 Dependencies
 ------------
-Requires ``numpy`` and ``vtkInterface``
+Requires ``numpy`` and ``vtki``
 
 
 Examples
@@ -41,10 +42,10 @@ Test installation with the following from Python:
     from pymeshfix import examples
 
     # Test of pymeshfix without VTK module
-    examples.Native()
+    examples.native()
 
     # Performs same mesh repair while leveraging VTK's plotting/mesh loading
-    examples.WithVTK()
+    examples.with_vtk()
 
 
 Easy Example

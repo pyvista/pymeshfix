@@ -32,22 +32,21 @@ matrix:
 # quay.io/pypa/manylinux1_i686
 
 # CIBW_SKIP
-# must skip cp27-cp27m and cp37-cp37m
-# cp37-cp34m has a vtk bug that I'm not willing on fixing
+# must skip cp27-cp27m and cp34-cp34m
 
 env:
   global:
-    - CIBW_BEFORE_BUILD="pip install numpy; pip install cython"
+    - CIBW_BEFORE_BUILD="pip install numpy; pip install cython; yum install libXt -y"
     - CIBW_TEST_REQUIRES="pytest"
     - CIBW_TEST_COMMAND="pytest {project}/tests/test_native.py"
-    - CIBW_SKIP="cp27-cp27m-manylinux1_x86_64 cp37-* cp34-* *manylinux1_i686*"
+    - CIBW_SKIP="cp27-cp27m-manylinux1_x86_64 cp34-* *manylinux1_i686*"
     - TWINE_USERNAME=akaszynski
       # Note: TWINE_PASSWORD is set in Travis settings
 
 script:
-  - $PIP install cibuildwheel==0.9.3
+  - $PIP install cibuildwheel==0.10.0
   - cibuildwheel --output-dir wheelhouse
-  - if [ "" == "" ]; then
+  - if [ "${TRAVIS_TAG:-}" != "" ]; then  # conditional upload to PyPi
       python3 setup.py sdist;
       cp dist/*.tar.gz wheelhouse/;
       pip3 install twine;

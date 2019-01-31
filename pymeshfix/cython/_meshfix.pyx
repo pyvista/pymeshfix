@@ -1,3 +1,8 @@
+# cython: language_level=3
+# cython: boundscheck=False
+# cython: wraparound=False
+# cython: cdivision=True
+
 """
 Python/Cython wrapper for MeshFix by Marco Attene
 """
@@ -49,11 +54,11 @@ cdef class PyTMesh:
     """
     Python class to interface with C++ Basic_TMesh object
 
-    MeshFix V2.0 - by Marco Attene
-    If MeshFix is used for research purposes, please cite the following paper:
+    MeshFix V2.0 - by Marco Attene If MeshFix is used for research
+    purposes, please cite the following paper:
 
-    M. Attene.\n   A lightweight approach to repairing digitized polygon meshes
-    The Visual Computer, 2010. (c) Springer.
+    M. Attene.  A lightweight approach to repairing digitized polygon
+    meshes.  The Visual Computer, 2010. (c) Springer.
     
     """
     
@@ -66,7 +71,7 @@ cdef class PyTMesh:
         # Enable/Disable printed progress
         self.c_tmesh.SetVerbose(not quiet)
 
-    def LoadFile(self, filename):
+    def load_file(self, filename):
         """
         Loads mesh from file
         
@@ -76,15 +81,17 @@ cdef class PyTMesh:
 
         The loader automatically reconstructs a manifold triangle connectivity
         """
-        
+        if self.n_points:
+            raise Exception('Cannot load a new file once initialized')
+
         # Initializes triangulation        
         py_byte_string = filename.encode('UTF-8')
         cdef char* cstring = py_byte_string
         result = self.c_tmesh.load(cstring);
         if result:
-            raise IOError('MeshFix is unable to open {:s}'.format(filename))
+            raise IOError('MeshFix is unable to open %s' % filename)
 
-    def SaveFile(self, filename, back_approx=False):
+    def save_file(self, filename, back_approx=False):
         """
         Saves cleaned mesh to file
                 
@@ -111,11 +118,28 @@ cdef class PyTMesh:
         if result:
             raise IOError('MeshFix is unable to save mesh to %s' % filename)
 
-    def LoadArray(self, v, f):
+    @property
+    def n_points(self):
+        cdef int n_points = self.c_tmesh.ReturnTotalPoints()
+        return n_points
+
+    def load_array(self, v, f):
         """
         Loads points from numpy verticies and faces arrays
         The loader automatically reconstructs a manifold triangle connectivity
+
+        Parameters
+        ----------
+        v : np.ndarray
+            Numpy array containing vertices.  Sized n x 3
+
+        f : np.ndarray
+            Numpy array containing mesh faces.  Sized n x 3
+
         """
+        if self.n_points:
+            raise Exception('Cannot load new arrays once initialized')
+
         if not v.flags['C_CONTIGUOUS']:
             if v.dtype != np.float:
                 v = np.ascontiguousarray(v, dtype=np.float)
@@ -125,6 +149,8 @@ cdef class PyTMesh:
             v = v.astype(np.float)
     
         # Ensure inputs are of the right type
+        assert f.ndim == 2, 'Face array must be 2D numpy array'
+        assert f.shape[1] == 3, 'Face array must contain three columns'
         if not f.flags['C_CONTIGUOUS']:
             if f.dtype != ctypes.c_int:
                 f = np.ascontiguousarray(f, dtype=ctypes.c_int)
@@ -142,34 +168,34 @@ cdef class PyTMesh:
         # Load to C object
         self.c_tmesh.loadArray(nv, &points[0], nt, &faces[0])
 
-    def MeshClean(self, int max_iters=10, inner_loops=3):
+    def clean(self, int max_iters=10, inner_loops=3):
         """
-        Iteratively call strongDegeneracyRemoval and strongIntersectionRemoval
-        to produce an eventually clean mesh without degeneracies and intersections.
-        The two aforementioned methods are called up to max_iter times and
+        Iteratively call strongDegeneracyRemoval and
+        strongIntersectionRemoval to produce an eventually clean mesh
+        without degeneracies and intersections.  The two
+        aforementioned methods are called up to max_iter times and
         each of them is called using 'inner_loops' as a parameter.
         Returns true only if the mesh could be completely cleaned.
         """
-        
         self.c_tmesh.meshclean(max_iters, inner_loops)
 
-    def Boundaries(self):
+    def boundaries(self):
         """ Get the number of boundary loops of the triangle mesh """
         return self.c_tmesh.boundaries()
 
-    def RemoveSmallestComponents(self):
+    def remove_smallest_components(self):
         return self.c_tmesh.removeSmallestComponents()
 
-    def FillSmallBoundaries(self, nbe=0, refine=True):
+    def fill_small_boundaries(self, nbe=0, refine=True):
         """
-        Fills all the holes having at least 'nbe' boundary edges. If 'refine'
-        is true, adds inner vertices to reproduce the sampling density
-        of the surroundings. Returns number of holes patched.
-        If 'nbe' is 0 (default), all the holes are patched.
+        Fills all the holes having at least 'nbe' boundary edges. If
+        'refine' is true, adds inner vertices to reproduce the
+        sampling density of the surroundings. Returns number of holes
+        patched.  If 'nbe' is 0 (default), all the holes are patched.
         """
         return self.c_tmesh.fillSmallBoundaries(nbe, refine)
 
-    def ReturnArrays(self):
+    def return_arrays(self):
         """ Return numpy arrays from self object """
         
         # Size point array
@@ -188,23 +214,25 @@ cdef class PyTMesh:
         
         return v, f
 
-    def JoinClosestComponents(self):
+    def join_closest_components(self):
         """
-        Attempts to join nearby open components.  Should be run before mesh
-        repair
+        Attempts to join nearby open components.  Should be run before
+        mesh repair.
         """
         self.c_tmesh.Join()
 
-    def SelectIntersectingTriangles(self, UINT16 tris_per_cell=50, bool justproper=False):
+    def select_intersecting_triangles(self, UINT16 tris_per_cell=50,
+                                      bool justproper=False):
         """
-        Selects all the triangles that unproperly intersect other parts of
-        the mesh and return their number. The parameter 'tris_per_cell'
-        determines the depth of the recursive space subdivision used to keep
-        the complexity under a resonable threchold. The default value is safe
-        in most cases.
+        Selects all the triangles that unproperly intersect other
+        parts of the mesh and return their number. The parameter
+        'tris_per_cell' determines the depth of the recursive space
+        subdivision used to keep the complexity under a resonable
+        threchold. The default value is safe in most cases.
 
-        if 'justproper' is true, coincident edges and vertices are not regarded
-        as intersections even if they are not common subsimplexes.
+        if 'justproper' is true, coincident edges and vertices are not
+        regarded as intersections even if they are not common
+        subsimplexes.
         """        
         # Returns the number of intersecting triangles
         its = self.c_tmesh.selectIntersectingTriangles(tris_per_cell, justproper)
@@ -220,7 +248,7 @@ cdef class PyTMesh:
 #        self.c_tmesh.IntersectionRemoval()
 
 
-def CleanFromFile(infile, outfile, verbose=False, joincomp=False):
+def clean_from_file(infile, outfile, verbose=False, joincomp=False):
     """
     Performs default cleaning procedure on input file and writes the
     repaired mesh to disk.  Output file will be a single manifold mesh.
@@ -248,19 +276,20 @@ def CleanFromFile(infile, outfile, verbose=False, joincomp=False):
     """
     # Create mesh object and load from file
     tin = PyTMesh(verbose)
-    tin.LoadFile(infile)
+    tin.load_file(infile)
     if joincomp:
-        tin.JoinClosestComponents()
+        tin.join_closest_components()
     
-    Repair(tin, verbose, joincomp)
+    repair(tin, verbose, joincomp)
 
     # Save to file
     if verbose:
         print('Saving repaired mesh to %s' % outfile)
-    tin.SaveFile(outfile)
+    tin.save_file(outfile)
 
 
-def CleanFromVF(v, f, verbose=False, joincomp=False, removeSmallestComponents=True):
+def clean_from_arrays(v, f, verbose=False, joincomp=False,
+                      remove_smallest_components=True):
     """
     Performs default cleaning procedure on vertex and face arrays
 
@@ -280,7 +309,7 @@ def CleanFromVF(v, f, verbose=False, joincomp=False, removeSmallestComponents=Tr
     joincomp : bool, optional
         Attempts to join nearby open components.  Default False
 
-    removeSmallestComponents : bool, optional
+    remove_smallest_components : bool, optional
         Remove all but the largest isolated component from the mesh
         before beginning the repair process.  Default True.
 
@@ -292,14 +321,14 @@ def CleanFromVF(v, f, verbose=False, joincomp=False, removeSmallestComponents=Tr
     """
     # Create mesh object and load from file
     tin = PyTMesh(verbose)
-    tin.LoadArray(v, f)
+    tin.load_array(v, f)
 
     # repari and return vertex and face arrays
-    Repair(tin, verbose, joincomp, removeSmallestComponents)
-    return tin.ReturnArrays()
+    repair(tin, verbose, joincomp, remove_smallest_components)
+    return tin.return_arrays()
 
 
-def Repair(tin, verbose=False, joincomp=True, removeSmallestComponents=True):
+def repair(tin, verbose=False, joincomp=True, remove_smallest_components=True):
     """
     Performs mesh repair using default cleaning procedure using a tin object.
 
@@ -307,40 +336,40 @@ def Repair(tin, verbose=False, joincomp=True, removeSmallestComponents=True):
     """
 
     # Keep only the largest component (i.e. with most triangles)
-    if removeSmallestComponents:
-        sc = tin.RemoveSmallestComponents()
+    if remove_smallest_components:
+        sc = tin.remove_smallest_components()
         if sc and verbose:
-            print('Removed {:d} small components'.format(sc))
+            print('Removed %d small components' % sc)
 
     # join closest components
     if joincomp:
-        tin.JoinClosestComponents()
+        tin.join_closest_components()
     
-    if tin.Boundaries():
+    if tin.boundaries():
         if verbose:
             print('Patching holes...')
-        holespatched = tin.FillSmallBoundaries()
+        holespatched = tin.fill_small_boundaries()
         if verbose:
-            print('Patched {:d} holes'.format(holespatched))
+            print('Patched %d holes' % holespatched)
     
     # Perform mesh cleaning
     if verbose:
         print('Fixing degeneracies and intersections')
         
-    tin.Boundaries()
-    result = tin.MeshClean()
+    tin.boundaries()
+    result = tin.clean()
 
     # Check boundaries again
-    if tin.Boundaries():
+    if tin.boundaries():
         if verbose:
             print('Patching holes...')
-        holespatched = tin.FillSmallBoundaries()
+        holespatched = tin.fill_small_boundaries()
         if verbose:
-            print('Patched {:d} holes'.format(holespatched))
+            print('Patched %d holes' % holespatched)
     
         if verbose:
             print('Performing final check...')
-        result = tin.MeshClean()
+        result = tin.clean()
 
     if result:
         warnings.warn('MeshFix could not fix everything')
