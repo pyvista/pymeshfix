@@ -84,7 +84,7 @@ class MeshFix(object):
         triangles = np.empty((self.f.shape[0], 4))
         triangles[:, -3:] = self.f
         triangles[:, 0] = 3
-        return vtki.PolyData(self.v, triangles)
+        return vtki.PolyData(self.v, triangles, deep=False)
 
     def plot(self, show_holes=True):
         """
