@@ -1,17 +1,18 @@
 """ Demonstrates mesh repair on the standford bunny mesh """
+import time
 import numpy as np
 import os
 import pymeshfix
-import vtkInterface as vtki
+import vtki
 from pymeshfix.examples import bunny_scan
 
 
-def Native(outfile='repaired.ply'):
+def native(outfile='repaired.ply'):
     """ Repair Stanford Bunny Mesh """
     pymeshfix._meshfix.CleanFromFile(bunny_scan, outfile)
 
 
-def WithVTK(plot=True):
+def with_vtk(plot=True):
     """ Tests VTK interface and mesh repair of Stanford Bunny Mesh """
     mesh = vtki.PolyData(bunny_scan)
     meshfix = pymeshfix.MeshFix(mesh)
@@ -28,31 +29,30 @@ def WithVTK(plot=True):
 
 if __name__ == '__main__':
     """ Functional Test: vtk and native """
+    t_start = time.time()
     out_file = 'repaired.ply'
-    Native()
+    native()
     outmesh = vtki.PolyData(out_file)
     os.remove(out_file)
-    assert outmesh.GetNumberOfPoints()
+    assert outmesh.n_points
 
     # test for any holes
-    pdata = outmesh.ExtractEdges(non_manifold_edges=False, feature_edges=False,
-                                 manifold_edges=False)
-    assert pdata.GetNumberOfPoints() == 0
+    pdata = outmesh.extract_edges(non_manifold_edges=False, feature_edges=False,
+                                  manifold_edges=False)
+    assert pdata.n_points == 0
 
     # test vtk
     meshin = vtki.PolyData(bunny_scan)
     meshfix = pymeshfix.MeshFix(meshin)
-    meshfix.Repair()
+    meshfix.repair()
 
     # check arrays and output mesh
     assert np.any(meshfix.v)
     assert np.any(meshfix.f)
     meshout = meshfix.mesh
-    assert meshfix.mesh.GetNumberOfPoints()
+    assert meshfix.mesh.n_points
 
     # test for any holes
-    pdata = meshout.ExtractEdges(non_manifold_edges=False, feature_edges=False,
-                                 manifold_edges=False)
-    assert pdata.GetNumberOfPoints() == 0
-
-    print('PASS')
+    pdata = meshout.extract_edges(non_manifold_edges=False, feature_edges=False,
+                                  manifold_edges=False)
+    print('PASS in %f seconds' % (time.time() - t_start))

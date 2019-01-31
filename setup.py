@@ -23,17 +23,18 @@ if filepath:
 
 # Define macros for cython
 macros = []
-extra_args = ['-w']
+if os.name == 'nt':  # windows
+    extra_compile_args = ['/openmp', '/O2', '/w', '/GS']
+    extra_link_args = []
+elif os.name == 'posix':  # linux org mac os
+    extra_compile_args = ['-std=gnu++11', '-O3', '-w']
+else:
+    raise Exception('Unsupported OS %s' % os.name)
+
 
 # Check if 64-bit
 if sys.maxsize > 2**32:
     macros.append(('IS64BITPLATFORM', None))
-
-# Check if linux
-# if not os.name == 'nt':
-if _platform == 'linux':
-    extra_args.append('-std=gnu++11')
-    # extra_args.append('-std=c++11') # might have to use this instead
 
 
 # Get version from version info
@@ -92,7 +93,6 @@ setup(
 
     # Build cython modules
     cmdclass={'build_ext': build_ext},
-    setup_requires=build_requires,
     ext_modules=[Extension("pymeshfix._meshfix",
                            ['pymeshfix/cython/meshfix.cpp',
                             'pymeshfix/cython/tin.cpp',
@@ -115,13 +115,13 @@ setup(
                             'pymeshfix/cython/vertex.cpp',
                             'pymeshfix/cython/_meshfix.pyx'],
                            language='c++',
-                           extra_compile_args=extra_args,
+                           extra_compile_args=extra_compile_args,
                            define_macros=macros)],
 
     keywords='meshfix',
-    # include_dirs=[numpy.get_include()],  # included in custom build_ext
     package_data={'pymeshfix/examples': ['StanfordBunny.ply']},
-    install_requires=['numpy>1.11.0', 'vtkInterface>=0.8.0']
+    install_requires=['numpy>1.11.0',
+                      'vtki>=0.16.1']
 )
 
 # revert to prior directory
