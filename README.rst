@@ -34,7 +34,6 @@ Requires ``numpy`` and ``vtki``
 
 Examples
 --------
-
 Test installation with the following from Python:
 
 .. code:: python
@@ -50,60 +49,59 @@ Test installation with the following from Python:
 
 Easy Example
 ------------
-
-This example uses the cython wrapper directly. No bells or whistles here:
+This example uses the Cython wrapper directly. No bells or whistles here:
 
 .. code:: python
 
     from pymeshfix import _meshfix
 
     # Read mesh from infile and output cleaned mesh to outfile
-    _meshfix.CleanFromFile(infile, outfile)
+    _meshfix.clean_from_file(infile, outfile)
+
 
 This example assumes the user has vertex and faces arrays in Python.
-Again, no bells or whistles.
 
 .. code:: python
 
     from pymeshfix import _meshfix
 
     # Generate vertex and face arrays of cleaned mesh
-    vclean, fclean = CleanFromVF(v, f) # v and f are numpy arrays or python lists
+    # where v and f are numpy arrays or python lists
+    vclean, fclean = _meshfix.clean_from_arrays(v, f)
 
-Fuller Examples with and without VTK
-------------------------------------
+
+Complete Examples with and without VTK
+--------------------------------------
 
 One of the main reasons to bring MeshFix to Python is to allow the library to communicate to other python programs without having to use the hard drive. Therefore, this example assumes that you have a mesh within memory and wish to repair it using MeshFix.
 
 .. code:: python
 
-    #Load module
-    from pymeshfix import meshfix
+    import pymeshfix
 
-    # Create object from arrays or lists
-    meshfix = meshfix.MeshFixClass(v, f)
-    meshfix.LoadVF(v, f) # 
+    # Create object from vertex and face arrays
+    meshfix = pymeshfix.MeshFix(v, f)
 
-    # Plot input (if vtk is available)
-    meshfix.Plot()
+    # Plot input
+    meshfix.plot()
 
     # Repair input mesh
-    meshfix.Repair()
+    meshfix.repair()
 
     # Access the repaired mesh with vtk
-    meshfix.mesh
+    mesh = meshfix.mesh
 
     # Or, access the resulting arrays directly from the object
     meshfix.v # numpy np.float array
     meshfix.f # numpy np.int32 array
 
     # View the repaired mesh (requires vtkInterface)
-    meshfix.Plot()
+    meshfix.plot()
 
     # Save the mesh
-    meshfix.Write('out.ply')
+    meshfix.write('out.ply')
 
-Alternatively, the user could use the cython wrapper of MeshFix directly if vtk is unavailable or they wish to have more control over the cleaning algorthim.
+Alternatively, the user could use the Cython wrapper of MeshFix directly if vtk is unavailable or they wish to have more control over the cleaning algorithm.
 
 .. code:: python
 
@@ -113,30 +111,32 @@ Alternatively, the user could use the cython wrapper of MeshFix directly if vtk 
     tin = _meshfix.PyTMesh()
 
     tin.LoadFile(infile)
-    # tin.LoadArray(v, f) # or read arrays from memory
+    # tin.load_array(v, f) # or read arrays from memory
 
     # Attempt to join nearby components
-    # tin.JoinClosestComponents()
+    # tin.join_closest_components()
 
     # Fill holes
-    tin.FillSmallBoundaries()
-    print('There are {:d} boundaries'.format(tin.Boundaries())
+    tin.fill_small_boundaries()
+    print('There are {:d} boundaries'.format(tin.boundaries())
 
     # Clean (removes self intersections)
-    tin.MeshClean(max_iters=10, inner_loops=3)
+    tin.clean(max_iters=10, inner_loops=3)
 
     # Check mesh for holes again
-    print('There are {:d} boundaries'.format(tin.Boundaries())
+    print('There are {:d} boundaries'.format(tin.boundaries())
 
     # Clean again if necessary...
 
     # Output mesh
-    tin.SaveFile(outfile)
-    # vclean, fclean = tin.ReturnArrays() # or return numpy arrays
+    tin.save_file(outfile)
+
+     # or return numpy arrays
+    vclean, fclean = tin.return_arrays()
 
 
-Algorithim and Citation Policy
-------------------------------
+Algorithm and Citation Policy
+-----------------------------
 To better understand how the algorithm works, please refer to the following paper:
 
 M. Attene. A lightweight approach to repairing digitized polygon meshes.  The Visual Computer, 2010. (c) Springer. DOI: 10.1007/s00371-010-0416-3
