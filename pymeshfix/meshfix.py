@@ -110,7 +110,7 @@ class MeshFix(object):
 
     def repair(self, verbose=False, joincomp=False, remove_smallest_components=True):
         """
-        Performs mesh repair using MeshFix's default repair process
+        Performs mesh repair using MeshFix's default repair process.
 
         Parameters
         ----------
