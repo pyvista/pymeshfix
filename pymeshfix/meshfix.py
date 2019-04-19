@@ -1,17 +1,14 @@
+"""Python module to interface with wrapped meshfix
 """
-Python module to interface with wrapped meshfix
-
-"""
-import numpy as np
 import ctypes
-import warnings
+import numpy as np
+
 from pymeshfix import _meshfix
 import vtki
 
 
 class MeshFix(object):
-    """
-    Cleans and tetrahedralize surface meshes using MeshFix
+    """Cleans and tetrahedralize surface meshes using MeshFix
 
     Parameters
     ----------
@@ -38,13 +35,12 @@ class MeshFix(object):
             raise Exception('Invalid input')
 
     def load_arrays(self, v, f):
-        """
-        Loads triangular mesh from vertex and face numpy arrays.
+        """Loads triangular mesh from vertex and face numpy arrays.
 
         Both vertex and face arrays should be 2D arrays with each
         vertex containing XYZ data and each face containing three
         points.
-        
+
         Parameters
         ----------
         v : np.ndarray
@@ -52,7 +48,6 @@ class MeshFix(object):
 
         f : np.ndarray
             n x 3 face array.
-
         """
         # Check inputs
         if not isinstance(v, np.ndarray):
@@ -80,7 +75,7 @@ class MeshFix(object):
 
     @property
     def mesh(self):
-        """ Return the surface mesh """
+        """Return the surface mesh"""
         triangles = np.empty((self.f.shape[0], 4))
         triangles[:, -3:] = self.f
         triangles[:, 0] = 3
@@ -101,16 +96,17 @@ class MeshFix(object):
                                             manifold_edges=False)
 
             plotter = vtki.Plotter()
-            plotter.add_mesh(mesh, label='mesh')
+            plotter.add_mesh(self.mesh, label='mesh')
             plotter.add_mesh(edges, 'r', label='edges')
             plotter.plot()
 
         else:
             self.mesh.plot(show_edges=True)
 
-    def repair(self, verbose=False, joincomp=False, remove_smallest_components=True):
-        """
-        Performs mesh repair using MeshFix's default repair process.
+    def repair(self, verbose=False, joincomp=False,
+               remove_smallest_components=True):
+        """Performs mesh repair using MeshFix's default repair
+        process.
 
         Parameters
         ----------
@@ -121,15 +117,14 @@ class MeshFix(object):
             Attempts to join nearby open components.
 
         remove_smallest_components : bool, optional
-            Remove all but the largest isolated component from the mesh
-            before beginning the repair process.  Default True
+            Remove all but the largest isolated component from the
+            mesh before beginning the repair process.  Default True
 
         Notes
         -----
         Vertex and face arrays are updated inplace.  Access them with:
         meshfix.v
         meshfix.f
-
         """
         assert self.f.shape[1] == 3, 'Face array must contain three columns'
         assert self.f.ndim == 2, 'Face array must be 2D'
@@ -138,22 +133,23 @@ class MeshFix(object):
                                                     remove_smallest_components)
 
     def write(self, filename, binary=True):
-        """
-        Writes a surface mesh to disk.
+        """Writes a surface mesh to disk.
 
-        Written file may be an ASCII or binary ply, stl, or vtk mesh file.
+        Written file may be an ASCII or binary ply, stl, or vtk mesh
+        file.
 
         Parameters
         ----------
         filename : str
-            Filename of mesh to be written.  Filetype is inferred from the
-            extension of the filename unless overridden with ftype.  Can be
-            one of the following types (.ply, .stl, .vtk)
+            Filename of mesh to be written.  Filetype is inferred from
+            the extension of the filename unless overridden with
+            ftype.  Can be one of the following types (.ply, .stl,
+            .vtk)
 
         ftype : str, optional
-            Filetype.  Inferred from filename unless specified with a three
-            character string.  Can be one of the following: 'ply',  'stl', or
-            'vtk'.
+            Filetype.  Inferred from filename unless specified with a
+            three character string.  Can be one of the following:
+            'ply', 'stl', or 'vtk'.
 
         Notes
         -----

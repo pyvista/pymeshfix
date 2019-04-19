@@ -18,11 +18,11 @@ def with_vtk(plot=True):
     meshfix = pymeshfix.MeshFix(mesh)
     if plot:
         print('Plotting input mesh')
-        meshfix.Plot()
-    meshfix.Repair()
+        meshfix.plot()
+    meshfix.repair()
     if plot:
         print('Plotting repaired mesh')
-        meshfix.Plot()
+        meshfix.plot()
 
     return meshfix.mesh
 
