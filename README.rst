@@ -29,7 +29,7 @@ From source at `GitHub <https://github.com/akaszynski/pymeshfix>`__
 
 Dependencies
 ------------
-Requires ``numpy`` and ``vtki``
+Requires ``numpy`` and ``pyvista``
 
 
 Examples

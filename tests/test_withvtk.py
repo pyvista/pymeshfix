@@ -1,14 +1,13 @@
-import os
-
 import numpy as np
+import pyvista as pv
+
 import pymeshfix
 from pymeshfix.examples import bunny_scan
 
-import vtki
 
 
 def test_repair_vtk():
-    meshin = vtki.PolyData(bunny_scan)
+    meshin = pv.PolyData(bunny_scan)
     meshfix = pymeshfix.MeshFix(meshin)
     meshfix.repair()
 

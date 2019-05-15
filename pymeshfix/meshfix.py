@@ -4,7 +4,7 @@ import ctypes
 import numpy as np
 
 from pymeshfix import _meshfix
-import vtki
+import pyvista as pv
 
 
 class MeshFix(object):
@@ -12,15 +12,15 @@ class MeshFix(object):
 
     Parameters
     ----------
-    args : vtki.PolyData or (np.ndarray, np.ndarray)
-        Either a vtki surface mesh or a n x 3 vertex array and n x 3 face
+    args : pyvista.PolyData or (np.ndarray, np.ndarray)
+        Either a pyvista surface mesh or a n x 3 vertex array and n x 3 face
         array.
 
     """
 
     def __init__(self, *args):
         """ initializes MeshFix """
-        if isinstance(args[0], vtki.PolyData):
+        if isinstance(args[0], pv.PolyData):
             mesh = args[0]
             self.v = mesh.points
 
@@ -79,7 +79,7 @@ class MeshFix(object):
         triangles = np.empty((self.f.shape[0], 4))
         triangles[:, -3:] = self.f
         triangles[:, 0] = 3
-        return vtki.PolyData(self.v, triangles, deep=False)
+        return pv.PolyData(self.v, triangles, deep=False)
 
     def plot(self, show_holes=True):
         """
@@ -95,7 +95,7 @@ class MeshFix(object):
                                             feature_edges=False,
                                             manifold_edges=False)
 
-            plotter = vtki.Plotter()
+            plotter = pv.Plotter()
             plotter.add_mesh(self.mesh, label='mesh')
             plotter.add_mesh(edges, 'r', label='edges')
             plotter.plot()

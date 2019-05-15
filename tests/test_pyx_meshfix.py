@@ -1,10 +1,10 @@
 import pytest
-import vtki
+import pyvista as pv
 
 from pymeshfix import _meshfix
 from pymeshfix import examples
 
-bunny = vtki.PolyData(examples.bunny_scan)
+bunny = pv.PolyData(examples.bunny_scan)
 
 
 def test_load_and_save_file(tmpdir):
@@ -20,7 +20,7 @@ def test_load_and_save_file(tmpdir):
     # test saving
     filename = str(tmpdir.mkdir("tmpdir").join('tmp.ply'))
     meshfix.save_file(filename)
-    new_bunny = vtki.PolyData(filename)
+    new_bunny = pv.PolyData(filename)
     assert new_bunny.points.shape == v.shape
 
 def test_load_array():

@@ -1,9 +1,11 @@
 """ Demonstrates mesh repair on the standford bunny mesh """
 import time
-import numpy as np
 import os
+
+import numpy as np
+import pyvista as pv
+
 import pymeshfix
-import vtki
 from pymeshfix.examples import bunny_scan
 
 
@@ -14,7 +16,7 @@ def native(outfile='repaired.ply'):
 
 def with_vtk(plot=True):
     """ Tests VTK interface and mesh repair of Stanford Bunny Mesh """
-    mesh = vtki.PolyData(bunny_scan)
+    mesh = pv.PolyData(bunny_scan)
     meshfix = pymeshfix.MeshFix(mesh)
     if plot:
         print('Plotting input mesh')
@@ -32,7 +34,7 @@ if __name__ == '__main__':
     t_start = time.time()
     out_file = 'repaired.ply'
     native()
-    outmesh = vtki.PolyData(out_file)
+    outmesh = pv.PolyData(out_file)
     os.remove(out_file)
     assert outmesh.n_points
 
@@ -42,7 +44,7 @@ if __name__ == '__main__':
     assert pdata.n_points == 0
 
     # test vtk
-    meshin = vtki.PolyData(bunny_scan)
+    meshin = pv.PolyData(bunny_scan)
     meshfix = pymeshfix.MeshFix(meshin)
     meshfix.repair()
 
