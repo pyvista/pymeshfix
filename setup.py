@@ -3,7 +3,6 @@ Setup for pymeshfix
 """
 from io import open as io_open
 import sys
-from sys import platform as _platform
 import os
 
 from setuptools import setup, Extension
@@ -27,7 +26,10 @@ if os.name == 'nt':  # windows
     extra_compile_args = ['/openmp', '/O2', '/w', '/GS']
     extra_link_args = []
 elif os.name == 'posix':  # linux org mac os
-    extra_compile_args = ['-std=gnu++11', '-O3', '-w']
+    if sys.platform == 'linux':
+        extra_compile_args = ['-std=gnu++11', '-O3', '-w']
+    else:  # probably mac os
+        extra_compile_args = ['-O3', '-w']
 else:
     raise Exception('Unsupported OS %s' % os.name)
 
