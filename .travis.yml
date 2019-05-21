@@ -36,7 +36,7 @@ install:
     if [ "$TRAVIS_OS_NAME" == "osx" ]; then
       brew update
       brew upgrade python
-      CFLAGS='-stdlib=libc++'
+      # CFLAGS='-stdlib=libc++'
     fi;
   - pip3 install --upgrade cibuildwheel
 
