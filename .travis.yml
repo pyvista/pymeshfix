@@ -17,34 +17,30 @@ matrix:
       services:
         - docker
       env: PIP=pip
-
-
-# for reference, these are the python installs on
-# quay.io/pypa/manylinux1_x86_64
-# cp27-cp27m
-# cp27-cp27mu
-# cp34-cp34m
-# cp35-cp35m
-# cp36-cp36m
-# cp37-cp37m
-
-# need to skip 32-bit development
-# quay.io/pypa/manylinux1_i686
-
-# CIBW_SKIP
-# must skip cp27-cp27m and cp34-cp34m
+    - os: osx
+      osx_image: xcode8.3
 
 env:
   global:
-    - CIBW_BEFORE_BUILD="pip install numpy==1.15.0; pip install cython; yum install libXt -y"
+        - CIBW_BEFORE_BUILD_LINUX="pip install numpy==1.15.0; pip install cython; yum install libXt -y"
+    - CIBW_BEFORE_BUILD_MACOS="pip install numpy==1.15.0; pip install cython"
     - CIBW_TEST_REQUIRES="pytest"
     - CIBW_TEST_COMMAND="pytest {project}/tests/"
     - CIBW_SKIP="cp27-cp27m-manylinux1_x86_64 cp34-* *manylinux1_i686*"
     - TWINE_USERNAME=akaszynski
       # Note: TWINE_PASSWORD is set in Travis settings
 
+install:
+  # Setup for python 3 wheels in Mac OS X
+  - |
+    if [ "$TRAVIS_OS_NAME" == "osx" ]; then
+      brew update
+      brew upgrade python
+      CFLAGS='-stdlib=libc++'
+    fi;
+  - pip3 install --upgrade cibuildwheel
+
 script:
-  - $PIP install cibuildwheel==0.9.3
   - cibuildwheel --output-dir wheelhouse
   - if [ "${TRAVIS_TAG:-}" != "" ]; then
       python3 setup.py sdist;
@@ -55,9 +51,3 @@ script:
 
 notifications:
   email: false
-
-
-# notes:
-# could conditionally upload to test.pypi
-# - echo $TRAVIS_BRANCH
-# - python3 -m twine upload --repository-url https://test.pypi.org/legacy/ --skip-existing wheelhouse/*
