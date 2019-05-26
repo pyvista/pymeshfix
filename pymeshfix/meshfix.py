@@ -2,6 +2,7 @@
 """
 import ctypes
 import numpy as np
+import warnings
 
 from pymeshfix import _meshfix
 import pyvista as pv
@@ -81,6 +82,15 @@ class MeshFix(object):
         triangles[:, 0] = 3
         return pv.PolyData(self.v, triangles, deep=False)
 
+
+    def extract_holes(self):
+        """Extract the boundaries of the holes in this mesh to a new PyVista
+        mesh of lines.
+        """
+        return self.mesh.extract_edges(boundary_edges=True,
+                                       feature_edges=False,
+                                       manifold_edges=False)
+
     def plot(self, show_holes=True):
         """
         Plot the mesh.
@@ -91,14 +101,12 @@ class MeshFix(object):
             Shows boundaries.  Default True
         """
         if show_holes:
-            edges = self.mesh.extract_edges(boundary_edges=True,
-                                            feature_edges=False,
-                                            manifold_edges=False)
+            edges = self.extract_holes()
 
             plotter = pv.Plotter()
             plotter.add_mesh(self.mesh, label='mesh')
             plotter.add_mesh(edges, 'r', label='edges')
-            plotter.plot()
+            plotter.show()
 
         else:
             self.mesh.plot(show_edges=True)
@@ -132,11 +140,13 @@ class MeshFix(object):
                                                     verbose, joincomp,
                                                     remove_smallest_components)
 
-    def write(self, filename, binary=True):
+    def save(self, filename, binary=True):
         """Writes a surface mesh to disk.
 
         Written file may be an ASCII or binary ply, stl, or vtk mesh
         file.
+
+        This is a a simple wrapper for PyVista's save method
 
         Parameters
         ----------
@@ -155,4 +165,9 @@ class MeshFix(object):
         -----
         Binary files write much faster than ASCII.
         """
-        self.mesh.write(filename, binary)
+        return self.mesh.save(filename, binary)
+
+    def write(self, filename, binary=True):
+        """ DEPRECATED """
+        warnings.warn('`.write` is deprecated. Use `.save` instead.', RuntimeWarning)
+        return self.save(filename, binary=binary)

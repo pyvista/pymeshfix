@@ -91,7 +91,7 @@ setup(
                  'Programming Language :: Python :: 3.5',
                  'Programming Language :: Python :: 3.6',
                  'Programming Language :: Python :: 3.7'],
-    url='https://github.com/akaszynski/pymeshfix',
+    url='https://github.com/pyvista/pymeshfix',
 
     # Build cython modules
     cmdclass={'build_ext': build_ext},
