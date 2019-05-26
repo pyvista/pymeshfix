@@ -1,0 +1,11 @@
+
+:orphan:
+
+.. _sphx_glr_examples_sg_execution_times:
+
+Computation times
+=================
+**00:05.704** total execution time for **examples** files:
+
+- **00:04.225**: :ref:`sphx_glr_examples_bunny.py` (``bunny.py``)
+- **00:01.479**: :ref:`sphx_glr_examples_cow.py` (``cow.py``)
