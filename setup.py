@@ -123,7 +123,7 @@ setup(
     keywords='meshfix',
     package_data={'pymeshfix/examples': ['StanfordBunny.ply']},
     install_requires=['numpy>1.11.0',
-                      'pyvista>=0.19.0']
+                      'pyvista>=0.20.2']
 )
 
 # revert to prior directory
