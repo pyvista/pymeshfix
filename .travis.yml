@@ -9,6 +9,8 @@
 # Builds wheels for Linux using cibuildwheel, inside the manylinux1 Docker image.
 # builds 64-bit Python2.7, Python3.5, Python3.6, Python3.7
 
+dist: xenial
+
 matrix:
   include:
     - sudo: required
@@ -56,7 +58,7 @@ install:
 
 script:
   - cibuildwheel --output-dir wheelhouse
-      # Make documentation
+  # Make documentation
   - |
     if [ "$TRAVIS_OS_NAME" != "osx" ]; then
       cd ./wheelhouse
