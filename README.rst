@@ -1,6 +1,6 @@
 pymeshfix
 =========
-.. image:: https://travis-ci.org/akaszynski/pymeshfix.svg?branch=master
+.. image:: https://travis-ci.org/pyvista/pymeshfix.svg?branch=master
 
 Python/Cython wrapper of Marco Attene's wonderful, award-winning `MeshFix <https://github.com/MarcoAttene/MeshFix-V2.0>`__ software. This module brings the speed of C++ with the portability and ease of installation of Python.
 
@@ -18,11 +18,11 @@ From `PyPI <https://pypi.python.org/pypi/pymeshfix>`__
 
     pip install pymeshfix
 
-From source at `GitHub <https://github.com/akaszynski/pymeshfix>`__
+From source at `GitHub <https://github.com/pyvista/pymeshfix>`__
 
 .. code:: bash
 
-    git clone https://github.com/akaszynski/pymeshfix
+    git clone https://github.com/pyvista/pymeshfix
     cd pymeshfix
     pip install .
 
