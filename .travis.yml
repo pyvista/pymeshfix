@@ -30,6 +30,13 @@ env:
     - TWINE_USERNAME=akaszynski
       # Note: TWINE_PASSWORD is set in Travis settings
 
+
+before_install:
+  # configure a headless display
+  - git clone --depth 1 git://github.com/pyvista/gl-ci-helpers.git
+  - source ./gl-ci-helpers/travis/setup_headless_display.sh
+
+
 install:
   # Setup for python 3 wheels in Mac OS X
   - |
@@ -39,9 +46,27 @@ install:
       # CFLAGS='-stdlib=libc++'
     fi;
   - pip3 install --upgrade cibuildwheel
+  # for building docs in linux
+  - |
+    if [ "$TRAVIS_OS_NAME" != "osx" ]; then
+      pip3 install -r requirements.txt
+    fi;
 
 script:
   - cibuildwheel --output-dir wheelhouse
+      # Make documentation
+  - |
+    if [ "$TRAVIS_OS_NAME" != "osx" ]; then
+      cd ./wheelhouse
+      pip3 install pymeshfix-*-cp36-cp36m-manylinux1_x86_64.whl
+      cd ../docs
+      make html
+      set -e
+      make html
+      cd ..
+      set +x
+    fi;
+ # TODO: include `doctr deploy --built-docs ./docs/_build/html/ .;` above
   - if [ "${TRAVIS_TAG:-}" != "" ]; then
       python3 setup.py sdist;
       cp dist/*.tar.gz wheelhouse/;
