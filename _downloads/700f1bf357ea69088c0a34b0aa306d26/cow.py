@@ -1,8 +1,8 @@
 """
-Holy Cow
---------
+Holey Cow
+---------
 
-Repair a holy cow
+Repair a holey cow
 """
 
 # sphinx_gallery_thumbnail_number = 1
@@ -39,7 +39,7 @@ p.show()
 
 
 ################################################################################
-# Repair the holy cow
+# Repair the holey cow
 
 meshfix.repair(verbose=True)
 

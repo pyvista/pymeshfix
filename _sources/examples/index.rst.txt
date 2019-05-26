@@ -11,7 +11,7 @@ Examples
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="Repair the holes in the bunny mesh ">
+    <div class="sphx-glr-thumbcontainer" tooltip="Repair the holes in the bunny mesh">
 
 .. only:: html
 
@@ -31,7 +31,7 @@ Examples
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="Repair a holy cow ">
+    <div class="sphx-glr-thumbcontainer" tooltip="Repair a holey cow">
 
 .. only:: html
 
