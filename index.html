@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>pymeshfix &mdash; pymeshfix 0.13.1 documentation</title>
+  <title>PyMeshFix &mdash; pymeshfix 0.13.1 documentation</title>
   
 
   
@@ -97,7 +97,7 @@
             
             
               <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">pymeshfix</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">PyMeshFix</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Examples</span></p>
 <ul>
@@ -171,7 +171,7 @@
     
       <li><a href="#">Docs</a> &raquo;</li>
         
-      <li>pymeshfix</li>
+      <li>PyMeshFix</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -193,12 +193,23 @@
            <div itemprop="articleBody">
             
   <div class="section" id="pymeshfix">
-<h1>pymeshfix<a class="headerlink" href="#pymeshfix" title="Permalink to this headline">¶</a></h1>
+<h1>PyMeshFix<a class="headerlink" href="#pymeshfix" title="Permalink to this headline">¶</a></h1>
 <a class="reference external image-reference" href="https://travis-ci.org/pyvista/pymeshfix"><img alt="https://travis-ci.org/pyvista/pymeshfix.svg?branch=master" src="https://travis-ci.org/pyvista/pymeshfix.svg?branch=master" /></a>
-<p>Python/Cython wrapper of Marco Attene’s wonderful, award-winning <a class="reference external" href="https://github.com/MarcoAttene/MeshFix-V2.0">MeshFix</a> software. This module brings the speed of C++ with the portability and ease of installation of Python.</p>
-<p>This software takes as input a polygon mesh and produces a copy of the input where all the occurrences of a specific set of “defects” are corrected. MeshFix has been designed to correct typical flaws present in raw digitized mesh models, thus it might fail or produce coarse results
+<a class="reference external image-reference" href="https://pypi.org/project/pymeshfix/"><img alt="https://img.shields.io/pypi/v/pymeshfix.svg?logo=python&amp;logoColor=white" src="https://img.shields.io/pypi/v/pymeshfix.svg?logo=python&amp;logoColor=white" /></a>
+<p>Python/Cython wrapper of Marco Attene’s wonderful, award-winning
+<a class="reference external" href="https://github.com/MarcoAttene/MeshFix-V2.0">MeshFix</a> software.
+This module brings the speed of C++ with the portability and ease of
+installation of Python.</p>
+<p>This software takes as input a polygon mesh and produces a copy of the input
+where all the occurrences of a specific set of “defects” are corrected.
+MeshFix has been designed to correct typical flaws present in raw digitized
+mesh models, thus it might fail or produce coarse results
 if run on other sorts of input meshes (e.g. tessellated CAD models).</p>
-<p>The input is assumed to represent a single closed solid object, thus the output will be a single watertight triangle mesh bounding a polyhedron.  All the singularities, self-intersections and degenerate elements are removed from the input, while regions of the surface without defects are left unmodified.</p>
+<p>The input is assumed to represent a single closed solid object, thus the output
+will be a single watertight triangle mesh bounding a polyhedron.
+All the singularities, self-intersections and degenerate elements are removed
+from the input, while regions of the surface without defects are left
+unmodified.</p>
 <div class="section" id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
 <p>From <a class="reference external" href="https://pypi.python.org/pypi/pymeshfix">PyPI</a></p>
@@ -249,7 +260,10 @@ pip install .
 </div>
 <div class="section" id="complete-examples-with-and-without-vtk">
 <h2>Complete Examples with and without VTK<a class="headerlink" href="#complete-examples-with-and-without-vtk" title="Permalink to this headline">¶</a></h2>
-<p>One of the main reasons to bring MeshFix to Python is to allow the library to communicate to other python programs without having to use the hard drive. Therefore, this example assumes that you have a mesh within memory and wish to repair it using MeshFix.</p>
+<p>One of the main reasons to bring MeshFix to Python is to allow the library to
+communicate to other python programs without having to use the hard drive.
+Therefore, this example assumes that you have a mesh within memory and wish to
+repair it using MeshFix.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pymeshfix</span>
 
 <span class="c1"># Create object from vertex and face arrays</span>
@@ -275,7 +289,9 @@ pip install .
 <span class="n">meshfix</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;out.ply&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Alternatively, the user could use the Cython wrapper of MeshFix directly if vtk is unavailable or they wish to have more control over the cleaning algorithm.</p>
+<p>Alternatively, the user could use the Cython wrapper of MeshFix directly if
+vtk is unavailable or they wish to have more control over the cleaning
+algorithm.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pymeshfix</span> <span class="kn">import</span> <span class="n">_meshfix</span>
 
 <span class="c1"># Create TMesh object</span>
@@ -309,24 +325,33 @@ pip install .
 </div>
 <div class="section" id="algorithm-and-citation-policy">
 <h2>Algorithm and Citation Policy<a class="headerlink" href="#algorithm-and-citation-policy" title="Permalink to this headline">¶</a></h2>
-<p>To better understand how the algorithm works, please refer to the following paper:</p>
-<ol class="upperalpha simple" start="13">
-<li><p>Attene. A lightweight approach to repairing digitized polygon meshes.  The Visual Computer, 2010. (c) Springer. DOI: 10.1007/s00371-010-0416-3</p></li>
-</ol>
-<p>This software is based on ideas published therein. If you use MeshFix for research purposes you should cite the above paper in your published results. MeshFix cannot be used for commercial purposes without a proper licensing contract.</p>
+<p>To better understand how the algorithm works, please refer to the following
+paper:</p>
+<blockquote>
+<div><p>M. Attene. A lightweight approach to repairing digitized polygon meshes.
+The Visual Computer, 2010. (c) Springer. DOI: 10.1007/s00371-010-0416-3</p>
+</div></blockquote>
+<p>This software is based on ideas published therein. If you use MeshFix for
+research purposes you should cite the above paper in your published results.
+MeshFix cannot be used for commercial purposes without a proper licensing
+contract.</p>
 </div>
 <div class="section" id="copyright">
 <h2>Copyright<a class="headerlink" href="#copyright" title="Permalink to this headline">¶</a></h2>
 <p>MeshFix is Copyright(C) 2010: IMATI-GE / CNR</p>
 <p>All rights reserved.</p>
 <p>This program is dual-licensed as follows:</p>
-<ol class="arabic simple">
-<li><p>You may use MeshFix as free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.</p></li>
-</ol>
-<p>In this case the program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License (<a class="reference external" href="http://www.gnu.org/licenses/gpl.txt">http://www.gnu.org/licenses/gpl.txt</a>) for more details.</p>
-<ol class="arabic simple" start="2">
-<li><p>You may use MeshFix as part of a commercial software. In this case a proper agreement must be reached with the Authors and with IMATI-GE/CNR based on a proper licensing contract.</p></li>
-</ol>
+<p>(1) You may use MeshFix as free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by the Free
+Software Foundation; either version 3 of the License, or (at your option) any
+later version.</p>
+<p>In this case the program is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
+(<a class="reference external" href="http://www.gnu.org/licenses/gpl.txt">http://www.gnu.org/licenses/gpl.txt</a>) for more details.</p>
+<p>(2) You may use MeshFix as part of a commercial software. In this case a proper
+agreement must be reached with the Authors and with IMATI-GE/CNR based on a
+proper licensing contract.</p>
 <div class="toctree-wrapper compound">
 </div>
 <div class="toctree-wrapper compound">
