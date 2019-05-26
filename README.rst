@@ -1,6 +1,7 @@
 pymeshfix
 =========
 .. image:: https://travis-ci.org/pyvista/pymeshfix.svg?branch=master
+   :target: https://travis-ci.org/pyvista/pymeshfix
 
 Python/Cython wrapper of Marco Attene's wonderful, award-winning `MeshFix <https://github.com/MarcoAttene/MeshFix-V2.0>`__ software. This module brings the speed of C++ with the portability and ease of installation of Python.
 
@@ -157,4 +158,3 @@ This program is dual-licensed as follows:
 In this case the program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License (http://www.gnu.org/licenses/gpl.txt) for more details.
 
 (2) You may use MeshFix as part of a commercial software. In this case a proper agreement must be reached with the Authors and with IMATI-GE/CNR based on a proper licensing contract.
-
