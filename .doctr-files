@@ -1,8 +1,10 @@
 ./404.html
 ./_downloads/24c9d655a1cb9e7090e523188082e671/cow.ipynb
+./_downloads/63ba9045e6691bf580329bbae35d8548/torso.ipynb
 ./_downloads/700f1bf357ea69088c0a34b0aa306d26/cow.py
 ./_downloads/81a10a6450959c49a589aa8cee630836/bunny.py
 ./_downloads/8f0e902e9e1a0c6c65886d6123f08076/bunny.ipynb
+./_downloads/988781b05954ec5068adbfe7a980b827/torso.py
 ./_images/sphx_glr_bunny_001.png
 ./_images/sphx_glr_bunny_002.png
 ./_images/sphx_glr_bunny_003.png
@@ -10,11 +12,17 @@
 ./_images/sphx_glr_cow_001.png
 ./_images/sphx_glr_cow_002.png
 ./_images/sphx_glr_cow_thumb.png
+./_images/sphx_glr_torso_001.png
+./_images/sphx_glr_torso_002.png
+./_images/sphx_glr_torso_003.png
+./_images/sphx_glr_torso_004.png
+./_images/sphx_glr_torso_thumb.png
 ./_sources/api.rst.txt
 ./_sources/examples/bunny.rst.txt
 ./_sources/examples/cow.rst.txt
 ./_sources/examples/index.rst.txt
 ./_sources/examples/sg_execution_times.rst.txt
+./_sources/examples/torso.rst.txt
 ./_sources/index.rst.txt
 ./_static/basic.css
 ./_static/broken_example.png
@@ -80,6 +88,7 @@
 ./examples/cow.html
 ./examples/index.html
 ./examples/sg_execution_times.html
+./examples/torso.html
 ./genindex.html
 ./index.html
 ./objects.inv

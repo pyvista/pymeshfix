@@ -48,6 +48,26 @@ Examples
    :hidden:
 
    /examples/cow
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Repair the torso mesh where it was extracted and subtle holes along complex parts of the mesh">
+
+.. only:: html
+
+    .. figure:: /examples/images/thumb/sphx_glr_torso_thumb.png
+
+        :ref:`sphx_glr_examples_torso.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /examples/torso
 .. raw:: html
 
     <div style='clear:both'></div>

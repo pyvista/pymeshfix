@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Bunny &mdash; pymeshfix 0.13.1 documentation</title>
+  <title>Torso &mdash; pymeshfix 0.13.1 documentation</title>
   
 
   
@@ -40,8 +40,8 @@
   <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Holey Cow" href="cow.html" />
-    <link rel="prev" title="Examples" href="index.html" />
+    <link rel="next" title="API Reference" href="../api.html" />
+    <link rel="prev" title="Holey Cow" href="cow.html" />
  
 
 <meta name="description" content="">
@@ -103,9 +103,9 @@
 <p class="caption"><span class="caption-text">Examples</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Examples</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Bunny</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bunny.html">Bunny</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cow.html">Holey Cow</a></li>
-<li class="toctree-l2"><a class="reference internal" href="torso.html">Torso</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Torso</a></li>
 </ul>
 </li>
 </ul>
@@ -179,14 +179,14 @@
         
           <li><a href="index.html">Examples</a> &raquo;</li>
         
-      <li>Bunny</li>
+      <li>Torso</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
             
-              <a href="https://github.com/pyvista/pymeshfix/blob/master/docs/examples/bunny.rst" class="fa fa-github"> Edit on GitHub</a>
+              <a href="https://github.com/pyvista/pymeshfix/blob/master/docs/examples/torso.rst" class="fa fa-github"> Edit on GitHub</a>
             
           
         
@@ -202,66 +202,93 @@
             
   <div class="sphx-glr-download-link-note admonition note">
 <p class="admonition-title">Note</p>
-<p>Click <a class="reference internal" href="#sphx-glr-download-examples-bunny-py"><span class="std std-ref">here</span></a> to download the full example code</p>
+<p>Click <a class="reference internal" href="#sphx-glr-download-examples-torso-py"><span class="std std-ref">here</span></a> to download the full example code</p>
 </div>
-<div class="sphx-glr-example-title section" id="bunny">
-<span id="sphx-glr-examples-bunny-py"></span><h1>Bunny<a class="headerlink" href="#bunny" title="Permalink to this headline">¶</a></h1>
-<p>Repair the holes in the bunny mesh</p>
+<div class="sphx-glr-example-title section" id="torso">
+<span id="sphx-glr-examples-torso-py"></span><h1>Torso<a class="headerlink" href="#torso" title="Permalink to this headline">¶</a></h1>
+<p>Repair the torso mesh where it was extracted and subtle holes along complex
+parts of the mesh</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># sphinx_gallery_thumbnail_number = 2</span>
 <span class="kn">import</span> <span class="nn">pyvista</span> <span class="k">as</span> <span class="nn">pv</span>
 <span class="kn">import</span> <span class="nn">pymeshfix</span> <span class="k">as</span> <span class="nn">mf</span>
 <span class="kn">from</span> <span class="nn">pyvista</span> <span class="k">import</span> <span class="n">examples</span>
+
+
+<span class="n">mesh</span> <span class="o">=</span> <span class="n">examples</span><span class="o">.</span><span class="n">download_torso</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">mesh</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">bunny</span> <span class="o">=</span> <span class="n">examples</span><span class="o">.</span><span class="n">download_bunny</span><span class="p">()</span>
-
-<span class="c1"># Define a camera position that shows the holes in the mesh</span>
-<span class="n">cpos</span> <span class="o">=</span> <span class="p">[(</span><span class="o">-</span><span class="mf">0.2</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.13</span><span class="p">,</span> <span class="mf">0.12</span><span class="p">),</span>
-        <span class="p">(</span><span class="o">-</span><span class="mf">0.015</span><span class="p">,</span> <span class="mf">0.10</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.0</span><span class="p">),</span>
-        <span class="p">(</span><span class="mf">0.28</span><span class="p">,</span> <span class="mf">0.26</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">)]</span>
-
-<span class="c1"># Show mesh</span>
-<span class="n">bunny</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">cpos</span><span class="o">=</span><span class="n">cpos</span><span class="p">)</span>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>PolyData (0x7f784c0c58e8)
+  N Cells:      12448
+  N Points:     12015
+  X Bounds:     -1.680e+02, 1.720e+02
+  Y Bounds:     -1.624e+02, 1.320e+02
+  Z Bounds:     -6.442e+02, 9.083e+01
+  N Scalars:    0
 </pre></div>
 </div>
-<img alt="../_images/sphx_glr_bunny_001.png" class="sphx-glr-single-img" src="../_images/sphx_glr_bunny_001.png" />
-<p>Genereate a meshfix mesh ready for fixing and extract the holes</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">meshfix</span> <span class="o">=</span> <span class="n">mf</span><span class="o">.</span><span class="n">MeshFix</span><span class="p">(</span><span class="n">bunny</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cpos</span> <span class="o">=</span> <span class="p">[(</span><span class="o">-</span><span class="mf">1053.</span><span class="p">,</span> <span class="o">-</span><span class="mf">1251.</span><span class="p">,</span> <span class="mf">83.</span><span class="p">),</span>
+        <span class="p">(</span><span class="mf">2.</span><span class="p">,</span> <span class="o">-</span><span class="mf">15.</span><span class="p">,</span> <span class="o">-</span><span class="mf">276.</span><span class="p">),</span>
+        <span class="p">(</span><span class="mf">0.12</span><span class="p">,</span> <span class="mf">0.18</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]</span>
+
+<span class="n">mesh</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">show_edges</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cpos</span><span class="o">=</span><span class="n">cpos</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="../_images/sphx_glr_torso_001.png" class="sphx-glr-single-img" src="../_images/sphx_glr_torso_001.png" />
+<p>Appy a triangle filter to ensure the mesh is simply polyhedral</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">meshfix</span> <span class="o">=</span> <span class="n">mf</span><span class="o">.</span><span class="n">MeshFix</span><span class="p">(</span><span class="n">mesh</span><span class="o">.</span><span class="n">tri_filter</span><span class="p">())</span>
 <span class="n">holes</span> <span class="o">=</span> <span class="n">meshfix</span><span class="o">.</span><span class="n">extract_holes</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>Render the mesh and outline the holes</p>
+<p>Outline the holes in the mesh</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">p</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">Plotter</span><span class="p">()</span>
-<span class="n">p</span><span class="o">.</span><span class="n">add_mesh</span><span class="p">(</span><span class="n">bunny</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">p</span><span class="o">.</span><span class="n">add_mesh</span><span class="p">(</span><span class="n">mesh</span><span class="p">)</span>
 <span class="n">p</span><span class="o">.</span><span class="n">add_mesh</span><span class="p">(</span><span class="n">holes</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">line_width</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+<span class="n">p</span><span class="o">.</span><span class="n">enable_eye_dome_lighting</span><span class="p">()</span> <span class="c1"># helps with depth perception</span>
 <span class="n">p</span><span class="o">.</span><span class="n">camera_position</span> <span class="o">=</span> <span class="n">cpos</span>
-<span class="n">p</span><span class="o">.</span><span class="n">enable_eye_dome_lighting</span><span class="p">()</span> <span class="c1"># helps depth perception</span>
 <span class="n">p</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<img alt="../_images/sphx_glr_bunny_002.png" class="sphx-glr-single-img" src="../_images/sphx_glr_bunny_002.png" />
-<p>Repair the mesh</p>
+<img alt="../_images/sphx_glr_torso_002.png" class="sphx-glr-single-img" src="../_images/sphx_glr_torso_002.png" />
+<p>Emphasize the hole near the ear - this needs to be repaired so that the mesh
+is absolutely water tight.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cpos_ear</span> <span class="o">=</span> <span class="p">[(</span><span class="mf">180.</span><span class="p">,</span> <span class="o">-</span><span class="mf">206.</span><span class="p">,</span> <span class="mf">17.</span><span class="p">),</span>
+            <span class="p">(</span><span class="mf">107.</span><span class="p">,</span> <span class="o">-</span><span class="mf">122.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">11.9</span><span class="p">),</span>
+            <span class="p">(</span><span class="o">-</span><span class="mf">0.13</span><span class="p">,</span> <span class="mf">0.22</span><span class="p">,</span> <span class="mf">0.96</span><span class="p">)]</span>
+
+<span class="n">p</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">Plotter</span><span class="p">()</span>
+<span class="n">p</span><span class="o">.</span><span class="n">add_mesh</span><span class="p">(</span><span class="n">mesh</span><span class="p">)</span>
+<span class="n">p</span><span class="o">.</span><span class="n">add_mesh</span><span class="p">(</span><span class="n">holes</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">line_width</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+<span class="n">p</span><span class="o">.</span><span class="n">enable_eye_dome_lighting</span><span class="p">()</span> <span class="c1"># helps with depth perception</span>
+<span class="n">p</span><span class="o">.</span><span class="n">camera_position</span> <span class="o">=</span> <span class="n">cpos_ear</span>
+<span class="n">p</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../_images/sphx_glr_torso_003.png" class="sphx-glr-single-img" src="../_images/sphx_glr_torso_003.png" />
+<p>Perfrom the mesh repair</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">meshfix</span><span class="o">.</span><span class="n">repair</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 <p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Patching holes...
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Removed 6 small components
+Patching holes...
 Patched 5 holes
 Fixing degeneracies and intersections
 </pre></div>
 </div>
 <p>Show the repaired mesh</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">meshfix</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">cpos</span><span class="o">=</span><span class="n">cpos</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">meshfix</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">cpos</span><span class="o">=</span><span class="n">cpos</span><span class="p">,</span> <span class="n">eye_dome_lighting</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
-<img alt="../_images/sphx_glr_bunny_003.png" class="sphx-glr-single-img" src="../_images/sphx_glr_bunny_003.png" />
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  13.534 seconds)</p>
-<div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-bunny-py">
+<img alt="../_images/sphx_glr_torso_004.png" class="sphx-glr-single-img" src="../_images/sphx_glr_torso_004.png" />
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  17.195 seconds)</p>
+<div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-torso-py">
 <div class="sphx-glr-download docutils container">
-<p><a class="reference download internal" download="" href="../_downloads/81a10a6450959c49a589aa8cee630836/bunny.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">bunny.py</span></code></a></p>
+<p><a class="reference download internal" download="" href="../_downloads/988781b05954ec5068adbfe7a980b827/torso.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">torso.py</span></code></a></p>
 </div>
 <div class="sphx-glr-download docutils container">
-<p><a class="reference download internal" download="" href="../_downloads/8f0e902e9e1a0c6c65886d6123f08076/bunny.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">bunny.ipynb</span></code></a></p>
+<p><a class="reference download internal" download="" href="../_downloads/63ba9045e6691bf580329bbae35d8548/torso.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">torso.ipynb</span></code></a></p>
 </div>
 </div>
 <p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.readthedocs.io">Gallery generated by Sphinx-Gallery</a></p>
@@ -275,10 +302,10 @@ Fixing degeneracies and intersections
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="cow.html" class="btn btn-neutral float-right" title="Holey Cow" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="../api.html" class="btn btn-neutral float-right" title="API Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="index.html" class="btn btn-neutral float-left" title="Examples" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="cow.html" class="btn btn-neutral float-left" title="Holey Cow" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
