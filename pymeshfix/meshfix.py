@@ -1,8 +1,8 @@
 """Python module to interface with wrapped meshfix
 """
 import ctypes
-import numpy as np
 import warnings
+import numpy as np
 
 from pymeshfix import _meshfix
 import pyvista as pv
@@ -14,26 +14,30 @@ class MeshFix(object):
     Parameters
     ----------
     args : pyvista.PolyData or (np.ndarray, np.ndarray)
-        Either a pyvista surface mesh or a n x 3 vertex array and n x 3 face
-        array.
-
+        Either a pyvista surface mesh or a n x 3 vertex array and n x
+        3 face array.
     """
 
     def __init__(self, *args):
-        """ initializes MeshFix """
+        """Initialize MeshFix """
         if isinstance(args[0], pv.PolyData):
-            mesh = args[0]
+            mesh = pv.wrap(args[0])
             self.v = mesh.points
 
+            # check if triangular mesh
             faces = mesh.faces
             if faces.size % 4:
-                raise Exception('Invalid mesh.  Must be an all triangular mesh.')
+                tri_mesh = mesh.tri_filter()
+                faces = tri_mesh.faces
+
             self.f = np.ascontiguousarray(faces.reshape(-1 , 4)[:, 1:])
 
         elif isinstance(args[0], np.ndarray):
             self.load_arrays(args[0], args[1])
+
         else:
-            raise Exception('Invalid input')
+            raise Exception('Invalid input.  Please load a surface mesh or' +
+                            ' face and vertex arrays')
 
     def load_arrays(self, v, f):
         """Loads triangular mesh from vertex and face numpy arrays.
@@ -82,7 +86,6 @@ class MeshFix(object):
         triangles[:, 0] = 3
         return pv.PolyData(self.v, triangles, deep=False)
 
-
     def extract_holes(self):
         """Extract the boundaries of the holes in this mesh to a new PyVista
         mesh of lines.
@@ -91,14 +94,17 @@ class MeshFix(object):
                                        feature_edges=False,
                                        manifold_edges=False)
 
-    def plot(self, show_holes=True):
-        """
-        Plot the mesh.
+    def plot(self, show_holes=True, **kwargs):
+        """Plot the mesh.
 
         Parameters
         ----------
         show_holes : bool, optional
             Shows boundaries.  Default True
+
+        **kwargs : keyword arguments
+            Additional keyword arguments.
+
         """
         if show_holes:
             edges = self.extract_holes()
