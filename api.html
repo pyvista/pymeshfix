@@ -202,8 +202,8 @@
 <p>Cleans and tetrahedralize surface meshes using MeshFix</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>args</strong> (<em>pyvista.PolyData</em><em> or </em><em>(</em><em>np.ndarray</em><em>, </em><em>np.ndarray</em><em>)</em>) – Either a pyvista surface mesh or a n x 3 vertex array and n x 3 face
-array.</p>
+<dd class="field-odd"><p><strong>args</strong> (<em>pyvista.PolyData</em><em> or </em><em>(</em><em>np.ndarray</em><em>, </em><em>np.ndarray</em><em>)</em>) – Either a pyvista surface mesh or a n x 3 vertex array and n x
+3 face array.</p>
 </dd>
 </dl>
 <dl class="method">
@@ -238,11 +238,14 @@ points.</p>
 
 <dl class="method">
 <dt id="pymeshfix.MeshFix.plot">
-<code class="descname">plot</code><span class="sig-paren">(</span><em>show_holes=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pymeshfix.MeshFix.plot" title="Permalink to this definition">¶</a></dt>
+<code class="descname">plot</code><span class="sig-paren">(</span><em>show_holes=True</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pymeshfix.MeshFix.plot" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot the mesh.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>show_holes</strong> (<em>bool</em><em>, </em><em>optional</em>) – Shows boundaries.  Default True</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>show_holes</strong> (<em>bool</em><em>, </em><em>optional</em>) – Shows boundaries.  Default True</p></li>
+<li><p><strong>**kwargs</strong> (<em>keyword arguments</em>) – Additional keyword arguments.</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
