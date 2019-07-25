@@ -14,8 +14,9 @@ class MeshFix(object):
     Parameters
     ----------
     args : pyvista.PolyData or (np.ndarray, np.ndarray)
-        Either a pyvista surface mesh or a n x 3 vertex array and n x
-        3 face array.
+        Either a pyvista surface mesh :class:`pyvista.PolyData` or a (n x 3)
+        vertex array and (n x 3) face array (indices of the triangles).
+
     """
 
     def __init__(self, *args):
