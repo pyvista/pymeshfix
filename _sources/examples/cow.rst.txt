@@ -48,8 +48,8 @@ Repair a holey cow
 
  .. code-block:: none
 
-    PolyData (0x7f9bf54809a8)
-      N Cells:      5226
+    PolyData (0x7fe5a95a46a8)
+      N Cells:      5238
       N Points:     2903
       X Bounds:     -4.446e+00, 5.998e+00
       Y Bounds:     -3.637e+00, 2.760e+00
@@ -107,9 +107,9 @@ Repair the holey cow
 
  .. code-block:: none
 
-    Removed 2 small components
+    Removed 3 small components
     Patching holes...
-    Patched 199 holes
+    Patched 211 holes
     Fixing degeneracies and intersections
 
 
@@ -133,10 +133,10 @@ Show the repaired result
 
  .. code-block:: none
 
-    PolyData (0x7f9bf5480888)
-      N Cells:      5446
-      N Points:     2725
-      X Bounds:     -3.696e+00, 5.998e+00
+    PolyData (0x7fe5a9582ee8)
+      N Cells:      5740
+      N Points:     2872
+      X Bounds:     -4.446e+00, 5.998e+00
       Y Bounds:     -3.637e+00, 2.760e+00
       Z Bounds:     -1.701e+00, 1.701e+00
       N Arrays:     0
@@ -160,7 +160,7 @@ Show the repaired result
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  5.224 seconds)
+   **Total running time of the script:** ( 0 minutes  5.244 seconds)
 
 
 .. _sphx_glr_download_examples_cow.py:
