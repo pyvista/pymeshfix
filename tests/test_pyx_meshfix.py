@@ -76,5 +76,5 @@ def clean_from_file(tmpdir):
     outfile = str(tmpdir.mkdir("tmpdir").join('tmp.ply'))
     clean_from_file(examples.bunny_scan, outfile, verbose=False,
                     joincomp=False)
-
-    
+    outfile = str(tmpdir.mkdir("tmpdir").join('tmp2.ply'))
+    examples.native(outfile)
