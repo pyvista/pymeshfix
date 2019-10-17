@@ -58,6 +58,7 @@ install:
 
 script:
   - cibuildwheel --output-dir wheelhouse
+  - ls ./wheelhouse
   # Make documentation
   - |
     if [ "$TRAVIS_OS_NAME" != "osx" ]; then
