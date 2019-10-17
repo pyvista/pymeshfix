@@ -49,9 +49,9 @@ Repair a holey cow
  .. code-block:: none
 
     WARNING:root:DEPRECATED: ``.tri_filter`` is deprecated. Use ``.triangulate`` instead.
-    PolyData (0x7f055c1774c8)
-      N Cells:      5218
-      N Points:     2903
+    PolyData (0x7f89027236a8)
+      N Cells:      5211
+      N Points:     2902
       X Bounds:     -4.446e+00, 5.998e+00
       Y Bounds:     -3.637e+00, 2.760e+00
       Z Bounds:     -1.701e+00, 1.701e+00
@@ -109,7 +109,7 @@ Repair the holey cow
  .. code-block:: none
 
     Patching holes...
-    Patched 202 holes
+    Patched 200 holes
     Fixing degeneracies and intersections
 
 
@@ -133,9 +133,9 @@ Show the repaired result
 
  .. code-block:: none
 
-    PolyData (0x7f055ca9f888)
-      N Cells:      5410
-      N Points:     2707
+    PolyData (0x7f8902fdfdc8)
+      N Cells:      5448
+      N Points:     2726
       X Bounds:     -3.696e+00, 5.998e+00
       Y Bounds:     -3.637e+00, 2.760e+00
       Z Bounds:     -1.701e+00, 1.701e+00
@@ -160,7 +160,7 @@ Show the repaired result
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  5.148 seconds)
+   **Total running time of the script:** ( 0 minutes  8.773 seconds)
 
 
 .. _sphx_glr_download_examples_cow.py:
