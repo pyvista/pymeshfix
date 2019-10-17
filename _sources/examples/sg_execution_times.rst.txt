@@ -5,8 +5,8 @@
 
 Computation times
 =================
-**00:55.592** total execution time for **examples** files:
+**00:55.054** total execution time for **examples** files:
 
-- **00:27.670**: :ref:`sphx_glr_examples_torso.py` (``torso.py``)
-- **00:19.149**: :ref:`sphx_glr_examples_bunny.py` (``bunny.py``)
-- **00:08.773**: :ref:`sphx_glr_examples_cow.py` (``cow.py``)
+- **00:27.599**: :ref:`sphx_glr_examples_torso.py` (``torso.py``)
+- **00:18.882**: :ref:`sphx_glr_examples_bunny.py` (``bunny.py``)
+- **00:08.573**: :ref:`sphx_glr_examples_cow.py` (``cow.py``)
