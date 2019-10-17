@@ -112,7 +112,11 @@ class MeshFix(object):
 
             plotter = pv.Plotter()
             plotter.add_mesh(self.mesh, label='mesh')
-            plotter.add_mesh(edges, 'r', label='edges')
+            try:
+                plotter.add_mesh(edges, 'r', label='edges')
+            except RuntimeError:
+                # Handle case where PyVista gets mad at the mesh being empty
+                pass
             plotter.show()
 
         else:

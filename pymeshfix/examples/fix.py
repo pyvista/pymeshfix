@@ -11,7 +11,8 @@ from pymeshfix.examples import bunny_scan
 
 def native(outfile='repaired.ply'):
     """ Repair Stanford Bunny Mesh """
-    pymeshfix._meshfix.CleanFromFile(bunny_scan, outfile)
+    pymeshfix._meshfix.clean_from_file(bunny_scan, outfile)
+    return outfile
 
 
 def with_vtk(plot=True):

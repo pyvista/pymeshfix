@@ -22,10 +22,10 @@ cdef extern from "meshfix.h" namespace "T_MESH":
         # Constructor
         Basic_TMesh_wrap()
 
-        # Inputs     
+        # Inputs
         int load(const char*)
         int loadArray(int, double*, int, int*)
-        
+
         # MeshFix
         int removeSmallestComponents()
         int boundaries()
@@ -40,15 +40,15 @@ cdef extern from "meshfix.h" namespace "T_MESH":
 
         # Settings
         void SetVerbose(int)
-        
+
         # Outputs
         int ReturnTotalPoints()
         int ReturnTotalFaces()
         void PopArrays(double*, int*)
 
-        # MISC        
+        # MISC
         void Join()
-        
+
 
 cdef class PyTMesh:
     """
@@ -59,9 +59,9 @@ cdef class PyTMesh:
 
     M. Attene.  A lightweight approach to repairing digitized polygon
     meshes.  The Visual Computer, 2010. (c) Springer.
-    
+
     """
-    
+
     cdef Basic_TMesh_wrap c_tmesh  # hold a C++ instance which we're wrapping
 
     def __cinit__(self, quiet=1):
@@ -74,7 +74,7 @@ cdef class PyTMesh:
     def load_file(self, filename):
         """
         Loads mesh from file
-        
+
         Currently, the following file formats are supported:
         Open Inventor (IV), VRML 1.0 and 2.0 (WRL), Object File Format (OFF),
         IMATI Ver-Tri (VER, TRI), PLY, OBJ, STL.
@@ -84,7 +84,7 @@ cdef class PyTMesh:
         if self.n_points:
             raise Exception('Cannot load a new file once initialized')
 
-        # Initializes triangulation        
+        # Initializes triangulation
         py_byte_string = filename.encode('UTF-8')
         cdef char* cstring = py_byte_string
         result = self.c_tmesh.load(cstring);
@@ -94,7 +94,7 @@ cdef class PyTMesh:
     def save_file(self, filename, back_approx=False):
         """
         Saves cleaned mesh to file
-                
+
         The file format is deduced from one of the following filename
         extensions:
             wrl = vrml 1.0
@@ -102,7 +102,7 @@ cdef class PyTMesh:
             off = Object file format
             ply = PLY format
             tri = IMATI Ver-Tri
-            
+
         If 'back_approx' is set to True, vertex coordinates are approximated
         to reflect the limited precision of floating point
         representation in ASCII files. This should be used when
@@ -144,10 +144,10 @@ cdef class PyTMesh:
             if v.dtype != np.float:
                 v = np.ascontiguousarray(v, dtype=np.float)
             else:
-                v = np.ascontiguousarray(v)    
+                v = np.ascontiguousarray(v)
         elif v.dtype != np.float:
             v = v.astype(np.float)
-    
+
         # Ensure inputs are of the right type
         assert f.ndim == 2, 'Face array must be 2D numpy array'
         assert f.shape[1] == 3, 'Face array must contain three columns'
@@ -155,16 +155,16 @@ cdef class PyTMesh:
             if f.dtype != ctypes.c_int:
                 f = np.ascontiguousarray(f, dtype=ctypes.c_int)
             else:
-                f = np.ascontiguousarray(f)    
+                f = np.ascontiguousarray(f)
         elif f.dtype != ctypes.c_int:
             f = f.astype(ctypes.c_int)
-            
+
         cdef int nv = v.shape[0]
         cdef double [::1] points = v.ravel()
-    
+
         cdef int nt = f.shape[0]
         cdef int [::1] faces = f.ravel()
-        
+
         # Load to C object
         self.c_tmesh.loadArray(nv, &points[0], nt, &faces[0])
 
@@ -197,7 +197,7 @@ cdef class PyTMesh:
 
     def return_arrays(self):
         """ Return numpy arrays from self object """
-        
+
         # Size point array
         cdef int npoints = self.c_tmesh.ReturnTotalPoints()
         cdef double [::1] points = np.empty(npoints*3)
@@ -211,7 +211,7 @@ cdef class PyTMesh:
 
         v = np.asarray(points).reshape((-1, 3))
         f = np.asarray(faces).reshape((-1, 3))
-        
+
         return v, f
 
     def join_closest_components(self):
@@ -233,14 +233,14 @@ cdef class PyTMesh:
         if 'justproper' is true, coincident edges and vertices are not
         regarded as intersections even if they are not common
         subsimplexes.
-        """        
+        """
         # Returns the number of intersecting triangles
         its = self.c_tmesh.selectIntersectingTriangles(tris_per_cell, justproper)
-        
+
         # Create a face array and populate it with the intersecting faces
         cdef int [::1] faces = np.empty(its, ctypes.c_int)
         self.c_tmesh.GetSelected(&faces[0])
-        
+
         return np.asarray(faces)
 
 #    def IntersectionRemoval(self):
@@ -256,11 +256,11 @@ def clean_from_file(infile, outfile, verbose=False, joincomp=False):
     Parameters
     ----------
     infile : str
-        Filename of input file to read.  Must be either a .stl, .off or 
+        Filename of input file to read.  Must be either a .stl, .off or
         .ply file.
 
     outfile : str
-        Filename of input file to write.  Must be either a .stl, .off or 
+        Filename of input file to write.  Must be either a .stl, .off or
         .ply file.
 
     verbose : bool, optional
@@ -271,7 +271,7 @@ def clean_from_file(infile, outfile, verbose=False, joincomp=False):
 
     Examples
     --------
-    >>> CleanFromFile('inmesh.ply', 'outmesh.ply')
+    >>> clean_from_file('inmesh.ply', 'outmesh.ply')
 
     """
     # Create mesh object and load from file
@@ -279,7 +279,7 @@ def clean_from_file(infile, outfile, verbose=False, joincomp=False):
     tin.load_file(infile)
     if joincomp:
         tin.join_closest_components()
-    
+
     repair(tin, verbose, joincomp)
 
     # Save to file
@@ -294,7 +294,7 @@ def clean_from_arrays(v, f, verbose=False, joincomp=False,
     Performs default cleaning procedure on vertex and face arrays
 
     Returns cleaned vertex and face arrays
-    
+
     Parameters
     ----------
     v : numpy.ndarray
@@ -313,10 +313,6 @@ def clean_from_arrays(v, f, verbose=False, joincomp=False,
         Remove all but the largest isolated component from the mesh
         before beginning the repair process.  Default True.
 
-    Examples
-    --------
-    >>>
-    >>> CleanFromFile('inmesh.ply', 'outmesh.ply')
 
     """
     # Create mesh object and load from file
@@ -332,7 +328,7 @@ def repair(tin, verbose=False, joincomp=True, remove_smallest_components=True):
     """
     Performs mesh repair using default cleaning procedure using a tin object.
 
-    Internal function.  Use CleanFromFile or CleanFromVF.
+    Internal function.  Use ``clean_from_file`` or CleanFromVF.
     """
 
     # Keep only the largest component (i.e. with most triangles)
@@ -344,18 +340,18 @@ def repair(tin, verbose=False, joincomp=True, remove_smallest_components=True):
     # join closest components
     if joincomp:
         tin.join_closest_components()
-    
+
     if tin.boundaries():
         if verbose:
             print('Patching holes...')
         holespatched = tin.fill_small_boundaries()
         if verbose:
             print('Patched %d holes' % holespatched)
-    
+
     # Perform mesh cleaning
     if verbose:
         print('Fixing degeneracies and intersections')
-        
+
     tin.boundaries()
     result = tin.clean()
 
@@ -366,7 +362,7 @@ def repair(tin, verbose=False, joincomp=True, remove_smallest_components=True):
         holespatched = tin.fill_small_boundaries()
         if verbose:
             print('Patched %d holes' % holespatched)
-    
+
         if verbose:
             print('Performing final check...')
         result = tin.clean()
