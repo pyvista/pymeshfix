@@ -36,7 +36,7 @@ parts of the mesh
 
  .. code-block:: none
 
-    PolyData (0x7efe1a8b08e8)
+    PolyData (0x7fd4b82a0768)
       N Cells:      12448
       N Points:     12015
       X Bounds:     -1.680e+02, 1.720e+02
@@ -169,7 +169,7 @@ Show the repaired mesh
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  28.045 seconds)
+   **Total running time of the script:** ( 0 minutes  27.343 seconds)
 
 
 .. _sphx_glr_download_examples_torso.py:
