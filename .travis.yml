@@ -7,7 +7,7 @@
 # https://github.com/python-rapidjson/python-rapidjson/blob/master/.appveyor.yml
 
 # Builds wheels for Linux using cibuildwheel, inside the manylinux1 Docker image.
-# builds 64-bit Python2.7, Python3.5, Python3.6, Python3.7
+# builds 64-bit Python3.5, Python3.6, Python3.7
 
 dist: xenial
 
