@@ -27,8 +27,8 @@ class MeshFix(object):
 
             # check if triangular mesh
             faces = mesh.faces
-            if faces.size % 4:
-                tri_mesh = mesh.tri_filter()
+            if not mesh.is_all_triangles():
+                tri_mesh = mesh.triangulate()
                 faces = tri_mesh.faces
 
             self.f = np.ascontiguousarray(faces.reshape(-1 , 4)[:, 1:])

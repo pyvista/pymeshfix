@@ -1,4 +1,4 @@
-pyvista>=0.22.4
+pyvista>=0.23.0
 Sphinx<=2.0.0
 sphinx-autobuild>
 sphinx-rtd-theme
