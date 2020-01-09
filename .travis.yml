@@ -28,7 +28,7 @@ env:
     - CIBW_BEFORE_BUILD_MACOS="pip install numpy==1.15.0; pip install cython"
     - CIBW_TEST_REQUIRES="pytest"
     - CIBW_TEST_COMMAND="pytest {project}/tests/"
-    - CIBW_SKIP="cp27-cp27m-manylinux1_x86_64 cp34-* *manylinux1_i686*"
+    - CIBW_SKIP="cp27-* cp34-* *manylinux1_i686*"
     - TWINE_USERNAME=akaszynski
       # Note: TWINE_PASSWORD is set in Travis settings
     # Doctr deploy key for pyvista/pymeshfix
