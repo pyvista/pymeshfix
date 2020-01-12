@@ -63,7 +63,7 @@ script:
   - |
     if [ "$TRAVIS_OS_NAME" != "osx" ]; then
       cd ./wheelhouse
-      pip3 install pymeshfix-*-cp37-cp37m-manylinux1_x86_64.whl
+      pip3 install pymeshfix-*-cp37-cp37m-*.whl
       cd ../docs
       make html
       set -e
