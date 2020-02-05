@@ -9,7 +9,7 @@ environment:
   CIBW_BEFORE_BUILD: "pip install numpy==1.15.0 cython"
   CIBW_TEST_REQUIRES: "pytest"
   CIBW_TEST_COMMAND: "pytest {project}\\tests\\"
-  CIBW_SKIP: "*win32* cp27-* cp33* cp34*"
+  CIBW_SKIP: "*win32* cp27-* cp33* cp34* cp38*"
   TWINE_USERNAME: akaszynski
   # Note: TWINE_PASSWORD is set in Appveyor settings
   matrix:

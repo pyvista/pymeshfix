@@ -25,7 +25,7 @@ mesh.plot(color=True, show_edges=True, cpos=cpos)
 
 ################################################################################
 # Appy a triangle filter to ensure the mesh is simply polyhedral
-meshfix = mf.MeshFix(mesh.tri_filter())
+meshfix = mf.MeshFix(mesh.triangulate())
 holes = meshfix.extract_holes()
 
 ################################################################################

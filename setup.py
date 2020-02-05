@@ -87,7 +87,6 @@ setup(
     classifiers=['Development Status :: 4 - Beta',
                  'Intended Audience :: Science/Research',
                  'License :: OSI Approved :: MIT License',
-                 'Programming Language :: Python :: 2.7',
                  'Programming Language :: Python :: 3.5',
                  'Programming Language :: Python :: 3.6',
                  'Programming Language :: Python :: 3.7'],
@@ -123,7 +122,7 @@ setup(
     keywords='meshfix',
     package_data={'pymeshfix/examples': ['StanfordBunny.ply']},
     install_requires=['numpy>1.11.0',
-                      'pyvista>=0.20.2']
+                      'pyvista>=0.23.0']
 )
 
 # revert to prior directory

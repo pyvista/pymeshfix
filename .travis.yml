@@ -7,7 +7,7 @@
 # https://github.com/python-rapidjson/python-rapidjson/blob/master/.appveyor.yml
 
 # Builds wheels for Linux using cibuildwheel, inside the manylinux1 Docker image.
-# builds 64-bit Python2.7, Python3.5, Python3.6, Python3.7
+# builds 64-bit Python3.5, Python3.6, Python3.7
 
 dist: xenial
 
@@ -28,7 +28,7 @@ env:
     - CIBW_BEFORE_BUILD_MACOS="pip install numpy==1.15.0; pip install cython"
     - CIBW_TEST_REQUIRES="pytest"
     - CIBW_TEST_COMMAND="pytest {project}/tests/"
-    - CIBW_SKIP="cp27-cp27m-manylinux1_x86_64 cp34-* *manylinux1_i686*"
+    - CIBW_SKIP="cp27-* cp34-* cp38-* *manylinux1_i686*"
     - TWINE_USERNAME=akaszynski
       # Note: TWINE_PASSWORD is set in Travis settings
     # Doctr deploy key for pyvista/pymeshfix
@@ -63,7 +63,7 @@ script:
   - |
     if [ "$TRAVIS_OS_NAME" != "osx" ]; then
       cd ./wheelhouse
-      pip3 install pymeshfix-*-cp37-cp37m-manylinux1_x86_64.whl
+      pip3 install pymeshfix-*-cp37-cp37m-*.whl
       cd ../docs
       make html
       set -e
