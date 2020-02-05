@@ -15,9 +15,9 @@ Examples
 
 .. only:: html
 
-    .. figure:: /examples/images/thumb/sphx_glr_bunny_thumb.png
+ .. figure:: /examples/images/thumb/sphx_glr_bunny_thumb.png
 
-        :ref:`sphx_glr_examples_bunny.py`
+     :ref:`sphx_glr_examples_bunny.py`
 
 .. raw:: html
 
@@ -35,9 +35,9 @@ Examples
 
 .. only:: html
 
-    .. figure:: /examples/images/thumb/sphx_glr_cow_thumb.png
+ .. figure:: /examples/images/thumb/sphx_glr_cow_thumb.png
 
-        :ref:`sphx_glr_examples_cow.py`
+     :ref:`sphx_glr_examples_cow.py`
 
 .. raw:: html
 
@@ -51,13 +51,33 @@ Examples
 
 .. raw:: html
 
+    <div class="sphx-glr-thumbcontainer" tooltip="This example fills all but the largest holes in a planar mesh.">
+
+.. only:: html
+
+ .. figure:: /examples/images/thumb/sphx_glr_repair_planar_thumb.png
+
+     :ref:`sphx_glr_examples_repair_planar.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /examples/repair_planar
+
+.. raw:: html
+
     <div class="sphx-glr-thumbcontainer" tooltip="Repair the torso mesh where it was extracted and subtle holes along complex parts of the mesh">
 
 .. only:: html
 
-    .. figure:: /examples/images/thumb/sphx_glr_torso_thumb.png
+ .. figure:: /examples/images/thumb/sphx_glr_torso_thumb.png
 
-        :ref:`sphx_glr_examples_torso.py`
+     :ref:`sphx_glr_examples_torso.py`
 
 .. raw:: html
 
@@ -70,7 +90,7 @@ Examples
    /examples/torso
 .. raw:: html
 
-    <div style='clear:both'></div>
+    <div class="sphx-glr-clear"></div>
 
 
 

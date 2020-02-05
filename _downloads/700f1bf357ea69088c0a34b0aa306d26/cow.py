@@ -16,7 +16,7 @@ cow = examples.download_cow()
 
 # Add holes and cast to triangulated PolyData
 cow['random'] = np.random.rand(cow.n_cells)
-holy_cow = cow.threshold(0.9, invert=True).extract_geometry().tri_filter()
+holy_cow = cow.threshold(0.9, invert=True).extract_geometry().triangulate()
 print(holy_cow)
 
 ################################################################################

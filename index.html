@@ -26,8 +26,9 @@
         <script type="text/javascript" src="_static/underscore.js"></script>
         <script type="text/javascript" src="_static/doctools.js"></script>
         <script type="text/javascript" src="_static/language_data.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+        <script type="text/javascript" src="_static/clipboard.min.js"></script>
         <script type="text/javascript" src="_static/copybutton.js"></script>
+        <script type="text/javascript">var copybuttonSkipText = '>>> ';</script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -305,13 +306,13 @@ algorithm.</p>
 
 <span class="c1"># Fill holes</span>
 <span class="n">tin</span><span class="o">.</span><span class="n">fill_small_boundaries</span><span class="p">()</span>
-<span class="k">print</span><span class="p">(</span><span class="s1">&#39;There are {:d} boundaries&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tin</span><span class="o">.</span><span class="n">boundaries</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;There are </span><span class="si">{:d}</span><span class="s1"> boundaries&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tin</span><span class="o">.</span><span class="n">boundaries</span><span class="p">())</span>
 
 <span class="c1"># Clean (removes self intersections)</span>
 <span class="n">tin</span><span class="o">.</span><span class="n">clean</span><span class="p">(</span><span class="n">max_iters</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">inner_loops</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 
 <span class="c1"># Check mesh for holes again</span>
-<span class="k">print</span><span class="p">(</span><span class="s1">&#39;There are {:d} boundaries&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tin</span><span class="o">.</span><span class="n">boundaries</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;There are </span><span class="si">{:d}</span><span class="s1"> boundaries&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tin</span><span class="o">.</span><span class="n">boundaries</span><span class="p">())</span>
 
 <span class="c1"># Clean again if necessary...</span>
 

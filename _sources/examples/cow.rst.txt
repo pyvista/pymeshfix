@@ -29,13 +29,14 @@ Repair a holey cow
 
 
 
+
 .. code-block:: default
 
     cow = examples.download_cow()
 
     # Add holes and cast to triangulated PolyData
     cow['random'] = np.random.rand(cow.n_cells)
-    holy_cow = cow.threshold(0.9, invert=True).extract_geometry().tri_filter()
+    holy_cow = cow.threshold(0.9, invert=True).extract_geometry().triangulate()
     print(holy_cow)
 
 
@@ -48,14 +49,14 @@ Repair a holey cow
 
  .. code-block:: none
 
-    WARNING:root:DEPRECATED: ``.tri_filter`` is deprecated. Use ``.triangulate`` instead.
-    PolyData (0x7fd4b82a0b88)
-      N Cells:      5160
+    PolyData (0x7faf9ed27408)
+      N Cells:      5169
       N Points:     2903
       X Bounds:     -4.446e+00, 5.998e+00
       Y Bounds:     -3.637e+00, 2.760e+00
       Z Bounds:     -1.701e+00, 1.701e+00
       N Arrays:     1
+
 
 
 
@@ -88,6 +89,17 @@ Repair a holey cow
     :class: sphx-glr-single-img
 
 
+.. rst-class:: sphx-glr-script-out
+
+ Out:
+
+ .. code-block:: none
+
+
+    [(6.56, 8.73, 22.03),
+     (0.77, -0.44, 0.0),
+     (-0.12972139816963404, 0.928006925367382, -0.34924991814901474)]
+
 
 
 Repair the holey cow
@@ -108,10 +120,10 @@ Repair the holey cow
 
  .. code-block:: none
 
-    Removed 1 small components
     Patching holes...
-    Patched 197 holes
+    Patched 216 holes
     Fixing degeneracies and intersections
+
 
 
 
@@ -134,13 +146,14 @@ Show the repaired result
 
  .. code-block:: none
 
-    PolyData (0x7fd4b8b29e28)
-      N Cells:      5448
-      N Points:     2726
+    PolyData (0x7faf9ed27528)
+      N Cells:      5454
+      N Points:     2729
       X Bounds:     -3.696e+00, 5.998e+00
       Y Bounds:     -3.637e+00, 2.760e+00
       Z Bounds:     -1.701e+00, 1.701e+00
       N Arrays:     0
+
 
 
 
@@ -156,12 +169,23 @@ Show the repaired result
     :class: sphx-glr-single-img
 
 
+.. rst-class:: sphx-glr-script-out
+
+ Out:
+
+ .. code-block:: none
+
+
+    [(6.56, 8.73, 22.03),
+     (0.77, -0.44, 0.0),
+     (-0.12972139816963404, 0.928006925367382, -0.34924991814901474)]
+
 
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  8.672 seconds)
+   **Total running time of the script:** ( 0 minutes  9.553 seconds)
 
 
 .. _sphx_glr_download_examples_cow.py:

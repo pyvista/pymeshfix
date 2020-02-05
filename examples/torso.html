@@ -26,8 +26,9 @@
         <script type="text/javascript" src="../_static/underscore.js"></script>
         <script type="text/javascript" src="../_static/doctools.js"></script>
         <script type="text/javascript" src="../_static/language_data.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+        <script type="text/javascript" src="../_static/clipboard.min.js"></script>
         <script type="text/javascript" src="../_static/copybutton.js"></script>
+        <script type="text/javascript">var copybuttonSkipText = '>>> ';</script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -41,7 +42,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="API Reference" href="../api.html" />
-    <link rel="prev" title="Holey Cow" href="cow.html" />
+    <link rel="prev" title="Partial Fill Holes" href="repair_planar.html" />
  
 
 <meta name="description" content="">
@@ -105,6 +106,7 @@
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Examples</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="bunny.html">Bunny</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cow.html">Holey Cow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="repair_planar.html">Partial Fill Holes</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Torso</a></li>
 </ul>
 </li>
@@ -211,7 +213,7 @@ parts of the mesh</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># sphinx_gallery_thumbnail_number = 2</span>
 <span class="kn">import</span> <span class="nn">pyvista</span> <span class="k">as</span> <span class="nn">pv</span>
 <span class="kn">import</span> <span class="nn">pymeshfix</span> <span class="k">as</span> <span class="nn">mf</span>
-<span class="kn">from</span> <span class="nn">pyvista</span> <span class="k">import</span> <span class="n">examples</span>
+<span class="kn">from</span> <span class="nn">pyvista</span> <span class="kn">import</span> <span class="n">examples</span>
 
 
 <span class="n">mesh</span> <span class="o">=</span> <span class="n">examples</span><span class="o">.</span><span class="n">download_torso</span><span class="p">()</span>
@@ -219,7 +221,7 @@ parts of the mesh</p>
 </pre></div>
 </div>
 <p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>PolyData (0x7fd4b82a0768)
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>PolyData (0x7faf9ed276a8)
   N Cells:      12448
   N Points:     12015
   X Bounds:     -1.680e+02, 1.720e+02
@@ -236,8 +238,14 @@ parts of the mesh</p>
 </pre></div>
 </div>
 <img alt="../_images/sphx_glr_torso_001.png" class="sphx-glr-single-img" src="../_images/sphx_glr_torso_001.png" />
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[(-1053.0, -1251.0, 83.0),
+ (2.0, -15.0, -276.0),
+ (0.11728686797794724, 0.17593030196692086, 0.9773905664828937)]
+</pre></div>
+</div>
 <p>Appy a triangle filter to ensure the mesh is simply polyhedral</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">meshfix</span> <span class="o">=</span> <span class="n">mf</span><span class="o">.</span><span class="n">MeshFix</span><span class="p">(</span><span class="n">mesh</span><span class="o">.</span><span class="n">tri_filter</span><span class="p">())</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">meshfix</span> <span class="o">=</span> <span class="n">mf</span><span class="o">.</span><span class="n">MeshFix</span><span class="p">(</span><span class="n">mesh</span><span class="o">.</span><span class="n">triangulate</span><span class="p">())</span>
 <span class="n">holes</span> <span class="o">=</span> <span class="n">meshfix</span><span class="o">.</span><span class="n">extract_holes</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -251,6 +259,12 @@ parts of the mesh</p>
 </pre></div>
 </div>
 <img alt="../_images/sphx_glr_torso_002.png" class="sphx-glr-single-img" src="../_images/sphx_glr_torso_002.png" />
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[(-1053.0, -1251.0, 83.0),
+ (2.0, -15.0, -276.0),
+ (0.11728686797794724, 0.17593030196692086, 0.9773905664828937)]
+</pre></div>
+</div>
 <p>Emphasize the hole near the ear - this needs to be repaired so that the mesh
 is absolutely water tight.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cpos_ear</span> <span class="o">=</span> <span class="p">[(</span><span class="mf">180.</span><span class="p">,</span> <span class="o">-</span><span class="mf">206.</span><span class="p">,</span> <span class="mf">17.</span><span class="p">),</span>
@@ -266,6 +280,12 @@ is absolutely water tight.</p>
 </pre></div>
 </div>
 <img alt="../_images/sphx_glr_torso_003.png" class="sphx-glr-single-img" src="../_images/sphx_glr_torso_003.png" />
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[(180.0, -206.0, 17.0),
+ (107.0, -122.9, -11.9),
+ (-0.1308599583755445, 0.2214553141739984, 0.9663504618501749)]
+</pre></div>
+</div>
 <p>Perfrom the mesh repair</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">meshfix</span><span class="o">.</span><span class="n">repair</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
@@ -282,7 +302,13 @@ Fixing degeneracies and intersections
 </pre></div>
 </div>
 <img alt="../_images/sphx_glr_torso_004.png" class="sphx-glr-single-img" src="../_images/sphx_glr_torso_004.png" />
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  27.343 seconds)</p>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[(-1053.0, -1251.0, 83.0),
+ (2.0, -15.0, -276.0),
+ (0.11728686797794724, 0.17593030196692086, 0.9773905664828937)]
+</pre></div>
+</div>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  28.666 seconds)</p>
 <div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-torso-py">
 <div class="sphx-glr-download docutils container">
 <p><a class="reference download internal" download="" href="../_downloads/988781b05954ec5068adbfe7a980b827/torso.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">torso.py</span></code></a></p>
@@ -305,7 +331,7 @@ Fixing degeneracies and intersections
         <a href="../api.html" class="btn btn-neutral float-right" title="API Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="cow.html" class="btn btn-neutral float-left" title="Holey Cow" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="repair_planar.html" class="btn btn-neutral float-left" title="Partial Fill Holes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

@@ -36,13 +36,14 @@ parts of the mesh
 
  .. code-block:: none
 
-    PolyData (0x7fd4b82a0768)
+    PolyData (0x7faf9ed276a8)
       N Cells:      12448
       N Points:     12015
       X Bounds:     -1.680e+02, 1.720e+02
       Y Bounds:     -1.624e+02, 1.320e+02
       Z Bounds:     -6.442e+02, 9.083e+01
       N Arrays:     0
+
 
 
 
@@ -64,6 +65,17 @@ parts of the mesh
     :class: sphx-glr-single-img
 
 
+.. rst-class:: sphx-glr-script-out
+
+ Out:
+
+ .. code-block:: none
+
+
+    [(-1053.0, -1251.0, 83.0),
+     (2.0, -15.0, -276.0),
+     (0.11728686797794724, 0.17593030196692086, 0.9773905664828937)]
+
 
 
 Appy a triangle filter to ensure the mesh is simply polyhedral
@@ -71,8 +83,9 @@ Appy a triangle filter to ensure the mesh is simply polyhedral
 
 .. code-block:: default
 
-    meshfix = mf.MeshFix(mesh.tri_filter())
+    meshfix = mf.MeshFix(mesh.triangulate())
     holes = meshfix.extract_holes()
+
 
 
 
@@ -98,6 +111,17 @@ Outline the holes in the mesh
 .. image:: /examples/images/sphx_glr_torso_002.png
     :class: sphx-glr-single-img
 
+
+.. rst-class:: sphx-glr-script-out
+
+ Out:
+
+ .. code-block:: none
+
+
+    [(-1053.0, -1251.0, 83.0),
+     (2.0, -15.0, -276.0),
+     (0.11728686797794724, 0.17593030196692086, 0.9773905664828937)]
 
 
 
@@ -125,6 +149,17 @@ is absolutely water tight.
     :class: sphx-glr-single-img
 
 
+.. rst-class:: sphx-glr-script-out
+
+ Out:
+
+ .. code-block:: none
+
+
+    [(180.0, -206.0, 17.0),
+     (107.0, -122.9, -11.9),
+     (-0.1308599583755445, 0.2214553141739984, 0.9663504618501749)]
+
 
 
 Perfrom the mesh repair
@@ -151,6 +186,7 @@ Perfrom the mesh repair
 
 
 
+
 Show the repaired mesh
 
 
@@ -164,12 +200,23 @@ Show the repaired mesh
     :class: sphx-glr-single-img
 
 
+.. rst-class:: sphx-glr-script-out
+
+ Out:
+
+ .. code-block:: none
+
+
+    [(-1053.0, -1251.0, 83.0),
+     (2.0, -15.0, -276.0),
+     (0.11728686797794724, 0.17593030196692086, 0.9773905664828937)]
+
 
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  27.343 seconds)
+   **Total running time of the script:** ( 0 minutes  28.666 seconds)
 
 
 .. _sphx_glr_download_examples_torso.py:

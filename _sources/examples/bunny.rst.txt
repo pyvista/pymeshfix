@@ -28,6 +28,7 @@ Repair the holes in the bunny mesh
 
 
 
+
 .. code-block:: default
 
     bunny = examples.download_bunny()
@@ -47,6 +48,17 @@ Repair the holes in the bunny mesh
     :class: sphx-glr-single-img
 
 
+.. rst-class:: sphx-glr-script-out
+
+ Out:
+
+ .. code-block:: none
+
+
+    [(-0.2, -0.13, 0.12),
+     (-0.015, 0.1, 0.0),
+     (0.2863710324052292, 0.2659159586619985, 0.9204783184453794)]
+
 
 
 Genereate a meshfix mesh ready for fixing and extract the holes
@@ -56,6 +68,7 @@ Genereate a meshfix mesh ready for fixing and extract the holes
 
     meshfix = mf.MeshFix(bunny)
     holes = meshfix.extract_holes()
+
 
 
 
@@ -82,6 +95,17 @@ Render the mesh and outline the holes
     :class: sphx-glr-single-img
 
 
+.. rst-class:: sphx-glr-script-out
+
+ Out:
+
+ .. code-block:: none
+
+
+    [(-0.2, -0.13, 0.12),
+     (-0.015, 0.1, 0.0),
+     (0.2863710324052292, 0.2659159586619985, 0.9204783184453794)]
+
 
 
 Repair the mesh
@@ -107,6 +131,7 @@ Repair the mesh
 
 
 
+
 Show the repaired mesh
 
 
@@ -120,12 +145,23 @@ Show the repaired mesh
     :class: sphx-glr-single-img
 
 
+.. rst-class:: sphx-glr-script-out
+
+ Out:
+
+ .. code-block:: none
+
+
+    [(-0.2, -0.13, 0.12),
+     (-0.015, 0.1, 0.0),
+     (0.2863710324052292, 0.2659159586619985, 0.9204783184453794)]
+
 
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  18.841 seconds)
+   **Total running time of the script:** ( 0 minutes  19.042 seconds)
 
 
 .. _sphx_glr_download_examples_bunny.py:

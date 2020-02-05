@@ -60,6 +60,19 @@ const temporarilyChangeTooltip = (el, newText) => {
   setTimeout(() => el.setAttribute('data-tooltip', oldText), 2000)
 }
 
+// Callback when a copy button is clicked. Will be passed the node that was clicked
+// should then grab the text and replace pieces of text that shouldn't be used in output
+var copyTargetText = (trigger) => {
+  var target = document.querySelector(trigger.attributes['data-clipboard-target'].value);
+  var textContent = target.textContent.split('\n');
+  textContent.forEach((line, index) => {
+    if (line.startsWith(copybuttonSkipText)) {
+      textContent[index] = line.slice(copybuttonSkipText.length)
+    }
+  });
+  return textContent.join('\n')
+}
+
 const addCopyButtonToCodeCells = () => {
   // If ClipboardJS hasn't loaded, wait a bit and try again. This
   // happens because we load ClipboardJS asynchronously.
@@ -68,6 +81,7 @@ const addCopyButtonToCodeCells = () => {
     return
   }
 
+  // Add copybuttons to all of our code cells
   const codeCells = document.querySelectorAll('div.highlight pre')
   codeCells.forEach((codeCell, index) => {
     const id = codeCellId(index)
@@ -76,12 +90,15 @@ const addCopyButtonToCodeCells = () => {
 
     const clipboardButton = id =>
     `<a class="copybtn o-tooltip--left" style="background-color: ${pre_bg}" data-tooltip="${messages[locale]['copy']}" data-clipboard-target="#${id}">
-      <img src="https://gitcdn.xyz/repo/choldgraf/sphinx-copybutton/master/sphinx_copybutton/_static/copy-button.svg" alt="${messages[locale]['copy_to_clipboard']}">
+      <img src="${DOCUMENTATION_OPTIONS.URL_ROOT}_static/copy-button.svg" alt="${messages[locale]['copy_to_clipboard']}">
     </a>`
     codeCell.insertAdjacentHTML('afterend', clipboardButton(id))
   })
 
-  const clipboard = new ClipboardJS('.copybtn')
+  // Initialize with a callback so we can modify the text before copy
+  const clipboard = new ClipboardJS('.copybtn', {text: copyTargetText})
+
+  // Update UI with error/success messages
   clipboard.on('success', event => {
     clearSelection()
     temporarilyChangeTooltip(event.trigger, messages[locale]['copy_success'])

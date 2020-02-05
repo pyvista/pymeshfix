@@ -26,8 +26,9 @@
         <script type="text/javascript" src="../_static/underscore.js"></script>
         <script type="text/javascript" src="../_static/doctools.js"></script>
         <script type="text/javascript" src="../_static/language_data.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+        <script type="text/javascript" src="../_static/clipboard.min.js"></script>
         <script type="text/javascript" src="../_static/copybutton.js"></script>
+        <script type="text/javascript">var copybuttonSkipText = '>>> ';</script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -105,6 +106,7 @@
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Examples</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Bunny</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cow.html">Holey Cow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="repair_planar.html">Partial Fill Holes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="torso.html">Torso</a></li>
 </ul>
 </li>
@@ -210,7 +212,7 @@
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># sphinx_gallery_thumbnail_number = 2</span>
 <span class="kn">import</span> <span class="nn">pyvista</span> <span class="k">as</span> <span class="nn">pv</span>
 <span class="kn">import</span> <span class="nn">pymeshfix</span> <span class="k">as</span> <span class="nn">mf</span>
-<span class="kn">from</span> <span class="nn">pyvista</span> <span class="k">import</span> <span class="n">examples</span>
+<span class="kn">from</span> <span class="nn">pyvista</span> <span class="kn">import</span> <span class="n">examples</span>
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">bunny</span> <span class="o">=</span> <span class="n">examples</span><span class="o">.</span><span class="n">download_bunny</span><span class="p">()</span>
@@ -225,6 +227,12 @@
 </pre></div>
 </div>
 <img alt="../_images/sphx_glr_bunny_001.png" class="sphx-glr-single-img" src="../_images/sphx_glr_bunny_001.png" />
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[(-0.2, -0.13, 0.12),
+ (-0.015, 0.1, 0.0),
+ (0.2863710324052292, 0.2659159586619985, 0.9204783184453794)]
+</pre></div>
+</div>
 <p>Genereate a meshfix mesh ready for fixing and extract the holes</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">meshfix</span> <span class="o">=</span> <span class="n">mf</span><span class="o">.</span><span class="n">MeshFix</span><span class="p">(</span><span class="n">bunny</span><span class="p">)</span>
 <span class="n">holes</span> <span class="o">=</span> <span class="n">meshfix</span><span class="o">.</span><span class="n">extract_holes</span><span class="p">()</span>
@@ -240,6 +248,12 @@
 </pre></div>
 </div>
 <img alt="../_images/sphx_glr_bunny_002.png" class="sphx-glr-single-img" src="../_images/sphx_glr_bunny_002.png" />
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[(-0.2, -0.13, 0.12),
+ (-0.015, 0.1, 0.0),
+ (0.2863710324052292, 0.2659159586619985, 0.9204783184453794)]
+</pre></div>
+</div>
 <p>Repair the mesh</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">meshfix</span><span class="o">.</span><span class="n">repair</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
@@ -255,7 +269,13 @@ Fixing degeneracies and intersections
 </pre></div>
 </div>
 <img alt="../_images/sphx_glr_bunny_003.png" class="sphx-glr-single-img" src="../_images/sphx_glr_bunny_003.png" />
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  18.841 seconds)</p>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[(-0.2, -0.13, 0.12),
+ (-0.015, 0.1, 0.0),
+ (0.2863710324052292, 0.2659159586619985, 0.9204783184453794)]
+</pre></div>
+</div>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  19.042 seconds)</p>
 <div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-bunny-py">
 <div class="sphx-glr-download docutils container">
 <p><a class="reference download internal" download="" href="../_downloads/81a10a6450959c49a589aa8cee630836/bunny.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">bunny.py</span></code></a></p>

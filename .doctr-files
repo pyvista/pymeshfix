@@ -5,6 +5,8 @@
 ./_downloads/81a10a6450959c49a589aa8cee630836/bunny.py
 ./_downloads/8f0e902e9e1a0c6c65886d6123f08076/bunny.ipynb
 ./_downloads/988781b05954ec5068adbfe7a980b827/torso.py
+./_downloads/da5991b1214402a686786479f92b68ee/repair_planar.py
+./_downloads/f6ec10d71c7996cd063d18b874e98bad/repair_planar.ipynb
 ./_images/sphx_glr_bunny_001.png
 ./_images/sphx_glr_bunny_002.png
 ./_images/sphx_glr_bunny_003.png
@@ -12,6 +14,9 @@
 ./_images/sphx_glr_cow_001.png
 ./_images/sphx_glr_cow_002.png
 ./_images/sphx_glr_cow_thumb.png
+./_images/sphx_glr_repair_planar_001.png
+./_images/sphx_glr_repair_planar_002.png
+./_images/sphx_glr_repair_planar_thumb.png
 ./_images/sphx_glr_torso_001.png
 ./_images/sphx_glr_torso_002.png
 ./_images/sphx_glr_torso_003.png
@@ -21,11 +26,13 @@
 ./_sources/examples/bunny.rst.txt
 ./_sources/examples/cow.rst.txt
 ./_sources/examples/index.rst.txt
+./_sources/examples/repair_planar.rst.txt
 ./_sources/examples/sg_execution_times.rst.txt
 ./_sources/examples/torso.rst.txt
 ./_sources/index.rst.txt
 ./_static/basic.css
 ./_static/broken_example.png
+./_static/clipboard.min.js
 ./_static/copy-button.svg
 ./_static/copybutton.css
 ./_static/copybutton.js
@@ -87,6 +94,7 @@
 ./examples/bunny.html
 ./examples/cow.html
 ./examples/index.html
+./examples/repair_planar.html
 ./examples/sg_execution_times.html
 ./examples/torso.html
 ./genindex.html
