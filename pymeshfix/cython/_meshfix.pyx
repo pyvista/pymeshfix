@@ -187,12 +187,11 @@ cdef class PyTMesh:
         return self.c_tmesh.removeSmallestComponents()
 
     def fill_small_boundaries(self, nbe=0, refine=True):
-        """
-        Fills all the holes having at least 'nbe' boundary edges. If
-        'refine' is true, adds inner vertices to reproduce the
-        sampling density of the surroundings. Returns number of holes
-        patched.  If 'nbe' is 0 (default), all the holes are patched.
-        """
+        """Fills all the holes having less than ``nbe`` boundary
+        edges. If ``refine`` is true, adds inner vertices to reproduce
+        the sampling density of the surroundings. Returns number of
+        holes patched.  If 'nbe' is 0 (default), all the holes are
+        patched.  """
         return self.c_tmesh.fillSmallBoundaries(nbe, refine)
 
     def return_arrays(self):
