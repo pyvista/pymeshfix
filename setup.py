@@ -120,7 +120,8 @@ setup(
                            define_macros=macros)],
 
     keywords='meshfix',
-    package_data={'pymeshfix/examples': ['StanfordBunny.ply']},
+    package_data={'pymeshfix/examples': ['StanfordBunny.ply',
+                                         'planar_mesh.ply']},
     install_requires=['numpy>1.11.0',
                       'pyvista>=0.23.0']
 )
