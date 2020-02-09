@@ -5,14 +5,14 @@
 
 Computation times
 =================
-**01:12.709** total execution time for **examples** files:
+**01:10.230** total execution time for **examples** files:
 
 +------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_examples_torso.py` (``torso.py``)                 | 00:28.666 | 0.0 MB |
+| :ref:`sphx_glr_examples_torso.py` (``torso.py``)                 | 00:27.995 | 0.0 MB |
 +------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_examples_bunny.py` (``bunny.py``)                 | 00:19.042 | 0.0 MB |
+| :ref:`sphx_glr_examples_bunny.py` (``bunny.py``)                 | 00:17.820 | 0.0 MB |
 +------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_examples_repair_planar.py` (``repair_planar.py``) | 00:15.447 | 0.0 MB |
+| :ref:`sphx_glr_examples_repair_planar.py` (``repair_planar.py``) | 00:15.158 | 0.0 MB |
 +------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_examples_cow.py` (``cow.py``)                     | 00:09.553 | 0.0 MB |
+| :ref:`sphx_glr_examples_cow.py` (``cow.py``)                     | 00:09.256 | 0.0 MB |
 +------------------------------------------------------------------+-----------+--------+
