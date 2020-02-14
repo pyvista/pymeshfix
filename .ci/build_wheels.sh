@@ -8,7 +8,7 @@ pys=(/opt/python/*/bin)
 pys=(${pys[@]//*27*/})
 pys=(${pys[@]//*34*/})
 # pys=(${pys[@]//*35*/})
-pys=(${pys[@]//*38*/})
+pys=(${pys[@]//*38*/})  # waiting for vtk on python 3.8
 
 PYBIN="/opt/python/cp37-cp37m/bin"
 
@@ -22,6 +22,6 @@ for PYBIN in "${pys[@]}"; do
 
     "${PYBIN}/pip" install -r /io/requirements_test.txt
     "${PYBIN}/pip" install pytest-azurepipelines  # extra for azure
-    "${PYBIN}/pytest" /io/tests
+    "${PYBIN}/pytest" /io/tests -v --cov pymeshfix --cov-report html
 
 done

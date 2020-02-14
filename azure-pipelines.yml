@@ -11,6 +11,10 @@ trigger:
     include:
     - '*'
 
+# Build multiple version of python linux wheels in single job.  
+# As we have to start docker and download a docker image, it's more
+# efficient to have multiple builds on one image, especially
+# considering we share this with pyvista.
 jobs:
 - job: Linux
   strategy:
@@ -40,4 +44,23 @@ jobs:
         done 
         cd ..
       displayName: Build wheels
-    # - template: /.ci/azure-publish-dist.yml
+
+    - script: |
+        pip install twine wheel
+        twine upload dist/*.whl --skip-existing
+      displayName: 'Upload to PyPi'
+      condition: contains(variables['Build.SourceBranch'], 'refs/tags/')
+    env:
+      TWINE_USERNAME: $(twine.username)
+      TWINE_PASSWORD: $(twine.password)
+      TWINE_REPOSITORY_URL: "https://upload.pypi.org/legacy/"
+
+    - script: |
+        pip install twine wheel
+        twine upload dist/*.whl --skip-existing
+      displayName: 'Upload to Testing PyPi'
+      condition: not(contains(variables['Build.SourceBranch'], 'refs/tags/'))
+    env:
+      TWINE_USERNAME: $(twine.username)
+      TWINE_PASSWORD: $(twine.password)
+      TWINE_REPOSITORY_URL: "https://test.pypi.org/legacy/"
