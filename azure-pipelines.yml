@@ -64,3 +64,44 @@ jobs:
         TWINE_USERNAME: $(twine.username)
         TWINE_PASSWORD: $(twine.password)
         TWINE_REPOSITORY_URL: "https://test.pypi.org/legacy/"
+
+
+- job: macOS
+  variables:
+    python.architecture: 'x64'
+  strategy:
+    matrix:
+      Python35:
+        python.version: '3.5'
+      Python36:
+        python.version: '3.6'
+      Python37:
+        python.version: '3.7'
+  pool:
+    vmImage: 'macOS-10.14'
+  steps:
+    - script: .ci/macos-install-python.sh '$(python.version)'
+      displayName: Install Python
+    - template: .ci/azure-setup.yml
+    - template: .ci/azure-steps.yml
+    - template: .ci/azure-publish-dist.yml
+
+
+- job: Windows
+  variables:
+    python.architecture: 'x64'
+  strategy:
+    matrix:
+      Python36:
+        python.version: '3.5'
+      Python36:
+        python.version: '3.6'
+      Python37:
+        python.version: '3.7'
+  pool:
+    vmImage: 'vs2017-win2016'
+  steps:
+    - template: .ci/checkout.yml
+    - template: .ci/azure-setup.yml
+    - template: .ci/azure-steps.yml
+    - template: .ci/azure-publish-dist.yml
