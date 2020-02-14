@@ -22,6 +22,6 @@ for PYBIN in "${pys[@]}"; do
 
     "${PYBIN}/pip" install -r /io/requirements_test.txt
     "${PYBIN}/pip" install pytest-azurepipelines  # extra for azure
-    "${PYBIN}/pytest" /io/tests -v --cov pymeshfix --cov-report html
+    "${PYBIN}/pytest" /io/tests -v
 
 done
