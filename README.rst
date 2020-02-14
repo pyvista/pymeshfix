@@ -1,10 +1,10 @@
 PyMeshFix
 =========
 
-.. image:: https://travis-ci.org/pyvista/pymeshfix.svg?branch=master
-   :target: https://travis-ci.org/pyvista/pymeshfix
+.. |azure| image:: https://dev.azure.com/pyvista/PyVista/_apis/build/status/pyvista.pymeshfix?branchName=master
+   :target: https://dev.azure.com/pyvista/PyVista/_build?definitionId=5
 
-.. image:: https://img.shields.io/pypi/v/pymeshfix.svg?logo=python&logoColor=white
+.. |pypi| image:: https://img.shields.io/pypi/v/pymeshfix.svg?logo=python&logoColor=white
    :target: https://pypi.org/project/pymeshfix/
 
 Python/Cython wrapper of Marco Attene's wonderful, award-winning
@@ -45,6 +45,15 @@ From source at `GitHub <https://github.com/pyvista/pymeshfix>`__
 Dependencies
 ------------
 Requires ``numpy`` and ``pyvista``
+
+If you can't or don't want to install vtk, you can install it without
+``pyvista`` with:
+
+.. code:: bash
+
+    pip install pymeshfix --no-dependencies
+
+You'll miss out on some of the cool features from ``pyvista``, but it will still function.
 
 
 Examples
@@ -87,11 +96,10 @@ This example assumes the user has vertex and faces arrays in Python.
 
 Complete Examples with and without VTK
 --------------------------------------
-
-One of the main reasons to bring MeshFix to Python is to allow the library to
-communicate to other python programs without having to use the hard drive.
-Therefore, this example assumes that you have a mesh within memory and wish to
-repair it using MeshFix.
+One of the main reasons to bring MeshFix to Python is to allow the
+library to communicate to other python programs without having to use
+the hard drive.  Therefore, this example assumes that you have a mesh
+within memory and wish to repair it using MeshFix.
 
 .. code:: python
 

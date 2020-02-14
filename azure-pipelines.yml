@@ -50,10 +50,10 @@ jobs:
         twine upload dist/*.whl --skip-existing
       displayName: 'Upload to PyPi'
       condition: contains(variables['Build.SourceBranch'], 'refs/tags/')
-    env:
-      TWINE_USERNAME: $(twine.username)
-      TWINE_PASSWORD: $(twine.password)
-      TWINE_REPOSITORY_URL: "https://upload.pypi.org/legacy/"
+      env:
+        TWINE_USERNAME: $(twine.username)
+        TWINE_PASSWORD: $(twine.password)
+        TWINE_REPOSITORY_URL: "https://upload.pypi.org/legacy/"
 
     - script: |
         pip install twine wheel
