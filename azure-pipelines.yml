@@ -23,7 +23,6 @@ jobs:
   pool:
     vmImage: 'ubuntu-18.04'
   steps:
-    - template: .ci/checkout.yml
     - task: UsePythonVersion@0
       inputs:
         versionSpec: '3.7'
