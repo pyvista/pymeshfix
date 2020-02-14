@@ -1,0 +1,44 @@
+# build pymeshfix, or "the black art of building wheels on Azure"
+
+variables:
+  package_name: pymeshfix
+
+trigger:
+  branches:
+    include:
+    - '*'
+  tags:
+    include:
+    - '*'
+
+jobs:
+- job: Linux
+  strategy:
+    matrix:
+      64Bit2010:
+        arch: x86_64
+        plat: manylinux2010_x86_64
+        image: quay.io/pypa/manylinux2010_x86_64
+        python.architecture: x64  
+  pool:
+    vmImage: 'ubuntu-18.04'
+  steps:
+    - template: .ci/checkout.yml
+    - task: UsePythonVersion@0
+      inputs:
+        versionSpec: '3.7'
+      displayName: 'Use Python $(python.version)'
+    - script: |
+        set -ex
+        docker run -e PLAT=$(plat) -e package_name=$(package_name) --rm -v `pwd`:/io $(image) /io/.ci/build_wheels.sh
+        ls -lh wheelhouse/
+        mkdir -p dist
+        # cheat by renaming file to manylinux1 (even though it's really 2010)
+        cd wheelhouse
+        find . -type f -name '$(package_name)-*' | while read FILE ; do
+          NEWFILE="$(echo ${FILE} |sed -e 's/\linux/manylinux1/')"
+          cp "${FILE}" ../dist/"${NEWFILE}" ;
+        done 
+        cd ..
+      displayName: Build wheels
+    # - template: /.ci/azure-publish-dist.yml
