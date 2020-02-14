@@ -5,7 +5,13 @@ import warnings
 import numpy as np
 
 from pymeshfix import _meshfix
-import pyvista as pv
+
+
+try:
+    import pyvista as pv
+    PV_INSTALLED = True
+except ImportError:
+    PV_INSTALLED = False
 
 
 class MeshFix(object):
@@ -21,20 +27,20 @@ class MeshFix(object):
 
     def __init__(self, *args):
         """Initialize MeshFix """
-        if isinstance(args[0], pv.PolyData):
-            mesh = pv.wrap(args[0])
-            self.v = mesh.points
-
-            # check if triangular mesh
-            faces = mesh.faces
-            if not mesh.is_all_triangles():
-                tri_mesh = mesh.triangulate()
-                faces = tri_mesh.faces
-
-            self.f = np.ascontiguousarray(faces.reshape(-1 , 4)[:, 1:])
-
-        elif isinstance(args[0], np.ndarray):
+        if isinstance(args[0], np.ndarray):
             self.load_arrays(args[0], args[1])
+        elif PV_INSTALLED:
+            if isinstance(args[0], pv.PolyData):
+                mesh = pv.wrap(args[0])
+                self.v = mesh.points
+
+                # check if triangular mesh
+                faces = mesh.faces
+                if not mesh.is_all_triangles():
+                    tri_mesh = mesh.triangulate()
+                    faces = tri_mesh.faces
+
+                self.f = np.ascontiguousarray(faces.reshape(-1 , 4)[:, 1:])
 
         else:
             raise Exception('Invalid input.  Please load a surface mesh or' +
@@ -82,6 +88,8 @@ class MeshFix(object):
     @property
     def mesh(self):
         """Return the surface mesh"""
+        if not PV_INSTALLED:
+            raise RuntimeError('Please install pyvista for this feature')
         triangles = np.empty((self.f.shape[0], 4))
         triangles[:, -3:] = self.f
         triangles[:, 0] = 3
@@ -107,6 +115,10 @@ class MeshFix(object):
             Additional keyword arguments.
 
         """
+
+        if not PV_INSTALLED:
+            raise RuntimeError('Please install pyvista for this feature')
+
         if show_holes:
             edges = self.extract_holes()
 
