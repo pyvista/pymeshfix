@@ -1,0 +1,26 @@
+# Build wheels on Windows and MacOS
+
+steps:
+- script: |
+    python -m pip wheel . -w wheelhouse/
+  displayName: 'Build wheel'
+
+- script: |
+    python -m pip install $(package_name) --no-index -f wheelhouse/ --upgrade --ignore-installed
+    cd tests
+    cd ..
+  displayName: 'Install'
+
+- script: |
+    python -m pip install -r requirements_test.txt
+    python -m pip install pytest-azurepipelines pytest-cov
+    cd tests
+    python -m pytest --cov pymeshfix --cov-report html
+    cd ..
+  displayName: 'Testing'
+
+- script: |
+    ls -lh wheelhouse
+    mkdir -p dist
+    cp wheelhouse/$(package_name)* dist/.
+  displayName: 'Show wheelhouse'

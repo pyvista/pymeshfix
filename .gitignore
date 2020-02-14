@@ -27,3 +27,7 @@ uploadpypi.sh
 docs/_build
 docs/images
 docs/examples
+
+# coverage reports
+htmlcov/
+.coverage
