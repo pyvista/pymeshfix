@@ -10,7 +10,8 @@ pys=(${pys[@]//*34*/})
 # pys=(${pys[@]//*35*/})
 pys=(${pys[@]//*38*/})  # waiting for vtk on python 3.8
 
-PYBIN="/opt/python/cp37-cp37m/bin"
+# debug set pybin
+# PYBIN="/opt/python/cp37-cp37m/bin"
 
 # Compile wheels and test
 for PYBIN in "${pys[@]}"; do
