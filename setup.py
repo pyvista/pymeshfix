@@ -15,7 +15,7 @@ else:
 
 filepath = os.path.dirname(__file__)
 
-# change path if necessary
+# change path if necessary (and why is this necessary?)
 if filepath:
     old_path = os.getcwd()
     os.chdir(filepath)
