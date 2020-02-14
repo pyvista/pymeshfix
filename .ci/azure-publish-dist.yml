@@ -1,0 +1,26 @@
+steps:
+- task: PublishPipelineArtifact@0
+  inputs:
+    artifactName: 'artifact_$(Agent.OS)_$(Agent.JobName)_$(python.architecture)'
+    targetPath: 'dist'
+  displayName: 'Upload Artifacts'
+
+- script: |
+    pip install twine wheel
+    twine upload dist/*.whl --skip-existing
+  displayName: 'Upload to PyPi'
+  condition: contains(variables['Build.SourceBranch'], 'refs/tags/')
+  env:
+    TWINE_USERNAME: $(twine.username)
+    TWINE_PASSWORD: $(twine.password)
+    TWINE_REPOSITORY_URL: "https://upload.pypi.org/legacy/"
+
+- script: |
+    pip install twine wheel
+    twine upload dist/*.whl --skip-existing
+  displayName: 'Upload to Testing PyPi'
+  condition: not(contains(variables['Build.SourceBranch'], 'refs/tags/'))
+  env:
+    TWINE_USERNAME: $(twine.username)
+    TWINE_PASSWORD: $(twine.password)
+    TWINE_REPOSITORY_URL: "https://test.pypi.org/legacy/"
