@@ -90,7 +90,7 @@ class MeshFix(object):
         """Return the surface mesh"""
         if not PV_INSTALLED:
             raise RuntimeError('Please install pyvista for this feature')
-        triangles = np.empty((self.f.shape[0], 4))
+        triangles = np.empty((self.f.shape[0], 4), dtype=pv.ID_TYPE)
         triangles[:, -3:] = self.f
         triangles[:, 0] = 3
         return pv.PolyData(self.v, triangles, deep=False)
