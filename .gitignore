@@ -15,7 +15,7 @@ pymeshfix/cython/_meshfix.cpp
 
 # Pip generated folders #
 #########################
-*.egg-info/
+*.egg*
 build/
 dist/
 

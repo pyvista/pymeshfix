@@ -4,6 +4,11 @@ import sys
 import os
 import builtins
 
+# workaround for *.toml https://github.com/pypa/pip/issues/7953
+import site
+site.ENABLE_USER_SITE = "--user" in sys.argv[1:]
+
+
 from setuptools import setup, Extension
 from setuptools.command.build_ext import build_ext as _build_ext
 
@@ -37,6 +42,26 @@ with io_open(version_file, mode='r') as fd:
 # readme file
 readme_file = os.path.join(filepath, 'README.rst')
 
+
+def needs_cython():
+    """Check if cython source exist"""
+    tgt_path = os.path.join('pymeshfix', 'cython')
+    has_cython_src = any(['_meshfix.cpp' in fname for fname in os.listdir(tgt_path)])
+    if not has_cython_src:
+        try:
+            import cython
+        except:
+            raise ImportError('Please install cython to build ``pymeshfix``')
+    return not has_cython_src
+
+
+def needs_numpy():
+    """Check if cython source exist"""
+    tgt_path = os.path.join('pymeshfix')
+    has_cython_src = any(['_meshfix' in fname for fname in os.listdir(tgt_path)])
+    return not has_cython_src
+
+
 # for: the cc1plus: warning: command line option '-Wstrict-prototypes'
 class build_ext(_build_ext):
     def finalize_options(self):
@@ -56,12 +81,12 @@ class build_ext(_build_ext):
             pass
         _build_ext.build_extensions(self)
 
-try:
-    import numpy
-except ImportError:
-    build_requires = ['numpy']
-else:
-    build_requires = []
+
+setup_requires = []
+if needs_cython():
+    setup_requires.extend(['cython'])
+if needs_numpy():
+    setup_requires.extend(['numpy'])
 
 
 setup(
@@ -114,5 +139,6 @@ setup(
     package_data={'pymeshfix/examples': ['StanfordBunny.ply',
                                          'planar_mesh.ply']},
     install_requires=['numpy>1.11.0',
-                      'pyvista>=0.23.0']
+                      'pyvista>=0.23.0'],
+    setup_requires=setup_requires,
 )
