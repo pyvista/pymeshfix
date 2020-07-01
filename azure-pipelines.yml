@@ -11,6 +11,7 @@ trigger:
     include:
     - '*'
 
+jobs:
 - job: Linux
   strategy:
     matrix:
