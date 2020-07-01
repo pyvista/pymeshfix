@@ -3,26 +3,30 @@
 
 set -e -x
 
-# Collect python bin and filter out Python 3.4 and 2.7
-pys=(/opt/python/*/bin)
-pys=(${pys[@]//*27*/})
-pys=(${pys[@]//*34*/})
-# pys=(${pys[@]//*35*/})
-pys=(${pys[@]//*38*/})  # waiting for vtk on python 3.8
+# build based on python version from args
+PYTHON_VERSION="$1"
+case $PYTHON_VERSION in
+2.7)
+  PYBIN="/opt/python/cp27-cp27m/bin"
+  ;;
+3.5)
+  PYBIN="/opt/python/cp35-cp35m/bin"
+  ;;
+3.6)
+  PYBIN="/opt/python/cp36-cp36m/bin"
+  ;;
+3.7)
+  PYBIN="/opt/python/cp37-cp37m/bin"
+  ;;
+3.8)
+  PYBIN="/opt/python/cp38-cp38/bin"
+  ;;
+esac
 
-# debug set pybin
-# PYBIN="/opt/python/cp37-cp37m/bin"
-
-# Compile wheels and test
-for PYBIN in "${pys[@]}"; do
-    "${PYBIN}/pip" install -r /io/requirements_build.txt
-    "${PYBIN}/pip" wheel /io/ -w /io/wheelhouse/
-
-    # install and test
-    "${PYBIN}/python" -m pip install $package_name --no-index -f /io/wheelhouse
-
-    "${PYBIN}/pip" install -r /io/requirements_test.txt
-    "${PYBIN}/pip" install pytest-azurepipelines  # extra for azure
-    "${PYBIN}/pytest" /io/tests -v
-
-done
+# build, don't install
+cd io
+"${PYBIN}/pip" install -r requirements_build.txt
+"${PYBIN}/python" setup.py bdist_wheel
+auditwheel repair dist/$package_name*.whl
+rm -f dist/*
+mv wheelhouse/*manylinux1* dist/

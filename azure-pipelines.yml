@@ -11,41 +11,37 @@ trigger:
     include:
     - '*'
 
-# Build multiple version of python linux wheels in single job.  
-# As we have to start docker and download a docker image, it's more
-# efficient to have multiple builds on one image, especially
-# considering we share this with pyvista.
-jobs:
 - job: Linux
   strategy:
     matrix:
-      64Bit2010:
-        arch: x86_64
-        plat: manylinux2010_x86_64
-        image: quay.io/pypa/manylinux2010_x86_64
-        python.architecture: x64  
+      Python35:
+        python.version: '3.5'
+      Python36:
+        python.version: '3.6'
+      Python37:
+        python.version: '3.7'
+      Python38:
+        python.version: '3.8'
   pool:
     vmImage: 'ubuntu-18.04'
   steps:
     - task: UsePythonVersion@0
       inputs:
-        versionSpec: '3.7'
+        versionSpec: '$(python.version)'
       displayName: 'Use Python $(python.version)'
     - script: |
         set -ex
-        docker run -e PLAT=$(plat) -e package_name=$(package_name) --rm -v `pwd`:/io $(image) /io/.ci/build_wheels.sh
-        ls -lh wheelhouse/
-        mkdir -p dist
-        # cheat by renaming file to manylinux1 (even though it's really 2010)
-        cd wheelhouse
-        find . -type f -name '$(package_name)-*' | while read FILE ; do
-          NEWFILE="$(echo ${FILE} |sed -e 's/\linux/manylinux1/')"
-          cp "${FILE}" ../dist/"${NEWFILE}" ;
-        done 
-        cd ..
-      displayName: Build wheels
+        docker pull quay.io/pypa/manylinux2010_x86_64
+        docker run -e package_name=$(package_name) --rm -v `pwd`:/io quay.io/pypa/manylinux2010_x86_64 /io/.ci/build_wheels.sh $(python.version)
+      displayName: Build wheel using manylinux2010
+    - script: |
+        pip install dist/*.whl
+      displayName: Install wheel
+    - script: |
+        pip install -r requirements_test.txt
+        pip install pytest-azurepipelines
+        (cd tests && pytest --cov $(package_name) --cov-report html)
     - template: .ci/azure-publish-dist.yml
-
 
 - job: macOS
   variables:
@@ -56,6 +52,8 @@ jobs:
         python.version: '3.6'
       Python37:
         python.version: '3.7'
+      Python38:
+        python.version: '3.8'
   pool:
     vmImage: 'macOS-10.14'
   steps:
@@ -79,6 +77,8 @@ jobs:
         python.version: '3.6'
       Python37:
         python.version: '3.7'
+      Python38:
+        python.version: '3.8'
   steps:
     - template: .ci/azure-setup.yml
     - template: .ci/azure-steps.yml
