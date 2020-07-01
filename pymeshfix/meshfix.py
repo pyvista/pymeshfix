@@ -99,9 +99,9 @@ class MeshFix(object):
         """Extract the boundaries of the holes in this mesh to a new PyVista
         mesh of lines.
         """
-        return self.mesh.extract_edges(boundary_edges=True,
-                                       feature_edges=False,
-                                       manifold_edges=False)
+        return self.mesh.extract_feature_edges(boundary_edges=True,
+                                               feature_edges=False,
+                                               manifold_edges=False)
 
     def plot(self, show_holes=True, **kwargs):
         """Plot the mesh.
@@ -112,27 +112,32 @@ class MeshFix(object):
             Shows boundaries.  Default True
 
         **kwargs : keyword arguments
-            Additional keyword arguments.
+            Additional keyword arguments.  See help(`pyvista.plot`)
 
+        Examples
+        --------
+        >>> mfix.plot(show_holes=True)
         """
-
         if not PV_INSTALLED:
             raise RuntimeError('Please install pyvista for this feature')
 
         if show_holes:
             edges = self.extract_holes()
 
-            plotter = pv.Plotter()
-            plotter.add_mesh(self.mesh, label='mesh')
-            try:
-                plotter.add_mesh(edges, 'r', label='edges')
-            except RuntimeError:
-                # Handle case where PyVista gets mad at the mesh being empty
-                pass
-            plotter.show()
+            off_screen = kwargs.pop('off_screen', False)
+            screenshot = kwargs.pop('screenshot', None)
 
-        else:
-            self.mesh.plot(show_edges=True)
+            plotter = pv.Plotter(off_screen=off_screen)
+            if 'cpos' in kwargs:
+                plotter.camera_position = kwargs.pop('cpos', None)
+            plotter.add_mesh(self.mesh, label='mesh', **kwargs)
+            if edges.n_points:
+                plotter.add_mesh(edges, 'r', label='edges')
+                plotter.add_legend()
+            return plotter.show(screenshot=screenshot)
+
+        return self.mesh.plot(**kwargs)
+
 
     def repair(self, verbose=False, joincomp=False,
                remove_smallest_components=True):
