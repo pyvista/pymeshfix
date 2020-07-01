@@ -59,12 +59,12 @@ class TMesh
  public:
 
  static void (*display_message)(const char *, int);
- static char *app_name;
- static char *app_version;
- static char *app_year;
- static char *app_authors;
- static char *app_url;
- static char *app_maillist;
+ static const char *app_name;
+ static const char *app_version;
+ static const char *app_year;
+ static const char *app_authors;
+ static const char *app_url;
+ static const char *app_maillist;
 
  static const char *filename; // This might be null. If not, it represents the file we are currently working with.
 
@@ -94,6 +94,8 @@ class TMesh
 
  static void useRationals(bool u);
  static bool isUsingRationals();
+ static void useFiltering(bool u);
+ static bool isUsingFiltering();
 
  //! Returns the status before the switch
  static bool useRationals() { bool t = isUsingRationals(); useRationals(true); return t; }
@@ -114,12 +116,11 @@ typedef unsigned short UINT16;
 typedef   signed short	INT16;
 #endif
 
-// Need to specify if it's a 64 bit platform somewhere else
 #ifdef IS64BITPLATFORM
 typedef long int j_voidint;
 #else
 typedef int	 j_voidint;
-#endif 
+#endif
 
 #define UBYTE_MAX	255
 

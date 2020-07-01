@@ -8,7 +8,7 @@ PyMeshFix
    :target: https://pypi.org/project/pymeshfix/
 
 Python/Cython wrapper of Marco Attene's wonderful, award-winning
-`MeshFix <https://github.com/MarcoAttene/MeshFix-V2.0>`__ software.
+`MeshFix <https://github.com/MarcoAttene/MeshFix-V2.1>`__ software.
 This module brings the speed of C++ with the portability and ease of
 installation of Python.
 
@@ -23,6 +23,8 @@ will be a single watertight triangle mesh bounding a polyhedron.
 All the singularities, self-intersections and degenerate elements are removed
 from the input, while regions of the surface without defects are left
 unmodified.
+
+C++ source last updated 1 Jul 2020
 
 Installation
 ------------

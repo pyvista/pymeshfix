@@ -40,7 +40,7 @@ class MeshFix(object):
                     tri_mesh = mesh.triangulate()
                     faces = tri_mesh.faces
 
-                self.f = np.ascontiguousarray(faces.reshape(-1 , 4)[:, 1:])
+                self.f = np.ascontiguousarray(faces.reshape(-1, 4)[:, 1:])
 
         else:
             raise Exception('Invalid input.  Please load a surface mesh or' +
@@ -189,8 +189,3 @@ class MeshFix(object):
         Binary files write much faster than ASCII.
         """
         return self.mesh.save(filename, binary)
-
-    def write(self, filename, binary=True):
-        """ DEPRECATED """
-        warnings.warn('`.write` is deprecated. Use `.save` instead.', RuntimeWarning)
-        return self.save(filename, binary=binary)

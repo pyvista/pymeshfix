@@ -1,24 +1,13 @@
-"""
-Setup for pymeshfix
-"""
+"""Setup for pymeshfix"""
 from io import open as io_open
 import sys
 import os
+import builtins
 
 from setuptools import setup, Extension
 from setuptools.command.build_ext import build_ext as _build_ext
 
-if sys.version_info[0] < 3:
-    import __builtin__ as builtins
-else:
-    import builtins
-
 filepath = os.path.dirname(__file__)
-
-# change path if necessary (and why is this necessary?)
-if filepath:
-    old_path = os.getcwd()
-    os.chdir(filepath)
 
 # Define macros for cython
 macros = []
@@ -89,7 +78,9 @@ setup(
                  'License :: OSI Approved :: MIT License',
                  'Programming Language :: Python :: 3.5',
                  'Programming Language :: Python :: 3.6',
-                 'Programming Language :: Python :: 3.7'],
+                 'Programming Language :: Python :: 3.7'
+                 'Programming Language :: Python :: 3.7'
+    ],
     url='https://github.com/pyvista/pymeshfix',
 
     # Build cython modules
@@ -125,7 +116,3 @@ setup(
     install_requires=['numpy>1.11.0',
                       'pyvista>=0.23.0']
 )
-
-# revert to prior directory
-if filepath:
-    os.chdir(old_path)

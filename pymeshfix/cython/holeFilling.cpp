@@ -517,13 +517,18 @@ int Basic_TMesh::fillSmallBoundaries(int nbe, bool refine_patches)
  int grd, is_selection=0, tbds = 0, pct = 100;
  List bdrs;
 
- // TMesh::begin_progress();
- // TMesh::report_progress("0%% done ");
+ TMesh::begin_progress();
+ TMesh::report_progress("0%% done ");
 
  FOREACHTRIANGLE(t, n) if (IS_VISITED(t)) {is_selection=1; break;}
 
- if (is_selection) FOREACHTRIANGLE(t, n) if (!IS_VISITED(t))
-  {MARK_BIT(t->v1(), 6); MARK_BIT(t->v2(), 6); MARK_BIT(t->v3(), 6);}
+ if (is_selection) {
+	 FOREACHTRIANGLE(t, n) if (!IS_VISITED(t))
+	 {
+		 MARK_BIT(t->v1(), 6); MARK_BIT(t->v2(), 6); MARK_BIT(t->v3(), 6);
+	 }
+ }
+ else FOREACHVERTEX(v, n) UNMARK_BIT(v, 6);
 
  FOREACHVERTEX(v, n)
  {
@@ -553,12 +558,12 @@ int Basic_TMesh::fillSmallBoundaries(int nbe, bool refine_patches)
    t = (Triangle *)T.head()->data;
    refineSelectedHolePatches(t);
   }
-  // TMesh::report_progress("%d%% done ",((++pct)*100)/bdrs.numels());
+  TMesh::report_progress("%d%% done ",((++pct)*100)/bdrs.numels());
  }
 
  grd = bdrs.numels();
 
- // TMesh::end_progress();
+ TMesh::end_progress();
 
  return grd;
 }
@@ -595,7 +600,7 @@ int Basic_TMesh::refineSelectedHolePatches(Triangle *t0)
  }
  else FOREACHTRIANGLE(t, n) if (IS_VISITED(t)) reg.appendHead(t);
 
- // printf("%d\n",reg.numels());
+ printf("%d\n",reg.numels());
 
  FOREACHVTTRIANGLE((&reg), t, n)
  {

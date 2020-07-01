@@ -40,12 +40,12 @@ extern "C" void initPredicates();
 
 void (* TMesh::display_message)(const char*, int) = NULL;
 
-char *TMesh::app_name = NULL;
-char *TMesh::app_version = NULL;
-char *TMesh::app_year = NULL;
-char *TMesh::app_authors = NULL;
-char *TMesh::app_url = NULL;
-char *TMesh::app_maillist = NULL;
+const char *TMesh::app_name = NULL;
+const char *TMesh::app_version = NULL;
+const char *TMesh::app_year = NULL;
+const char *TMesh::app_authors = NULL;
+const char *TMesh::app_url = NULL;
+const char *TMesh::app_maillist = NULL;
 const char *TMesh::filename = NULL;
 bool TMesh::quiet = false;
 
@@ -79,7 +79,7 @@ void TMesh::error(const char *msg, ...)
   display_message(fms, DISPMSG_ACTION_ERRORDIALOG);
  else
  {
-  //fprintf(stderr,fms);
+  fprintf(stderr,fms);
   exit(-1);
  }
 }
@@ -96,7 +96,7 @@ void TMesh::warning(const char *msg, ...)
  strcat(fmt,msg);
  vsprintf(fms,fmt,ap);
 
- if (display_message != NULL) 
+ if (display_message != NULL)
   display_message(fms, DISPMSG_ACTION_PUTMESSAGE);
  else
   fputs(fms, stderr);
@@ -116,10 +116,10 @@ void TMesh::info(const char *msg, ...)
  strcat(fmt,msg);
  vsprintf(fms,fmt,ap);
 
- if (display_message != NULL) 
+ if (display_message != NULL)
   display_message(fms, DISPMSG_ACTION_PUTMESSAGE);
  else
-  //printf(fms);
+  printf(fms);
 
  va_end(ap);
 }
@@ -129,7 +129,7 @@ void TMesh::info(const char *msg, ...)
 void TMesh::begin_progress()
 {
  if (quiet) return;
- if (display_message != NULL) 
+ if (display_message != NULL)
   display_message("\n", DISPMSG_ACTION_PUTNEWLINE);
  else
   printf("\n");
@@ -148,7 +148,7 @@ void TMesh::report_progress(const char *msg, ...)
   sprintf(fms,"%c",rotating_bar[wc++]); if (wc==4) wc=0;
   strcpy(fmt+1,fms);
 
-  if (display_message != NULL) 
+  if (display_message != NULL)
    display_message(fmt, DISPMSG_ACTION_PUTPROGRESS);
   else
   {
@@ -163,7 +163,7 @@ void TMesh::report_progress(const char *msg, ...)
   strcpy(fmt+1,msg);
   vsprintf(fms,fmt,ap);
 
-  if (display_message != NULL) 
+  if (display_message != NULL)
    display_message(fms, DISPMSG_ACTION_PUTPROGRESS);
   else
   {
@@ -177,23 +177,39 @@ void TMesh::report_progress(const char *msg, ...)
 void TMesh::end_progress()
 {
  if (quiet) return;
- if (display_message != NULL) 
+ if (display_message != NULL)
   display_message("\n", DISPMSG_ACTION_PUTNEWLINE);
  else
   printf("\n");
 }
 
-void TMesh::useRationals(bool u) 
+void TMesh::useRationals(bool u)
 {
 #ifdef USE_HYBRID_KERNEL
-	coord::use_rationals = u;
+	coord::useRationals(u);
 #endif
 }
 
 bool TMesh::isUsingRationals()
 {
 #ifdef USE_HYBRID_KERNEL
-	return coord::use_rationals;
+	return coord::isUsingRationals();
+#else
+	return false;
+#endif
+}
+
+void TMesh::useFiltering(bool u)
+{
+#ifdef USE_HYBRID_KERNEL
+	coord::useFiltering(u);
+#endif
+}
+
+bool TMesh::isUsingFiltering()
+{
+#ifdef USE_HYBRID_KERNEL
+	return coord::isUsingFiltering();
 #else
 	return false;
 #endif
@@ -202,7 +218,7 @@ bool TMesh::isUsingRationals()
 void TMesh::addMessageToLogFile(const char *msg)
 {
 	FILE *fp = fopen("tmesh.log", "a");
-	//fprintf(fp, msg);
+	fprintf(fp, msg);
 	fclose(fp);
 }
 

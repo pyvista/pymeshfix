@@ -177,10 +177,11 @@ int Basic_TMesh::selectIntersectingTriangles(UINT16 tris_per_cell, bool justprop
 
  // Deselect everything and select only intersecting triangles
  deselectTriangles();
+ FOREACHTRIANGLE(t, n) t->info = NULL;
  i=0; FOREACHNODE(cells, n)
  {
   (((di_cell *)n->data)->selectIntersections(justproper));
-  if (!(i % 100)) TMesh::report_progress("%d %% done   ", ((i) * 100) / cells.numels());
+  if (!(i % 100)) TMesh::report_progress("%d %% done   ", ((i)* 100) / cells.numels());
   i++;
  }
  TMesh::end_progress();
@@ -201,7 +202,6 @@ int Basic_TMesh::selectIntersectingTriangles(UINT16 tris_per_cell, bool justprop
 
  return its;
 }
-
 
 void jitterIncrease(char *f)
 {
@@ -370,6 +370,7 @@ void remints_selectTrianglesInCubes(Basic_TMesh *tin)
 
 
 // returns true on success
+
 bool Basic_TMesh::strongIntersectionRemoval(int max_iters)
 {
  int n, iter_count = 0;
@@ -390,20 +391,5 @@ bool Basic_TMesh::strongIntersectionRemoval(int max_iters)
  if (iter_count > max_iters) return false;
  return true;
 }
-
-// Remove intersecting triangles
-//void Basic_TMesh::IntersectionRemoval()
-//{
-//  int n, iter_count = 0;
-//  bool qstatus = TMesh::quiet;
-//
-//  TMesh::info("Removing self-intersections...\n");
-//
-//  selectIntersectingTriangles();
-//  removeSelectedTriangles();
-//
-//}
-
-
 
 } //namespace T_MESH
