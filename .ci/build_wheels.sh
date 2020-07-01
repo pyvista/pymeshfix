@@ -29,4 +29,4 @@ cd io
 "${PYBIN}/python" setup.py bdist_wheel
 auditwheel repair dist/$package_name*.whl
 rm -f dist/*
-mv wheelhouse/*manylinux1* dist/
+mv wheelhouse/*manylinux2* dist/
