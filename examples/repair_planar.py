@@ -42,7 +42,7 @@ mfix.fill_small_boundaries(nbe=100, refine=True)
 ###############################################################################
 # Convert back to a pyvista mesh
 vert, faces = mfix.return_arrays()
-triangles = np.empty((faces.shape[0], 4))
+triangles = np.empty((faces.shape[0], 4), dtype=faces.dtype)
 triangles[:, -3:] = faces
 triangles[:, 0] = 3
 
