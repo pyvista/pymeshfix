@@ -101,10 +101,10 @@ setup(
     classifiers=['Development Status :: 4 - Beta',
                  'Intended Audience :: Science/Research',
                  'License :: OSI Approved :: MIT License',
-                 'Programming Language :: Python :: 3.5',
                  'Programming Language :: Python :: 3.6',
                  'Programming Language :: Python :: 3.7',
                  'Programming Language :: Python :: 3.8'
+                 'Programming Language :: Python :: 3.9',
     ],
     url='https://github.com/pyvista/pymeshfix',
 
@@ -139,6 +139,6 @@ setup(
     package_data={'pymeshfix/examples': ['StanfordBunny.ply',
                                          'planar_mesh.ply']},
     install_requires=['numpy>1.11.0',
-                      'pyvista>=0.23.0'],
+                      'pyvista>=0.30.0'],
     setup_requires=setup_requires,
 )

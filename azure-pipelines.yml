@@ -15,14 +15,14 @@ jobs:
 - job: Linux
   strategy:
     matrix:
-      Python35:
-        python.version: '3.5'
       Python36:
         python.version: '3.6'
       Python37:
         python.version: '3.7'
       Python38:
         python.version: '3.8'
+      Python39:
+        python.version: '3.9'
   pool:
     vmImage: 'ubuntu-18.04'
   steps:
@@ -44,42 +44,22 @@ jobs:
         (cd tests && pytest --cov $(package_name) --cov-report html)
     - template: .ci/azure-publish-dist.yml
 
-- job: macOS
-  variables:
-    python.architecture: 'x64'
-  strategy:
-    matrix:
-      Python36:
-        python.version: '3.6'
-      Python37:
-        python.version: '3.7'
-      Python38:
-        python.version: '3.8'
-  pool:
-    vmImage: 'macOS-10.14'
-  steps:
-    - script: .ci/macos-install-python.sh '$(python.version)'
-      displayName: Install Python
-    - template: .ci/azure-setup.yml
-    - template: .ci/azure-steps.yml
-    - template: .ci/azure-publish-dist.yml
-
 
 - job: Windows
   pool:
-    vmIMage: 'VS2017-Win2016'
+    vmIMage: 'windows-2019'
   variables:
     python.architecture: 'x64'
   strategy:
     matrix:
-      Python35:
-        python.version: '3.5'
       Python36:
         python.version: '3.6'
       Python37:
         python.version: '3.7'
       Python38:
         python.version: '3.8'
+      Python39:
+        python.version: '3.9'
   steps:
     - template: .ci/azure-setup.yml
     - template: .ci/azure-steps.yml
