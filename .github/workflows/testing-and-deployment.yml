@@ -1,0 +1,58 @@
+name: Unit Testing
+
+on:
+  push:
+    branches: "*"
+    tags: "*"
+  pull_request:
+    branches: "**"
+
+jobs:
+  macOS:
+    runs-on: macos-latest
+    name: Mac OS Unit Testing
+    strategy:
+      matrix:
+        python-version: ['3.6', '3.7', '3.8', '3.9']
+
+    env:
+      SHELLOPTS: 'errexit:pipefail'
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v1
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Build package
+        run: |
+          pip install -r requirements_build.txt
+          python setup.py bdist_wheel
+          pip install dist/*
+
+      - name: Install package
+        run: |
+          pip install dist/*
+          python -c "import pyvista; print(pyvista.Report(gpu=False))"
+
+      - name: Install test dependencies
+        run: |
+          pip install -r requirements_test.txt
+
+      - name: Unit testing
+        run: |
+          pytest -v
+
+      - name: Validate package
+        run: |
+          pip install twine
+          twine check dist/*
+
+      - name: Upload to PyPi
+        if: startsWith(github.event.ref, 'refs/tags')
+        run: |
+          twine upload -u __token__ --skip-existing dist/*
+        env:
+          TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}

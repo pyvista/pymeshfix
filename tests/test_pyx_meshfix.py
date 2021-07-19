@@ -23,6 +23,7 @@ def test_load_and_save_file(tmpdir):
     new_bunny = pv.PolyData(filename)
     assert new_bunny.points.shape == v.shape
 
+
 def test_load_array():
     meshfix = _meshfix.PyTMesh()
     v = bunny.points
