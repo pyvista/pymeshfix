@@ -17,10 +17,9 @@ jobs:
         with:
           python-version: 3.8
 
-      - name: Install, start, and test the virtual framebuffer
+      - name: Install and start virtual framebuffer
         run: |
           .ci/setup_headless_display.sh
-          pip install -r .ci/requirements_test_xvfb.txt
 
       - name: Install pymeshfix
         run: |
