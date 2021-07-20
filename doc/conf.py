@@ -81,6 +81,11 @@ exclude_patterns = []
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = 'sphinx'
 
+# Copy button customization ---------------------------------------------------
+# exclude traditional Python prompts from the copied code
+copybutton_prompt_text = r'>>> ?|\.\.\. '
+copybutton_prompt_is_regexp = True
+
 
 # -- Options for HTML output -------------------------------------------------
 
