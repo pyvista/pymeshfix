@@ -8,6 +8,7 @@ jobs:
 
     env:
       PYANSYS_OFF_SCREEN: True
+      DISPLAY: ':99.0'
 
     steps:
       - uses: actions/checkout@v2

@@ -138,16 +138,16 @@ cdef class PyTMesh:
             raise IOError('MeshFix is unable to open %s' % filename)
 
     def save_file(self, filename, back_approx=False):
-        """
-        Saves cleaned mesh to file
+        """Save cleaned mesh to file
 
         The file format is deduced from one of the following filename
         extensions:
-            wrl = vrml 1.0
-            iv = OpenInventor
-            off = Object file format
-            ply = PLY format
-            tri = IMATI Ver-Tri
+
+            - ``"wrl"`` - vrml 1.0
+            - ``"iv"`` - OpenInventor
+            - ``"off"`` - Object file format
+            - ``"ply"`` - PLY format
+            - ``"tri"`` - IMATI Ver-Tri
 
         If 'back_approx' is set to True, vertex coordinates are approximated
         to reflect the limited precision of floating point
