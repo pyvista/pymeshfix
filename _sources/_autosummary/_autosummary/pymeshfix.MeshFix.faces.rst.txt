@@ -1,0 +1,6 @@
+pymeshfix.MeshFix.faces
+=======================
+
+.. currentmodule:: pymeshfix
+
+.. automethod:: MeshFix.faces

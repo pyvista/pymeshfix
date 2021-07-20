@@ -4,8 +4,10 @@
 
 .. _sphx_glr_examples:
 
-Examples
-========
+pymeshfix Examples
+==================
+The following examples demonstrate pymeshfix functionality using
+`pyvista <https://docs.pyvista.org/>`__.
 
 
 
@@ -16,6 +18,7 @@ Examples
 .. only:: html
 
  .. figure:: /examples/images/thumb/sphx_glr_bunny_thumb.png
+     :alt: Bunny
 
      :ref:`sphx_glr_examples_bunny.py`
 
@@ -36,6 +39,7 @@ Examples
 .. only:: html
 
  .. figure:: /examples/images/thumb/sphx_glr_cow_thumb.png
+     :alt: Holey Cow
 
      :ref:`sphx_glr_examples_cow.py`
 
@@ -56,6 +60,7 @@ Examples
 .. only:: html
 
  .. figure:: /examples/images/thumb/sphx_glr_repair_planar_thumb.png
+     :alt: Partial Fill Holes
 
      :ref:`sphx_glr_examples_repair_planar.py`
 
@@ -76,6 +81,7 @@ Examples
 .. only:: html
 
  .. figure:: /examples/images/thumb/sphx_glr_torso_thumb.png
+     :alt: Torso
 
      :ref:`sphx_glr_examples_torso.py`
 

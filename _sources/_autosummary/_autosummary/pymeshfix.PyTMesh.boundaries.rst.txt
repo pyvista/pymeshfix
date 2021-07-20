@@ -1,0 +1,6 @@
+pymeshfix.PyTMesh.boundaries
+============================
+
+.. currentmodule:: pymeshfix
+
+.. automethod:: PyTMesh.boundaries

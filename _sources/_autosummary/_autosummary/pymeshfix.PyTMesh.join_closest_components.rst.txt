@@ -1,0 +1,6 @@
+pymeshfix.PyTMesh.join\_closest\_components
+===========================================
+
+.. currentmodule:: pymeshfix
+
+.. automethod:: PyTMesh.join_closest_components

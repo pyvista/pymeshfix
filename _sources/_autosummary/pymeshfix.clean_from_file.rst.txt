@@ -1,0 +1,6 @@
+﻿pymeshfix.clean\_from\_file
+===========================
+
+.. currentmodule:: pymeshfix
+
+.. autofunction:: clean_from_file

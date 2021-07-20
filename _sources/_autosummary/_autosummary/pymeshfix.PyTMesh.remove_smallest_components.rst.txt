@@ -1,0 +1,6 @@
+pymeshfix.PyTMesh.remove\_smallest\_components
+==============================================
+
+.. currentmodule:: pymeshfix
+
+.. automethod:: PyTMesh.remove_smallest_components

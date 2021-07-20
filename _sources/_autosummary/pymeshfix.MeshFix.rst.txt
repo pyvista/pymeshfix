@@ -1,0 +1,52 @@
+﻿pymeshfix.MeshFix
+=================
+
+.. currentmodule:: pymeshfix
+
+.. autoclass:: MeshFix
+
+   
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+      :toctree: _autosummary
+   
+      
+      
+      MeshFix.extract_holes
+      
+      
+      MeshFix.faces
+      
+      
+      MeshFix.load_arrays
+      
+      
+      MeshFix.plot
+      
+      
+      MeshFix.points
+      
+      
+      MeshFix.repair
+      
+      
+      MeshFix.save
+      
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+      :toctree: _autosummary
+   
+      
+      MeshFix.mesh
+      
+   
+   

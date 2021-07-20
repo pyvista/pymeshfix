@@ -1,0 +1,6 @@
+pymeshfix.MeshFix.extract\_holes
+================================
+
+.. currentmodule:: pymeshfix
+
+.. automethod:: MeshFix.extract_holes

@@ -1,0 +1,6 @@
+pymeshfix.MeshFix.plot
+======================
+
+.. currentmodule:: pymeshfix
+
+.. automethod:: MeshFix.plot

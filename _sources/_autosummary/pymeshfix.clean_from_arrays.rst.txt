@@ -1,0 +1,6 @@
+﻿pymeshfix.clean\_from\_arrays
+=============================
+
+.. currentmodule:: pymeshfix
+
+.. autofunction:: clean_from_arrays

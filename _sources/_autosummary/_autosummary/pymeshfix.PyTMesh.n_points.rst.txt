@@ -1,0 +1,6 @@
+pymeshfix.PyTMesh.n\_points
+===========================
+
+.. currentmodule:: pymeshfix
+
+.. autoattribute:: PyTMesh.n_points

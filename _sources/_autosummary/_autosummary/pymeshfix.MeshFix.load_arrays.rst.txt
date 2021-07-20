@@ -1,0 +1,6 @@
+pymeshfix.MeshFix.load\_arrays
+==============================
+
+.. currentmodule:: pymeshfix
+
+.. automethod:: MeshFix.load_arrays

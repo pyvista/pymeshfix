@@ -1,0 +1,6 @@
+pymeshfix.PyTMesh.fill\_small\_boundaries
+=========================================
+
+.. currentmodule:: pymeshfix
+
+.. automethod:: PyTMesh.fill_small_boundaries

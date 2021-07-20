@@ -1,0 +1,6 @@
+pymeshfix.MeshFix.repair
+========================
+
+.. currentmodule:: pymeshfix
+
+.. automethod:: MeshFix.repair

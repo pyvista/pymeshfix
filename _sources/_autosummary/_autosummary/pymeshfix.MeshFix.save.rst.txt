@@ -1,0 +1,6 @@
+pymeshfix.MeshFix.save
+======================
+
+.. currentmodule:: pymeshfix
+
+.. automethod:: MeshFix.save

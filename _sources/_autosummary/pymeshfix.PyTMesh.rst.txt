@@ -1,0 +1,61 @@
+﻿pymeshfix.PyTMesh
+=================
+
+.. currentmodule:: pymeshfix
+
+.. autoclass:: PyTMesh
+
+   
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+      :toctree: _autosummary
+   
+      
+      
+      PyTMesh.boundaries
+      
+      
+      PyTMesh.clean
+      
+      
+      PyTMesh.fill_small_boundaries
+      
+      
+      PyTMesh.join_closest_components
+      
+      
+      PyTMesh.load_array
+      
+      
+      PyTMesh.load_file
+      
+      
+      PyTMesh.remove_smallest_components
+      
+      
+      PyTMesh.return_arrays
+      
+      
+      PyTMesh.save_file
+      
+      
+      PyTMesh.select_intersecting_triangles
+      
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+      :toctree: _autosummary
+   
+      
+      PyTMesh.n_points
+      
+   
+   

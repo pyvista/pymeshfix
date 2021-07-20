@@ -1,0 +1,6 @@
+pymeshfix.PyTMesh.load\_file
+============================
+
+.. currentmodule:: pymeshfix
+
+.. automethod:: PyTMesh.load_file

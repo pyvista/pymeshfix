@@ -1,0 +1,6 @@
+pymeshfix.PyTMesh.select\_intersecting\_triangles
+=================================================
+
+.. currentmodule:: pymeshfix
+
+.. automethod:: PyTMesh.select_intersecting_triangles

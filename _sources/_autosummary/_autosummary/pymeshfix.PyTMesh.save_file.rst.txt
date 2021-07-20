@@ -1,0 +1,6 @@
+pymeshfix.PyTMesh.save\_file
+============================
+
+.. currentmodule:: pymeshfix
+
+.. automethod:: PyTMesh.save_file

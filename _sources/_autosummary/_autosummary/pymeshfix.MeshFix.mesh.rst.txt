@@ -1,0 +1,6 @@
+pymeshfix.MeshFix.mesh
+======================
+
+.. currentmodule:: pymeshfix
+
+.. autoproperty:: MeshFix.mesh
