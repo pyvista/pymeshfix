@@ -79,21 +79,21 @@ This example uses the Cython wrapper directly. No bells or whistles here:
 
 .. code:: python
 
-    from pymeshfix import _meshfix
+    import pymeshfix
 
     # Read mesh from infile and output cleaned mesh to outfile
-    _meshfix.clean_from_file(infile, outfile)
+    pymeshfix.clean_from_file(infile, outfile)
 
 
 This example assumes the user has vertex and faces arrays in Python.
 
 .. code:: python
 
-    from pymeshfix import _meshfix
+    import pymeshfix
 
     # Generate vertex and face arrays of cleaned mesh
-    # where v and f are numpy arrays or python lists
-    vclean, fclean = _meshfix.clean_from_arrays(v, f)
+    # where v and f are numpy arrays
+    vclean, fclean = pymeshfix.clean_from_arrays(v, f)
 
 
 Complete Examples with and without VTK
