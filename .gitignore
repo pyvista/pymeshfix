@@ -23,10 +23,11 @@ dist/
 uploadpypi.sh
 .pytest_cache/
 
-
-docs/_build
-docs/images
-docs/examples
+# documentation
+_autosummary/
+doc/_build
+doc/images
+doc/examples
 
 # coverage reports
 htmlcov/

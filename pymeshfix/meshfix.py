@@ -23,6 +23,17 @@ class MeshFix(object):
         Either a pyvista surface mesh :class:`pyvista.PolyData` or a (n x 3)
         vertex array and (n x 3) face array (indices of the triangles).
 
+    Examples
+    --------
+    Create a meshfix object from a pyvista mesh.
+
+    >>> from pyvista import examples
+    >>> import pymeshfix as mf
+    >>> cow = examples.download_cow()
+    >>> meshfix = mf.MeshFix(holy_cow)
+
+    >>> meshfix = mf.MeshFix(points, faces)
+
     """
 
     def __init__(self, *args):
@@ -60,6 +71,7 @@ class MeshFix(object):
 
         f : np.ndarray
             n x 3 face array.
+
         """
         # Check inputs
         if not isinstance(v, np.ndarray):
@@ -87,7 +99,19 @@ class MeshFix(object):
 
     @property
     def mesh(self):
-        """Return the surface mesh"""
+        """Return the surface mesh
+
+        Examples
+        --------
+        Access the underlying mesh and plot it.
+
+        >>> meshfix.mesh.plot()
+
+        Access the underlying mesh and export it.
+
+        >>> meshfix.mesh.save('my_mesh.ply')
+
+        """
         if not PV_INSTALLED:
             raise RuntimeError('Please install pyvista for this feature')
         triangles = np.empty((self.f.shape[0], 4), dtype=pv.ID_TYPE)
@@ -102,6 +126,14 @@ class MeshFix(object):
         return self.mesh.extract_feature_edges(boundary_edges=True,
                                                feature_edges=False,
                                                manifold_edges=False)
+
+    def points(self):
+        """Points of the mesh"""
+        return self.v
+
+    def faces(self):
+        """Indices of the faces of the mesh"""
+        return self.f
 
     def plot(self, show_holes=True, **kwargs):
         """Plot the mesh.
@@ -154,13 +186,21 @@ class MeshFix(object):
 
         remove_smallest_components : bool, optional
             Remove all but the largest isolated component from the
-            mesh before beginning the repair process.  Default True
+            mesh before beginning the repair process.  Default ``True``
 
         Notes
         -----
         Vertex and face arrays are updated inplace.  Access them with:
-        meshfix.v
-        meshfix.f
+
+        * :attr:`Meshfix.points`
+        * :attr:`Meshfix.faces`
+
+        Examples
+        --------
+        Repair using the verbose option
+
+        >>> meshfix.repair(verbose=True)
+
         """
         assert self.f.shape[1] == 3, 'Face array must contain three columns'
         assert self.f.ndim == 2, 'Face array must be 2D'

@@ -1,21 +1,6 @@
-# -*- coding: utf-8 -*-
-#
-# Configuration file for the Sphinx documentation builder.
-#
-# This file does only contain a selection of the most common options. For a
-# full list see the documentation:
-# http://www.sphinx-doc.org/en/master/config
-
-# -- Path setup --------------------------------------------------------------
-
-# If extensions (or modules to document with autodoc) are in another directory,
-# add these directories to sys.path here. If the directory is relative to the
-# documentation root, use os.path.abspath to make it absolute, like shown here.
-#
 import os
 import sys
-# path = os.path.abspath('../')
-# sys.path.insert(0, path)
+import datetime
 
 import pymeshfix
 
@@ -34,20 +19,21 @@ pyvista.FIGURE_PATH = os.path.abspath('./images/')
 if not os.path.exists(pyvista.FIGURE_PATH):
     os.makedirs(pyvista.FIGURE_PATH)
 
+pyvista.BUILDING_GALLERY = True
 
 # -- Project information -----------------------------------------------------
 
 project = 'pymeshfix'
-copyright = '2018-2019, Alex Kaszynski'
+year = datetime.date.today().year
+copyright = f"2017-{year}, The PyVista Developers"
 author = 'Alex Kaszynski'
 
 # The short X.Y version
-version = pymeshfix.__version__
-# The full version, including alpha/beta/rc tags
-release = pymeshfix.__version__
+version = release = pymeshfix.__version__
 
 
 # -- General configuration ---------------------------------------------------
+html_logo = "./_static/pyvista_logo_sm.png"
 
 # If your documentation needs a minimal Sphinx version, state it here.
 #
@@ -65,6 +51,8 @@ extensions = ['sphinx.ext.autodoc',
               'sphinx_gallery.gen_gallery',
               'sphinx.ext.extlinks',
              ]
+
+html_static_path = ["_static"]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -99,7 +87,7 @@ pygments_style = 'sphinx'
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = "sphinx_rtd_theme"
+html_theme = "pydata_sphinx_theme"
 html_context = {
     # Enable the "Edit in GitHub link within the header of each page.
     'display_github': True,
@@ -107,7 +95,7 @@ html_context = {
     # Format Template: https://{{ github_host|default("github.com") }}/{{ github_user }}/{{ github_repo }}/blob/{{ github_version }}{{ conf_py_path }}{{ pagename }}{{ suffix }}
     'github_user': 'pyvista',
     'github_repo': 'pymeshfix',
-    'github_version': 'master/docs/',
+    'github_version': 'master/doc/',
     'menu_links_name': 'Getting Connected',
     'menu_links': [
         ('<i class="fa fa-slack fa-fw"></i> Slack Community', 'http://slack.pyvista.org'),
@@ -116,27 +104,10 @@ html_context = {
     ],
 }
 
-
-# Theme options are theme-specific and customize the look and feel of a theme
-# further.  For a list of options available for each theme, see the
-# documentation.
-#
-# html_theme_options = {}
-
-# Add any paths that contain custom static files (such as style sheets) here,
-# relative to this directory. They are copied after the builtin static files,
-# so a file named "default.css" will overwrite the builtin "default.css".
-# html_static_path = ['_static']
-
-# Custom sidebar templates, must be a dictionary that maps document names
-# to template names.
-#
-# The default sidebars (for documents that don't match any pattern) are
-# defined by theme itself.  Builtin themes are using these templates by
-# default: ``['localtoc.html', 'relations.html', 'sourcelink.html',
-# 'searchbox.html']``.
-#
-# html_sidebars = {}
+html_theme_options = {
+    "show_prev_next": False,
+    "github_url": "https://github.com/pyvista/pymeshfix",
+}
 
 
 # -- Options for HTMLHelp output ---------------------------------------------
@@ -147,23 +118,7 @@ htmlhelp_basename = 'PyMeshFix'
 
 # -- Options for LaTeX output ------------------------------------------------
 
-latex_elements = {
-    # The paper size ('letterpaper' or 'a4paper').
-    #
-    # 'papersize': 'letterpaper',
-
-    # The font size ('10pt', '11pt' or '12pt').
-    #
-    # 'pointsize': '10pt',
-
-    # Additional stuff for the LaTeX preamble.
-    #
-    # 'preamble': '',
-
-    # Latex figure (float) alignment
-    #
-    # 'figure_align': 'htbp',
-}
+latex_elements = {}
 
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title,

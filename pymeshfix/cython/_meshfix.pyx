@@ -51,14 +51,53 @@ cdef extern from "meshfix.h" namespace "T_MESH":
 
 
 cdef class PyTMesh:
-    """
-    Python class to interface with C++ Basic_TMesh object
+    """Cython class to interface with C++ Basic_TMesh object
 
     MeshFix V2.0 - by Marco Attene If MeshFix is used for research
     purposes, please cite the following paper:
 
     M. Attene.  A lightweight approach to repairing digitized polygon
     meshes.  The Visual Computer, 2010. (c) Springer.
+
+    Examples
+    --------
+    Create an instance of TMesh
+
+    >>> from pymeshfix import _meshfix
+    >>> tin = _meshfix.PyTMesh()
+
+    Load a file
+
+    >>> tin.LoadFile(infile)
+
+    Load from arrays
+
+    >>> tin.load_array(v, f)
+
+    Attempt to join nearby components
+
+    >>> tin.join_closest_components()
+
+    Fill holes
+
+    >>> tin.fill_small_boundaries()
+    >>> print('There are {:d} boundaries'.format(tin.boundaries())
+
+    Clean and remove self intersections
+
+    >>> tin.clean(max_iters=10, inner_loops=3)
+
+    Check mesh for holes again
+
+    >>> print('There are {:d} boundaries'.format(tin.boundaries())
+
+    Output mesh
+
+    >>> tin.save_file(outfile)
+
+    return numpy arrays
+
+    >>> vclean, fclean = tin.return_arrays()
 
     """
 
@@ -80,6 +119,13 @@ cdef class PyTMesh:
         IMATI Ver-Tri (VER, TRI), PLY, OBJ, STL.
 
         The loader automatically reconstructs a manifold triangle connectivity
+
+        Examples
+        --------
+        >>> from pymeshfix import _meshfix
+        >>> tin = _meshfix.PyTMesh()
+        >>> tin.LoadFile('file.ply')
+
         """
         if self.n_points:
             raise Exception('Cannot load a new file once initialized')
@@ -108,6 +154,11 @@ cdef class PyTMesh:
         representation in ASCII files. This should be used when
         coherence is necessary between in-memory and saved data.
         A non-zero return value is returned if errors occur.
+
+        Examples
+        --------
+        >>> tin.save_file(outfile)
+
         """
 
         # Convert filename to c string and save
@@ -120,6 +171,7 @@ cdef class PyTMesh:
 
     @property
     def n_points(self):
+        """Number of points in the mesh"""
         cdef int n_points = self.c_tmesh.ReturnTotalPoints()
         return n_points
 
@@ -135,6 +187,10 @@ cdef class PyTMesh:
 
         f : np.ndarray
             Numpy array containing mesh faces.  Sized n x 3
+
+        Examples
+        --------
+        >>> tin.load_array(v, f)
 
         """
         if self.n_points:
@@ -169,33 +225,63 @@ cdef class PyTMesh:
         self.c_tmesh.loadArray(nv, &points[0], nt, &faces[0])
 
     def clean(self, int max_iters=10, inner_loops=3):
-        """
+        """Remove self-intersections and degenerate faces.
+
         Iteratively call strongDegeneracyRemoval and
         strongIntersectionRemoval to produce an eventually clean mesh
         without degeneracies and intersections.  The two
         aforementioned methods are called up to max_iter times and
         each of them is called using 'inner_loops' as a parameter.
         Returns true only if the mesh could be completely cleaned.
+
+        Examples
+        --------
+        >>> tin.clean(max_iters=10, inner_loops=3)
+
         """
         self.c_tmesh.meshclean(max_iters, inner_loops)
 
     def boundaries(self):
-        """ Get the number of boundary loops of the triangle mesh """
+        """Get the number of boundary loops of the triangle mesh"""
         return self.c_tmesh.boundaries()
 
     def remove_smallest_components(self):
+        """Remove smallest components"""
         return self.c_tmesh.removeSmallestComponents()
 
     def fill_small_boundaries(self, nbe=0, refine=True):
-        """Fills all the holes having less than ``nbe`` boundary
+        """Fill small boundaries.
+
+        Fills all the holes having less than ``nbe`` boundary
         edges. If ``refine`` is true, adds inner vertices to reproduce
         the sampling density of the surroundings. Returns number of
         holes patched.  If 'nbe' is 0 (default), all the holes are
-        patched.  """
+        patched.
+
+        Examples
+        --------
+        Fill all holes.
+
+        >>> tin.fill_small_boundaries()
+
+        """
         return self.c_tmesh.fillSmallBoundaries(nbe, refine)
 
     def return_arrays(self):
-        """ Return numpy arrays from self object """
+        """Return vertex and face arrays of the mesh.
+
+        Returns
+        -------
+        numpy.ndarray
+            Points array.
+
+        numpy.ndarray
+            Faces array.
+
+        Examples
+        --------
+        >>> points, faces = tin.return_arrays()
+        """
 
         # Size point array
         cdef int npoints = self.c_tmesh.ReturnTotalPoints()
@@ -214,24 +300,40 @@ cdef class PyTMesh:
         return v, f
 
     def join_closest_components(self):
-        """
-        Attempts to join nearby open components.  Should be run before
-        mesh repair.
+        """Attempts to join nearby open components.
+
+        Should be run before mesh repair.
+
+        Examples
+        --------
+        >>> tin.join_closest_components()
+
         """
         self.c_tmesh.Join()
 
     def select_intersecting_triangles(self, UINT16 tris_per_cell=50,
                                       bool justproper=False):
-        """
+        """Selects all intersecting triangles.
+
         Selects all the triangles that unproperly intersect other
         parts of the mesh and return their number. The parameter
         'tris_per_cell' determines the depth of the recursive space
         subdivision used to keep the complexity under a resonable
         threchold. The default value is safe in most cases.
 
-        if 'justproper' is true, coincident edges and vertices are not
+        if ``justproper`` is true, coincident edges and vertices are not
         regarded as intersections even if they are not common
         subsimplexes.
+
+        Returns
+        -------
+        numpy.ndarray
+            Array of face indices.
+
+        Examples
+        --------
+        >>> faces = tin.select_intersecting_triangles()
+
         """
         # Returns the number of intersecting triangles
         its = self.c_tmesh.selectIntersectingTriangles(tris_per_cell, justproper)
@@ -248,7 +350,8 @@ cdef class PyTMesh:
 
 
 def clean_from_file(infile, outfile, verbose=False, joincomp=False):
-    """
+    """Performs default cleaning procedure on an input file and writes to disk.
+
     Performs default cleaning procedure on input file and writes the
     repaired mesh to disk.  Output file will be a single manifold mesh.
 
@@ -263,14 +366,17 @@ def clean_from_file(infile, outfile, verbose=False, joincomp=False):
         .ply file.
 
     verbose : bool, optional
-        Prints progress to stdout.  Default True.
+        Prints progress to stdout.  Default ``True``.
 
     joincomp : bool, optional
-        Attempts to join nearby open components.  Default False
+        Attempts to join nearby open components.  Default ``False``
 
     Examples
     --------
-    >>> clean_from_file('inmesh.ply', 'outmesh.ply')
+    Clean a mesh without using pyvista or vtk.
+
+    >>> import pymeshfix
+    >>> pymeshfix.clean_from_file('inmesh.ply', 'outmesh.ply')
 
     """
     # Create mesh object and load from file
@@ -289,8 +395,7 @@ def clean_from_file(infile, outfile, verbose=False, joincomp=False):
 
 def clean_from_arrays(v, f, verbose=False, joincomp=False,
                       remove_smallest_components=True):
-    """
-    Performs default cleaning procedure on vertex and face arrays
+    """Performs default cleaning procedure on vertex and face arrays.
 
     Returns cleaned vertex and face arrays
 
@@ -303,15 +408,30 @@ def clean_from_arrays(v, f, verbose=False, joincomp=False,
         Numpy n x 3 array of faces.
 
     verbose : bool, optional
-        Prints progress to stdout.  Default True.
+        Prints progress to stdout.  Default ``True``.
 
     joincomp : bool, optional
-        Attempts to join nearby open components.  Default False
+        Attempts to join nearby open components.  Default ``False``.
 
     remove_smallest_components : bool, optional
         Remove all but the largest isolated component from the mesh
-        before beginning the repair process.  Default True.
+        before beginning the repair process.  Default ``True``.
 
+    Returns
+    -------
+    numpy.ndarray
+        Points array.
+
+    numpy.ndarray
+        Faces array.
+
+    Examples
+    --------
+    >>> import pymeshfix
+    >>> import numpy as np
+    >>> points = np.load('points.npy')
+    >>> faces = np.load('faces.npy')
+    >>> clean_points, clean_faces = pymeshfix.clean_from_arrays(points, faces)
 
     """
     # Create mesh object and load from file

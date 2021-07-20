@@ -135,10 +135,10 @@ algorithm.
 
 .. code:: python
 
-    from pymeshfix import _meshfix
+    import pymeshfix
 
     # Create TMesh object
-    tin = _meshfix.PyTMesh()
+    tin = pymeshfix.PyTMesh()
 
     tin.LoadFile(infile)
     # tin.load_array(v, f) # or read arrays from memory
