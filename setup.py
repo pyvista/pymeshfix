@@ -95,6 +95,7 @@ setup(
     version=__version__,
     description='Repairs triangular meshes',
     long_description=open(readme_file).read(),
+    long_description_content_type='text/x-rst',
     author='Alex Kaszynski',
     author_email='akascap@gmail.com',
     license='MIT',
@@ -103,7 +104,7 @@ setup(
                  'License :: OSI Approved :: MIT License',
                  'Programming Language :: Python :: 3.6',
                  'Programming Language :: Python :: 3.7',
-                 'Programming Language :: Python :: 3.8'
+                 'Programming Language :: Python :: 3.8',
                  'Programming Language :: Python :: 3.9',
     ],
     url='https://github.com/pyvista/pymeshfix',
