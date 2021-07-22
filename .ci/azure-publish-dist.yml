@@ -6,8 +6,14 @@ steps:
   displayName: 'Upload Artifacts'
 
 - script: |
+    pip install twine
+    python setup.py sdist
+    twine check dist/*
+  displayName: 'Validate Source Distribution'
+
+- script: |
     pip install twine wheel
-    twine upload dist/*.whl --skip-existing
+    twine upload dist/* --skip-existing
   displayName: 'Upload to PyPi'
   condition: contains(variables['Build.SourceBranch'], 'refs/tags/')
   env:
