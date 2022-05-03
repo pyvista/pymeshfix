@@ -37,9 +37,13 @@ jobs:
         run: |
           python setup.py bdist_wheel
 
+      - name: Install vtk
+        run: |
+          pip install --find-links https://wheels.pyvista.org/ vtk
+
       - name: Install wheel
         run: |
-          pip install dist/* --find-links https://wheels.pyvista.org/
+          pip install dist/*
 
       - name: Install package
         run: |
