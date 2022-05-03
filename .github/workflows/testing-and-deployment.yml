@@ -47,6 +47,8 @@ jobs:
       - name: Upgrade pip on 3.10 so that wheels can be found
         run: |
           pip install --upgrade pip
+          pip debug --verbose
+          pip debug --verbose | grep 310-macosx_12_0
         if: ${{ matrix.os == 'macos-12' }}
 
       - name: Install vtk
