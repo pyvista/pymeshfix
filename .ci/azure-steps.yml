@@ -2,6 +2,10 @@
 
 steps:
 - script: |
+    python -m pip install --find-links https://wheels.pyvista.org/ pyvista
+  displayName: 'Work around Python 3.10 VTK wheels missing'
+
+- script: |
     python -m pip wheel . -w wheelhouse/
   displayName: 'Build wheel'
 

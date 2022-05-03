@@ -32,9 +32,9 @@ jobs:
       displayName: 'Use Python $(python.version)'
     - script: |
         set -ex
-        docker pull quay.io/pypa/manylinux2010_x86_64
-        docker run -e package_name=$(package_name) --rm -v `pwd`:/io quay.io/pypa/manylinux2010_x86_64 /io/.ci/build_wheels.sh $(python.version)
-      displayName: Build wheel using manylinux2010
+        docker pull quay.io/pypa/manylinux_2_24_x86_64
+        docker run -e package_name=$(package_name) --rm -v `pwd`:/io quay.io/pypa/manylinux_2_24_x86_64 /io/.ci/build_wheels.sh $(python.version)
+      displayName: Build wheel using manylinux_2_24
     - script: |
         pip install dist/*.whl
       displayName: Install wheel
