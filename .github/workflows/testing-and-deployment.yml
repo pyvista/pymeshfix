@@ -1,4 +1,7 @@
 name: Unit Testing
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.number }}-${{ github.event.ref }}
+  cancel-in-progress: true
 
 on:
   push:
@@ -13,7 +16,7 @@ jobs:
     name: Mac OS Unit Testing
     strategy:
       matrix:
-        python-version: ['3.6', '3.7', '3.8', '3.9']
+        python-version: ['3.7', '3.8', '3.9', '3.10']
 
     env:
       SHELLOPTS: 'errexit:pipefail'
