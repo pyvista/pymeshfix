@@ -29,10 +29,16 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Build package
+      - name: Setup dependencies
         run: |
           pip install -r requirements_build.txt --only-binary="numpy" --find-links https://wheels.pyvista.org/
+
+      - name: Build wheel
+        run: |
           python setup.py bdist_wheel
+
+      - name: Install wheel
+        run: |
           pip install dist/* --find-links https://wheels.pyvista.org/
 
       - name: Install package
