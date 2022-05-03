@@ -45,9 +45,8 @@ jobs:
         run: |
           pip install dist/*
 
-      - name: Install package
+      - name: Check package
         run: |
-          pip install dist/*
           python -c "import pyvista; print(pyvista.Report(gpu=False))"
 
       - name: Install test dependencies
