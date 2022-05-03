@@ -2,7 +2,7 @@
 
 steps:
 - script: |
-    python -m pip wheel . -w wheelhouse/ --find-links https://wheels.pyvista.org/
+    python -m pip wheel . -w wheelhouse/ --find-links https://wheels.pyvista.org/ --only-binary="numpy"
   displayName: 'Build wheel with 3.10 VTK workaround'
 
 - script: |

@@ -31,7 +31,7 @@ jobs:
 
       - name: Build package
         run: |
-          pip install -r requirements_build.txt
+          pip install -r requirements_build.txt --only-binary="numpy"
           python setup.py bdist_wheel
           pip install dist/*
 
