@@ -47,7 +47,7 @@ jobs:
       - name: Upgrade pip on 3.10 so that wheels can be found
       # https://packaging.python.org/en/latest/specifications/platform-compatibility-tags/#manylinux-compatibility-support
         run: |
-          pip install --upgrade "pip>=19.3" "auditwheel>=3.0.0"
+          pip install --upgrade "pip>=19.3" "auditwheel>=3.0.0" wheel
           pip debug --verbose
           pip debug --verbose | grep 310-macosx_12_0
         if: ${{ matrix.os == 'macos-12' }}
