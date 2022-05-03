@@ -120,7 +120,7 @@ within memory and wish to repair it using MeshFix.
     mesh = meshfix.mesh
 
     # Or, access the resulting arrays directly from the object
-    meshfix.v # numpy np.float array
+    meshfix.v # numpy np.float64 array
     meshfix.f # numpy np.int32 array
 
     # View the repaired mesh (requires vtkInterface)
@@ -148,13 +148,13 @@ algorithm.
 
     # Fill holes
     tin.fill_small_boundaries()
-    print('There are {:d} boundaries'.format(tin.boundaries())
+    print('There are {:d} boundaries'.format(tin.boundaries()))
 
     # Clean (removes self intersections)
     tin.clean(max_iters=10, inner_loops=3)
 
     # Check mesh for holes again
-    print('There are {:d} boundaries'.format(tin.boundaries())
+    print('There are {:d} boundaries'.format(tin.boundaries()))
 
     # Clean again if necessary...
 

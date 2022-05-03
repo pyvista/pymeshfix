@@ -197,12 +197,12 @@ cdef class PyTMesh:
             raise Exception('Cannot load new arrays once initialized')
 
         if not v.flags['C_CONTIGUOUS']:
-            if v.dtype != np.float:
-                v = np.ascontiguousarray(v, dtype=np.float)
+            if v.dtype not in (float, np.float64):
+                v = np.ascontiguousarray(v, dtype=np.float64)
             else:
                 v = np.ascontiguousarray(v)
-        elif v.dtype != np.float:
-            v = v.astype(np.float)
+        elif v.dtype not in (float, np.float64):
+            v = v.astype(np.float64)
 
         # Ensure inputs are of the right type
         assert f.ndim == 2, 'Face array must be 2D numpy array'
