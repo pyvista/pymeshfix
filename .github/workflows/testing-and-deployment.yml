@@ -32,7 +32,7 @@ jobs:
       - name: Build package
         run: |
           pip install -r requirements_build.txt --only-binary="numpy" --find-links https://wheels.pyvista.org/
-          python setup.py bdist_wheel --find-links https://wheels.pyvista.org/
+          python setup.py bdist_wheel
           pip install dist/* --find-links https://wheels.pyvista.org/
 
       - name: Install package
