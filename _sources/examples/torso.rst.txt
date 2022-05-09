@@ -48,7 +48,7 @@ parts of the mesh
 
  .. code-block:: none
 
-    PolyData (0x7f2640e7f0a0)
+    PolyData (0x7f6ee4de3ac0)
       N Cells:      12448
       N Points:     12015
       X Bounds:     -1.680e+02, 1.720e+02
@@ -74,21 +74,12 @@ parts of the mesh
 
 
 
-.. image:: /examples/images/sphx_glr_torso_001.png
-    :alt: torso
-    :class: sphx-glr-single-img
+.. image-sg:: /examples/images/sphx_glr_torso_001.png
+   :alt: torso
+   :srcset: /examples/images/sphx_glr_torso_001.png
+   :class: sphx-glr-single-img
 
 
-.. rst-class:: sphx-glr-script-out
-
- Out:
-
- .. code-block:: none
-
-
-    [(-1053.0, -1251.0, 83.0),
-     (2.0, -15.0, -276.0),
-     (0.11728686797794724, 0.17593030196692086, 0.9773905664828937)]
 
 
 
@@ -128,21 +119,12 @@ Outline the holes in the mesh
 
 
 
-.. image:: /examples/images/sphx_glr_torso_002.png
-    :alt: torso
-    :class: sphx-glr-single-img
+.. image-sg:: /examples/images/sphx_glr_torso_002.png
+   :alt: torso
+   :srcset: /examples/images/sphx_glr_torso_002.png
+   :class: sphx-glr-single-img
 
 
-.. rst-class:: sphx-glr-script-out
-
- Out:
-
- .. code-block:: none
-
-
-    [(-1053.0, -1251.0, 83.0),
-     (2.0, -15.0, -276.0),
-     (0.11728686797794724, 0.17593030196692086, 0.9773905664828937)]
 
 
 
@@ -169,21 +151,12 @@ is absolutely water tight.
 
 
 
-.. image:: /examples/images/sphx_glr_torso_003.png
-    :alt: torso
-    :class: sphx-glr-single-img
+.. image-sg:: /examples/images/sphx_glr_torso_003.png
+   :alt: torso
+   :srcset: /examples/images/sphx_glr_torso_003.png
+   :class: sphx-glr-single-img
 
 
-.. rst-class:: sphx-glr-script-out
-
- Out:
-
- .. code-block:: none
-
-
-    [(180.0, -206.0, 17.0),
-     (107.0, -122.9, -11.9),
-     (-0.1308599583755445, 0.2214553141739984, 0.9663504618501749)]
 
 
 
@@ -227,28 +200,19 @@ Show the repaired mesh
 
 
 
-.. image:: /examples/images/sphx_glr_torso_004.png
-    :alt: torso
-    :class: sphx-glr-single-img
+.. image-sg:: /examples/images/sphx_glr_torso_004.png
+   :alt: torso
+   :srcset: /examples/images/sphx_glr_torso_004.png
+   :class: sphx-glr-single-img
 
 
-.. rst-class:: sphx-glr-script-out
-
- Out:
-
- .. code-block:: none
-
-
-    [(-1053.0, -1251.0, 83.0),
-     (2.0, -15.0, -276.0),
-     (0.11728686797794724, 0.17593030196692086, 0.9773905664828937)]
 
 
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  6.058 seconds)
+   **Total running time of the script:** ( 0 minutes  5.867 seconds)
 
 
 .. _sphx_glr_download_examples_torso.py:

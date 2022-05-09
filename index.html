@@ -4,11 +4,13 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>PyMeshFix &#8212; pymeshfix 0.15.0 documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>PyMeshFix &#8212; pymeshfix 0.16.dev0 documentation</title>
     
-  <link href="_static/css/theme.css" rel="stylesheet" />
-  <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
 
     
   <link rel="stylesheet"
@@ -18,19 +20,15 @@
   <link rel="preload" as="font" type="font/woff2" crossorigin
     href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
 
-    
-      
-
-    
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/basic.css" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="_static/gallery.css" />
-    <link rel="stylesheet" type="text/css" href="_static/gallery-binder.css" />
-    <link rel="stylesheet" type="text/css" href="_static/gallery-dataframe.css" />
-    <link rel="stylesheet" type="text/css" href="_static/gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-rendered-html.css" />
     
-  <link rel="preload" as="script" href="_static/js/index.1c5a1a01449ed65a7b51.js">
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
 
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
@@ -42,10 +40,13 @@
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="pymeshfix Examples" href="examples/index.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="en" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
     
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
     
     <div class="container-fluid" id="banner"></div>
 
@@ -103,10 +104,8 @@
       <div class="navbar-end-item">
         <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
         <li class="nav-item">
-          <a class="nav-link" href="https://github.com/pyvista/pymeshfix" rel="noopener" target="_blank" title="GitHub">
-            <span><i class="fab fa-github-square"></i></span>
-            <label class="sr-only">GitHub</label>
-          </a>
+          <a class="nav-link" href="https://github.com/pyvista/pymeshfix" rel="noopener" target="_blank" title="GitHub"><span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label></a>
         </li>
       </ul>
       </div>
@@ -122,7 +121,8 @@
           
             
             <!-- Only show if we have sidebars configured, else just a small margin  -->
-            <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+            <div class="col-12 col-md-3 bd-sidebar">
+              <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="search.html" method="get">
   <i class="icon fas fa-search"></i>
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
@@ -130,6 +130,9 @@
     
   </div>
 </nav>
+              </div>
+              <div class="sidebar-end-items">
+              </div>
             </div>
             
           
@@ -140,7 +143,7 @@
               
               <div class="toc-item">
                 
-<div class="tocsection onthispage pt-5 pb-3">
+<div class="tocsection onthispage mt-5 pt-1 pb-3">
     <i class="fas fa-list"></i> On this page
 </div>
 
@@ -204,8 +207,8 @@
               
               <div>
                 
-  <div class="section" id="pymeshfix">
-<h1>PyMeshFix<a class="headerlink" href="#pymeshfix" title="Permalink to this headline">¶</a></h1>
+  <section id="pymeshfix">
+<h1>PyMeshFix<a class="headerlink" href="#pymeshfix" title="Permalink to this headline">#</a></h1>
 <p>Python/Cython wrapper of Marco Attene’s wonderful, award-winning
 <a class="reference external" href="https://github.com/MarcoAttene/MeshFix-V2.1">MeshFix</a> software.
 This module brings the speed of C++ with the portability and ease of
@@ -221,8 +224,8 @@ All the singularities, self-intersections and degenerate elements are removed
 from the input, while regions of the surface without defects are left
 unmodified.</p>
 <p>C++ source last updated 1 Jul 2020</p>
-<div class="section" id="installation">
-<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">#</a></h2>
 <p>From <a class="reference external" href="https://pypi.python.org/pypi/pymeshfix">PyPI</a></p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install pymeshfix
 </pre></div>
@@ -233,9 +236,9 @@ unmodified.</p>
 pip install .
 </pre></div>
 </div>
-</div>
-<div class="section" id="dependencies">
-<h2>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="dependencies">
+<h2>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this headline">#</a></h2>
 <p>Requires <code class="docutils literal notranslate"><span class="pre">numpy</span></code> and <code class="docutils literal notranslate"><span class="pre">pyvista</span></code></p>
 <p>If you can’t or don’t want to install vtk, you can install it without
 <code class="docutils literal notranslate"><span class="pre">pyvista</span></code> with:</p>
@@ -243,9 +246,9 @@ pip install .
 </pre></div>
 </div>
 <p>You’ll miss out on some of the cool features from <code class="docutils literal notranslate"><span class="pre">pyvista</span></code>, but it will still function.</p>
-</div>
-<div class="section" id="examples">
-<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">#</a></h2>
 <p>Test installation with the following from Python:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pymeshfix</span> <span class="kn">import</span> <span class="n">examples</span>
 
@@ -256,9 +259,9 @@ pip install .
 <span class="n">examples</span><span class="o">.</span><span class="n">with_vtk</span><span class="p">()</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="easy-example">
-<h2>Easy Example<a class="headerlink" href="#easy-example" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="easy-example">
+<h2>Easy Example<a class="headerlink" href="#easy-example" title="Permalink to this headline">#</a></h2>
 <p>This example uses the Cython wrapper directly. No bells or whistles here:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pymeshfix</span>
 
@@ -274,9 +277,9 @@ pip install .
 <span class="n">vclean</span><span class="p">,</span> <span class="n">fclean</span> <span class="o">=</span> <span class="n">pymeshfix</span><span class="o">.</span><span class="n">clean_from_arrays</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="complete-examples-with-and-without-vtk">
-<h2>Complete Examples with and without VTK<a class="headerlink" href="#complete-examples-with-and-without-vtk" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="complete-examples-with-and-without-vtk">
+<h2>Complete Examples with and without VTK<a class="headerlink" href="#complete-examples-with-and-without-vtk" title="Permalink to this headline">#</a></h2>
 <p>One of the main reasons to bring MeshFix to Python is to allow the
 library to communicate to other python programs without having to use
 the hard drive.  Therefore, this example assumes that you have a mesh
@@ -296,7 +299,7 @@ within memory and wish to repair it using MeshFix.</p>
 <span class="n">mesh</span> <span class="o">=</span> <span class="n">meshfix</span><span class="o">.</span><span class="n">mesh</span>
 
 <span class="c1"># Or, access the resulting arrays directly from the object</span>
-<span class="n">meshfix</span><span class="o">.</span><span class="n">v</span> <span class="c1"># numpy np.float array</span>
+<span class="n">meshfix</span><span class="o">.</span><span class="n">v</span> <span class="c1"># numpy np.float64 array</span>
 <span class="n">meshfix</span><span class="o">.</span><span class="n">f</span> <span class="c1"># numpy np.int32 array</span>
 
 <span class="c1"># View the repaired mesh (requires vtkInterface)</span>
@@ -322,13 +325,13 @@ algorithm.</p>
 
 <span class="c1"># Fill holes</span>
 <span class="n">tin</span><span class="o">.</span><span class="n">fill_small_boundaries</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;There are </span><span class="si">{:d}</span><span class="s1"> boundaries&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tin</span><span class="o">.</span><span class="n">boundaries</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;There are </span><span class="si">{:d}</span><span class="s1"> boundaries&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tin</span><span class="o">.</span><span class="n">boundaries</span><span class="p">()))</span>
 
 <span class="c1"># Clean (removes self intersections)</span>
 <span class="n">tin</span><span class="o">.</span><span class="n">clean</span><span class="p">(</span><span class="n">max_iters</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">inner_loops</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 
 <span class="c1"># Check mesh for holes again</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;There are </span><span class="si">{:d}</span><span class="s1"> boundaries&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tin</span><span class="o">.</span><span class="n">boundaries</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;There are </span><span class="si">{:d}</span><span class="s1"> boundaries&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tin</span><span class="o">.</span><span class="n">boundaries</span><span class="p">()))</span>
 
 <span class="c1"># Clean again if necessary...</span>
 
@@ -339,9 +342,9 @@ algorithm.</p>
 <span class="n">vclean</span><span class="p">,</span> <span class="n">fclean</span> <span class="o">=</span> <span class="n">tin</span><span class="o">.</span><span class="n">return_arrays</span><span class="p">()</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="algorithm-and-citation-policy">
-<h2>Algorithm and Citation Policy<a class="headerlink" href="#algorithm-and-citation-policy" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="algorithm-and-citation-policy">
+<h2>Algorithm and Citation Policy<a class="headerlink" href="#algorithm-and-citation-policy" title="Permalink to this headline">#</a></h2>
 <p>To better understand how the algorithm works, please refer to the following
 paper:</p>
 <blockquote>
@@ -352,9 +355,9 @@ The Visual Computer, 2010. (c) Springer. DOI: 10.1007/s00371-010-0416-3</p>
 research purposes you should cite the above paper in your published results.
 MeshFix cannot be used for commercial purposes without a proper licensing
 contract.</p>
-</div>
-<div class="section" id="copyright">
-<h2>Copyright<a class="headerlink" href="#copyright" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="copyright">
+<h2>Copyright<a class="headerlink" href="#copyright" title="Permalink to this headline">#</a></h2>
 <p>MeshFix is Copyright(C) 2010: IMATI-GE / CNR</p>
 <p>All rights reserved.</p>
 <p>This program is dual-licensed as follows:</p>
@@ -375,8 +378,8 @@ proper licensing contract.</p>
 </div>
 <div class="toctree-wrapper compound">
 </div>
-</div>
-</div>
+</section>
+</section>
 
 
               </div>
@@ -388,20 +391,20 @@ proper licensing contract.</p>
       </div>
     </div>
   
-  <script src="_static/js/index.1c5a1a01449ed65a7b51.js"></script>
-
-  <footer class="footer mt-5 mt-md-0">
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+<footer class="footer mt-5 mt-md-0">
   <div class="container">
     
     <div class="footer-item">
       <p class="copyright">
-    &copy; Copyright 2017-2021, The PyVista Developers.<br/>
+    &copy; Copyright 2017-2022, The PyVista Developers.<br>
 </p>
     </div>
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.0.3.<br/>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.0.3.<br>
 </p>
     </div>
     

@@ -62,8 +62,8 @@ Repair a holey cow
 
  .. code-block:: none
 
-    PolyData (0x7f263c4eb9a0)
-      N Cells:      5196
+    PolyData (0x7f6ee4de3520)
+      N Cells:      5186
       N Points:     2903
       X Bounds:     -4.446e+00, 5.998e+00
       Y Bounds:     -3.637e+00, 2.760e+00
@@ -99,21 +99,12 @@ Repair a holey cow
 
 
 
-.. image:: /examples/images/sphx_glr_cow_001.png
-    :alt: cow
-    :class: sphx-glr-single-img
+.. image-sg:: /examples/images/sphx_glr_cow_001.png
+   :alt: cow
+   :srcset: /examples/images/sphx_glr_cow_001.png
+   :class: sphx-glr-single-img
 
 
-.. rst-class:: sphx-glr-script-out
-
- Out:
-
- .. code-block:: none
-
-
-    [(6.56, 8.73, 22.03),
-     (0.77, -0.44, 0.0),
-     (-0.12972139816963404, 0.928006925367382, -0.34924991814901474)]
 
 
 
@@ -138,9 +129,8 @@ Repair the holey cow
 
  .. code-block:: none
 
-    Removed 1 small components
     Patching holes...
-    Patched 189 holes
+    Patched 209 holes
     Fixing degeneracies and intersections
 
 
@@ -168,10 +158,10 @@ Show the repaired result
 
  .. code-block:: none
 
-    PolyData (0x7f263f5e9b20)
-      N Cells:      5696
-      N Points:     2850
-      X Bounds:     -4.446e+00, 5.998e+00
+    PolyData (0x7f6ee3a3c760)
+      N Cells:      5438
+      N Points:     2721
+      X Bounds:     -3.696e+00, 5.998e+00
       Y Bounds:     -3.637e+00, 2.760e+00
       Z Bounds:     -1.701e+00, 1.701e+00
       N Arrays:     0
@@ -188,28 +178,19 @@ Show the repaired result
 
 
 
-.. image:: /examples/images/sphx_glr_cow_002.png
-    :alt: cow
-    :class: sphx-glr-single-img
+.. image-sg:: /examples/images/sphx_glr_cow_002.png
+   :alt: cow
+   :srcset: /examples/images/sphx_glr_cow_002.png
+   :class: sphx-glr-single-img
 
 
-.. rst-class:: sphx-glr-script-out
-
- Out:
-
- .. code-block:: none
-
-
-    [(6.56, 8.73, 22.03),
-     (0.77, -0.44, 0.0),
-     (-0.12972139816963404, 0.928006925367382, -0.34924991814901474)]
 
 
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  2.328 seconds)
+   **Total running time of the script:** ( 0 minutes  2.224 seconds)
 
 
 .. _sphx_glr_download_examples_cow.py:
