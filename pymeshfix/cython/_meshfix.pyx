@@ -103,12 +103,13 @@ cdef class PyTMesh:
 
     cdef Basic_TMesh_wrap c_tmesh  # hold a C++ instance which we're wrapping
 
-    def __cinit__(self, quiet=1):
+    def __cinit__(self, verbose=1):
         """ Create TMesh object """
         self.c_tmesh = Basic_TMesh_wrap()
 
         # Enable/Disable printed progress
-        self.c_tmesh.SetVerbose(not quiet)
+        quiet = 0 if verbose else 1
+        self.c_tmesh.SetVerbose(quiet)
 
     def load_file(self, filename):
         """
