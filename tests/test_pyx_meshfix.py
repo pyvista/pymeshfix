@@ -67,7 +67,7 @@ def test_remove_components():
 
 
 def test_select_intersecting_triangles():
-    meshfix = _meshfix.PyTMesh(quiet=0)
+    meshfix = _meshfix.PyTMesh(verbose=0)
     meshfix.load_file(examples.bunny_scan)
     faces = meshfix.select_intersecting_triangles()
     assert faces.any()
