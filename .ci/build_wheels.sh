@@ -6,9 +6,6 @@ set -e -x
 # build based on python version from args
 PYTHON_VERSION="$1"
 case $PYTHON_VERSION in
-3.6)
-  PYBIN="/opt/python/cp36-cp36m/bin"
-  ;;
 3.7)
   PYBIN="/opt/python/cp37-cp37m/bin"
   ;;
@@ -18,6 +15,9 @@ case $PYTHON_VERSION in
 3.9)
   PYBIN="/opt/python/cp39-cp39/bin"
   ;;
+3.10)
+  PYBIN="/opt/python/cp310-cp310/bin"
+  ;;
 esac
 
 # build, don't install
@@ -26,4 +26,4 @@ cd io
 "${PYBIN}/python" setup.py bdist_wheel
 auditwheel repair dist/$package_name*.whl
 rm -f dist/*
-mv wheelhouse/*manylinux2010* dist/
+mv wheelhouse/*manylinux2014* dist/

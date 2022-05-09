@@ -76,7 +76,7 @@ class MeshFix(object):
         # Check inputs
         if not isinstance(v, np.ndarray):
             try:
-                v = np.asarray(v, np.float)
+                v = np.asarray(v, np.float64)
                 if v.ndim != 2 and v.shape[1] != 3:
                     raise Exception('Invalid vertex format.  Shape ' +
                                     'should be (npoints, 3)')

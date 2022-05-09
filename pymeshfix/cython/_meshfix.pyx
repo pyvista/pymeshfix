@@ -128,7 +128,7 @@ cdef class PyTMesh:
 
         """
         if self.n_points:
-            raise Exception('Cannot load a new file once initialized')
+            raise RuntimeError('Cannot load a new file once initialized')
 
         # Initializes triangulation
         py_byte_string = filename.encode('UTF-8')
@@ -194,26 +194,15 @@ cdef class PyTMesh:
 
         """
         if self.n_points:
-            raise Exception('Cannot load new arrays once initialized')
+            raise RuntimeError('Cannot load new arrays once initialized')
 
-        if not v.flags['C_CONTIGUOUS']:
-            if v.dtype != np.float:
-                v = np.ascontiguousarray(v, dtype=np.float)
-            else:
-                v = np.ascontiguousarray(v)
-        elif v.dtype != np.float:
-            v = v.astype(np.float)
+        v = np.ascontiguousarray(v, dtype=np.float64)
 
         # Ensure inputs are of the right type
-        assert f.ndim == 2, 'Face array must be 2D numpy array'
-        assert f.shape[1] == 3, 'Face array must contain three columns'
-        if not f.flags['C_CONTIGUOUS']:
-            if f.dtype != ctypes.c_int:
-                f = np.ascontiguousarray(f, dtype=ctypes.c_int)
-            else:
-                f = np.ascontiguousarray(f)
-        elif f.dtype != ctypes.c_int:
-            f = f.astype(ctypes.c_int)
+        f = np.ascontiguousarray(f, dtype=ctypes.c_int)
+        if f.ndim != 2 or f.shape[1] != 3:
+            raise ValueError(
+                f'Face array must be 2D with three columns, got {f.shape}')
 
         cdef int nv = v.shape[0]
         cdef double [::1] points = v.ravel()

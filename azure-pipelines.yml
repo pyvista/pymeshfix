@@ -15,14 +15,14 @@ jobs:
 - job: Linux
   strategy:
     matrix:
-      Python36:
-        python.version: '3.6'
       Python37:
         python.version: '3.7'
       Python38:
         python.version: '3.8'
       Python39:
         python.version: '3.9'
+      Python310:
+        python.version: '3.10'
   pool:
     vmImage: 'ubuntu-18.04'
   steps:
@@ -32,11 +32,11 @@ jobs:
       displayName: 'Use Python $(python.version)'
     - script: |
         set -ex
-        docker pull quay.io/pypa/manylinux2010_x86_64
-        docker run -e package_name=$(package_name) --rm -v `pwd`:/io quay.io/pypa/manylinux2010_x86_64 /io/.ci/build_wheels.sh $(python.version)
-      displayName: Build wheel using manylinux2010
+        docker pull quay.io/pypa/manylinux2014_x86_64
+        docker run -e package_name=$(package_name) --rm -v `pwd`:/io quay.io/pypa/manylinux2014_x86_64 /io/.ci/build_wheels.sh $(python.version)
+      displayName: Build wheel using manylinux2014
     - script: |
-        pip install dist/*.whl
+        pip install dist/*.whl --find-links https://wheels.pyvista.org/
       displayName: Install wheel
     - script: |
         pip install -r requirements_test.txt
@@ -52,14 +52,14 @@ jobs:
     python.architecture: 'x64'
   strategy:
     matrix:
-      Python36:
-        python.version: '3.6'
       Python37:
         python.version: '3.7'
       Python38:
         python.version: '3.8'
       Python39:
         python.version: '3.9'
+      Python310:
+        python.version: '3.10'
   steps:
     - template: .ci/azure-setup.yml
     - template: .ci/azure-steps.yml

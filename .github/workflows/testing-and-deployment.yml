@@ -1,4 +1,7 @@
 name: Unit Testing
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.number }}-${{ github.event.ref }}
+  cancel-in-progress: true
 
 on:
   push:
@@ -9,11 +12,15 @@ on:
 
 jobs:
   macOS:
-    runs-on: macos-latest
+    runs-on: ${{ matrix.os }}
     name: Mac OS Unit Testing
     strategy:
       matrix:
-        python-version: ['3.6', '3.7', '3.8', '3.9']
+        python-version: ['3.7', '3.8', '3.9']
+        os: ['macos-11']
+        include:
+          - python-version: '3.10'
+            os: macos-12
 
     env:
       SHELLOPTS: 'errexit:pipefail'
@@ -26,15 +33,31 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Build package
+      - name: Setup dependencies
         run: |
-          pip install -r requirements_build.txt
+          pip install -r requirements_build.txt --only-binary="numpy" --find-links https://wheels.pyvista.org/
+
+      - name: Build wheel
+        run: |
           python setup.py bdist_wheel
+
+      - name: Manually install VTK wheel on 3.10 since it does not work locally
+        run: |
+          pip install --upgrade pip
+          curl https://wheels.pyvista.org/vtk-9.1.0.dev0-cp310-cp310-macosx_12_0_x86_64.whl -o vtk-9.1.0.dev0-cp310-cp310-macosx_10_16_x86_64.whl
+          pip install ./vtk-9.1.0.dev0-cp310-cp310-macosx_10_16_x86_64.whl
+        if: ${{ matrix.os == 'macos-12' }}
+
+      - name: Install vtk
+        run: |
+          pip install --find-links https://wheels.pyvista.org/ vtk -vvv
+
+      - name: Install wheel
+        run: |
           pip install dist/*
 
-      - name: Install package
+      - name: Check package
         run: |
-          pip install dist/*
           python -c "import pyvista; print(pyvista.Report(gpu=False))"
 
       - name: Install test dependencies
