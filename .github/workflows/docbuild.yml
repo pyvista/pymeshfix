@@ -4,7 +4,7 @@ on: [push, pull_request, workflow_dispatch]
 
 jobs:
   docs_build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
 
     env:
       PYANSYS_OFF_SCREEN: True
@@ -16,7 +16,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v2.2.2
         with:
-          python-version: 3.8
+          python-version: 3.9
 
       - name: Install and start virtual framebuffer
         run: |

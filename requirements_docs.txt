@@ -1,4 +1,4 @@
-Sphinx==4.0.3
+Sphinx==5.0.2
 pydata-sphinx-theme
 matplotlib
 pyvista
