@@ -1,47 +1,47 @@
 """ Demonstrates mesh repair on the standford bunny mesh """
-import time
 import os
+import time
 
 import numpy as np
-import pyvista as pv
-
 import pymeshfix
 from pymeshfix.examples import bunny_scan
+import pyvista as pv
 
 
-def native(outfile='repaired.ply'):
-    """ Repair Stanford Bunny Mesh """
+def native(outfile="repaired.ply"):
+    """Repair Stanford Bunny Mesh"""
     pymeshfix._meshfix.clean_from_file(bunny_scan, outfile)
     return outfile
 
 
 def with_vtk(plot=True):
-    """ Tests VTK interface and mesh repair of Stanford Bunny Mesh """
+    """Tests VTK interface and mesh repair of Stanford Bunny Mesh"""
     mesh = pv.PolyData(bunny_scan)
     meshfix = pymeshfix.MeshFix(mesh)
     if plot:
-        print('Plotting input mesh')
+        print("Plotting input mesh")
         meshfix.plot()
     meshfix.repair()
     if plot:
-        print('Plotting repaired mesh')
+        print("Plotting repaired mesh")
         meshfix.plot()
 
     return meshfix.mesh
 
 
-if __name__ == '__main__':
-    """ Functional Test: vtk and native """
+if __name__ == "__main__":
+    """Functional Test: vtk and native"""
     t_start = time.time()
-    out_file = 'repaired.ply'
+    out_file = "repaired.ply"
     native()
     outmesh = pv.PolyData(out_file)
     os.remove(out_file)
     assert outmesh.n_points
 
     # test for any holes
-    pdata = outmesh.extract_edges(non_manifold_edges=False, feature_edges=False,
-                                  manifold_edges=False)
+    pdata = outmesh.extract_edges(
+        non_manifold_edges=False, feature_edges=False, manifold_edges=False
+    )
     assert pdata.n_points == 0
 
     # test vtk
@@ -56,6 +56,7 @@ if __name__ == '__main__':
     assert meshfix.mesh.n_points
 
     # test for any holes
-    pdata = meshout.extract_edges(non_manifold_edges=False, feature_edges=False,
-                                  manifold_edges=False)
-    print('PASS in %f seconds' % (time.time() - t_start))
+    pdata = meshout.extract_edges(
+        non_manifold_edges=False, feature_edges=False, manifold_edges=False
+    )
+    print("PASS in %f seconds" % (time.time() - t_start))

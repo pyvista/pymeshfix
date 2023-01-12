@@ -1,8 +1,6 @@
+from pymeshfix import _meshfix, examples
 import pytest
 import pyvista as pv
-
-from pymeshfix import _meshfix
-from pymeshfix import examples
 
 bunny = pv.PolyData(examples.bunny_scan)
 
@@ -18,7 +16,7 @@ def test_load_and_save_file(tmpdir):
     assert f.shape[0] == bunny.n_faces
 
     # test saving
-    filename = str(tmpdir.mkdir("tmpdir").join('tmp.ply'))
+    filename = str(tmpdir.mkdir("tmpdir").join("tmp.ply"))
     meshfix.save_file(filename)
     new_bunny = pv.PolyData(filename)
     assert new_bunny.points.shape == v.shape
@@ -74,8 +72,7 @@ def test_select_intersecting_triangles():
 
 
 def clean_from_file(tmpdir):
-    outfile = str(tmpdir.mkdir("tmpdir").join('tmp.ply'))
-    clean_from_file(examples.bunny_scan, outfile, verbose=False,
-                    joincomp=False)
-    outfile = str(tmpdir.mkdir("tmpdir").join('tmp2.ply'))
+    outfile = str(tmpdir.mkdir("tmpdir").join("tmp.ply"))
+    clean_from_file(examples.bunny_scan, outfile, verbose=False, joincomp=False)
+    outfile = str(tmpdir.mkdir("tmpdir").join("tmp2.ply"))
     examples.native(outfile)
