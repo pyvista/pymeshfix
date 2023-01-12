@@ -177,9 +177,9 @@ cdef class PyTMesh:
         return n_points
 
     def load_array(self, v, f):
-        """
-        Loads points from numpy verticies and faces arrays
-        The loader automatically reconstructs a manifold triangle connectivity
+        """Load points from numpy vertices and faces arrays.
+
+        The loader automatically reconstructs a manifold triangle connectivity.
 
         Parameters
         ----------
@@ -290,7 +290,7 @@ cdef class PyTMesh:
         return v, f
 
     def join_closest_components(self):
-        """Attempts to join nearby open components.
+        """Attempt to join nearby open components.
 
         Should be run before mesh repair.
 
@@ -305,13 +305,13 @@ cdef class PyTMesh:
                                       bool justproper=False):
         """Selects all intersecting triangles.
 
-        Selects all the triangles that unproperly intersect other
+        Selects all the triangles that improperly intersect other
         parts of the mesh and return their number. The parameter
         'tris_per_cell' determines the depth of the recursive space
-        subdivision used to keep the complexity under a resonable
-        threchold. The default value is safe in most cases.
+        subdivision used to keep the complexity under a reasonable
+        threshold. The default value is safe in most cases.
 
-        if ``justproper`` is true, coincident edges and vertices are not
+        If ``justproper`` is true, coincident edges and vertices are not
         regarded as intersections even if they are not common
         subsimplexes.
 
@@ -359,7 +359,7 @@ def clean_from_file(infile, outfile, verbose=False, joincomp=False):
         Prints progress to stdout.  Default ``True``.
 
     joincomp : bool, optional
-        Attempts to join nearby open components.  Default ``False``
+        Attempt to join nearby open components.  Default ``False``.
 
     Examples
     --------
@@ -385,7 +385,7 @@ def clean_from_file(infile, outfile, verbose=False, joincomp=False):
 
 def clean_from_arrays(v, f, verbose=False, joincomp=False,
                       remove_smallest_components=True):
-    """Performs default cleaning procedure on vertex and face arrays.
+    """Perform default cleaning procedure on vertex and face arrays.
 
     Returns cleaned vertex and face arrays
 
