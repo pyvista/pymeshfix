@@ -1,8 +1,7 @@
 import numpy as np
-import pyvista as pv
-
 import pymeshfix
 from pymeshfix.examples import bunny_scan
+import pyvista as pv
 
 
 def test_repair_vtk():
@@ -17,7 +16,7 @@ def test_repair_vtk():
     assert meshfix.mesh.n_points
 
     # test for any holes
-    pdata = meshout.extract_feature_edges(non_manifold_edges=False,
-                                          feature_edges=False,
-                                          manifold_edges=False)
+    pdata = meshout.extract_feature_edges(
+        non_manifold_edges=False, feature_edges=False, manifold_edges=False
+    )
     assert pdata.n_points == 0
