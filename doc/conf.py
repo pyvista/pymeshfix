@@ -116,6 +116,10 @@ html_context = {
 html_theme_options = {
     "show_prev_next": False,
     "github_url": "https://github.com/pyvista/pymeshfix",
+    "logo": {
+        "image_light": "pyvista_logo_sm.png",
+        "image_dark": "pyvista_logo_sm.png",
+    },
 }
 
 
