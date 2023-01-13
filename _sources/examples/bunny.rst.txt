@@ -21,16 +21,17 @@
 Bunny
 -----
 
-Repair the holes in the bunny mesh
+Repair the holes in the bunny mesh.
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-13
+.. GENERATED FROM PYTHON SOURCE LINES 7-14
 
 .. code-block:: default
 
 
+    import pymeshfix as mf
+
     # sphinx_gallery_thumbnail_number = 2
     import pyvista as pv
-    import pymeshfix as mf
     from pyvista import examples
 
 
@@ -40,16 +41,14 @@ Repair the holes in the bunny mesh
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 14-24
+.. GENERATED FROM PYTHON SOURCE LINES 15-23
 
 .. code-block:: default
 
     bunny = examples.download_bunny()
 
     # Define a camera position that shows the holes in the mesh
-    cpos = [(-0.2, -0.13, 0.12),
-            (-0.015, 0.10, -0.0),
-            (0.28, 0.26, 0.9)]
+    cpos = [(-0.2, -0.13, 0.12), (-0.015, 0.10, -0.0), (0.28, 0.26, 0.9)]
 
     # Show mesh
     bunny.plot(cpos=cpos)
@@ -66,11 +65,11 @@ Repair the holes in the bunny mesh
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 25-26
+.. GENERATED FROM PYTHON SOURCE LINES 24-25
 
-Genereate a meshfix mesh ready for fixing and extract the holes
+Generate a meshfix mesh ready for fixing and extract the holes
 
-.. GENERATED FROM PYTHON SOURCE LINES 26-29
+.. GENERATED FROM PYTHON SOURCE LINES 25-28
 
 .. code-block:: default
 
@@ -84,19 +83,19 @@ Genereate a meshfix mesh ready for fixing and extract the holes
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 30-31
+.. GENERATED FROM PYTHON SOURCE LINES 29-30
 
 Render the mesh and outline the holes
 
-.. GENERATED FROM PYTHON SOURCE LINES 31-38
+.. GENERATED FROM PYTHON SOURCE LINES 30-37
 
 .. code-block:: default
 
     p = pv.Plotter()
     p.add_mesh(bunny, color=True)
-    p.add_mesh(holes, color='r', line_width=8)
+    p.add_mesh(holes, color="r", line_width=8)
     p.camera_position = cpos
-    p.enable_eye_dome_lighting() # helps depth perception
+    p.enable_eye_dome_lighting()  # helps depth perception
     p.show()
 
 
@@ -111,11 +110,11 @@ Render the mesh and outline the holes
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 39-40
+.. GENERATED FROM PYTHON SOURCE LINES 38-39
 
 Repair the mesh
 
-.. GENERATED FROM PYTHON SOURCE LINES 40-42
+.. GENERATED FROM PYTHON SOURCE LINES 39-41
 
 .. code-block:: default
 
@@ -127,8 +126,6 @@ Repair the mesh
 
 .. rst-class:: sphx-glr-script-out
 
- Out:
-
  .. code-block:: none
 
     Patching holes...
@@ -138,11 +135,11 @@ Repair the mesh
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 43-44
+.. GENERATED FROM PYTHON SOURCE LINES 42-43
 
 Show the repaired mesh
 
-.. GENERATED FROM PYTHON SOURCE LINES 44-45
+.. GENERATED FROM PYTHON SOURCE LINES 43-44
 
 .. code-block:: default
 
@@ -162,28 +159,23 @@ Show the repaired mesh
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  6.705 seconds)
+   **Total running time of the script:** ( 0 minutes  5.738 seconds)
 
 
 .. _sphx_glr_download_examples_bunny.py:
 
+.. only:: html
 
-.. only :: html
-
- .. container:: sphx-glr-footer
-    :class: sphx-glr-footer-example
+  .. container:: sphx-glr-footer sphx-glr-footer-example
 
 
+    .. container:: sphx-glr-download sphx-glr-download-python
 
-  .. container:: sphx-glr-download sphx-glr-download-python
+      :download:`Download Python source code: bunny.py <bunny.py>`
 
-     :download:`Download Python source code: bunny.py <bunny.py>`
+    .. container:: sphx-glr-download sphx-glr-download-jupyter
 
-
-
-  .. container:: sphx-glr-download sphx-glr-download-jupyter
-
-     :download:`Download Jupyter notebook: bunny.ipynb <bunny.ipynb>`
+      :download:`Download Jupyter notebook: bunny.ipynb <bunny.ipynb>`
 
 
 .. only:: html

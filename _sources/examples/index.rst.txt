@@ -1,9 +1,5 @@
 :orphan:
 
-
-
-.. _sphx_glr_examples:
-
 pymeshfix Examples
 ==================
 The following examples demonstrate pymeshfix functionality using
@@ -13,14 +9,76 @@ The following examples demonstrate pymeshfix functionality using
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="Repair the holes in the bunny mesh">
+    <div class="sphx-glr-thumbnails">
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Repair the holes in the bunny mesh.">
 
 .. only:: html
 
- .. figure:: /examples/images/thumb/sphx_glr_bunny_thumb.png
-     :alt: Bunny
+  .. image:: /examples/images/thumb/sphx_glr_bunny_thumb.png
+    :alt: Bunny
 
-     :ref:`sphx_glr_examples_bunny.py`
+  :ref:`sphx_glr_examples_bunny.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Bunny</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Repair a holey cow">
+
+.. only:: html
+
+  .. image:: /examples/images/thumb/sphx_glr_cow_thumb.png
+    :alt: Holey Cow
+
+  :ref:`sphx_glr_examples_cow.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Holey Cow</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example fills all but the largest holes in a planar mesh.">
+
+.. only:: html
+
+  .. image:: /examples/images/thumb/sphx_glr_repair_planar_thumb.png
+    :alt: Partial Fill Holes
+
+  :ref:`sphx_glr_examples_repair_planar.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Partial Fill Holes</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Repair the torso mesh where it was extracted and subtle holes along complex parts of the mesh">
+
+.. only:: html
+
+  .. image:: /examples/images/thumb/sphx_glr_torso_thumb.png
+    :alt: Torso
+
+  :ref:`sphx_glr_examples_torso.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Torso</div>
+    </div>
+
 
 .. raw:: html
 
@@ -31,72 +89,9 @@ The following examples demonstrate pymeshfix functionality using
    :hidden:
 
    /examples/bunny
-
-.. raw:: html
-
-    <div class="sphx-glr-thumbcontainer" tooltip="Repair a holey cow">
-
-.. only:: html
-
- .. figure:: /examples/images/thumb/sphx_glr_cow_thumb.png
-     :alt: Holey Cow
-
-     :ref:`sphx_glr_examples_cow.py`
-
-.. raw:: html
-
-    </div>
-
-
-.. toctree::
-   :hidden:
-
    /examples/cow
-
-.. raw:: html
-
-    <div class="sphx-glr-thumbcontainer" tooltip="This example fills all but the largest holes in a planar mesh.">
-
-.. only:: html
-
- .. figure:: /examples/images/thumb/sphx_glr_repair_planar_thumb.png
-     :alt: Partial Fill Holes
-
-     :ref:`sphx_glr_examples_repair_planar.py`
-
-.. raw:: html
-
-    </div>
-
-
-.. toctree::
-   :hidden:
-
    /examples/repair_planar
-
-.. raw:: html
-
-    <div class="sphx-glr-thumbcontainer" tooltip="Repair the torso mesh where it was extracted and subtle holes along complex parts of the mesh">
-
-.. only:: html
-
- .. figure:: /examples/images/thumb/sphx_glr_torso_thumb.png
-     :alt: Torso
-
-     :ref:`sphx_glr_examples_torso.py`
-
-.. raw:: html
-
-    </div>
-
-
-.. toctree::
-   :hidden:
-
    /examples/torso
-.. raw:: html
-
-    <div class="sphx-glr-clear"></div>
 
 
 

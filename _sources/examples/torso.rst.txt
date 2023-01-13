@@ -29,11 +29,11 @@ parts of the mesh
 .. code-block:: default
 
 
+    import pymeshfix as mf
+
     # sphinx_gallery_thumbnail_number = 2
     import pyvista as pv
-    import pymeshfix as mf
     from pyvista import examples
-
 
     mesh = examples.download_torso()
     print(mesh)
@@ -44,13 +44,12 @@ parts of the mesh
 
 .. rst-class:: sphx-glr-script-out
 
- Out:
-
  .. code-block:: none
 
-    PolyData (0x7fe47da9e580)
+    PolyData (0x7f0cb5b20580)
       N Cells:      12448
       N Points:     12015
+      N Strips:     0
       X Bounds:     -1.680e+02, 1.720e+02
       Y Bounds:     -1.624e+02, 1.320e+02
       Z Bounds:     -6.442e+02, 9.083e+01
@@ -60,14 +59,12 @@ parts of the mesh
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 19-26
+.. GENERATED FROM PYTHON SOURCE LINES 19-24
 
 .. code-block:: default
 
 
-    cpos = [(-1053., -1251., 83.),
-            (2., -15., -276.),
-            (0.12, 0.18, 1)]
+    cpos = [(-1053.0, -1251.0, 83.0), (2.0, -15.0, -276.0), (0.12, 0.18, 1)]
 
     mesh.plot(color=True, show_edges=True, cpos=cpos)
 
@@ -83,11 +80,11 @@ parts of the mesh
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 27-28
+.. GENERATED FROM PYTHON SOURCE LINES 25-26
 
-Appy a triangle filter to ensure the mesh is simply polyhedral
+Apply a triangle filter to ensure the mesh is simply polyhedral
 
-.. GENERATED FROM PYTHON SOURCE LINES 28-31
+.. GENERATED FROM PYTHON SOURCE LINES 26-29
 
 .. code-block:: default
 
@@ -101,18 +98,18 @@ Appy a triangle filter to ensure the mesh is simply polyhedral
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 32-33
+.. GENERATED FROM PYTHON SOURCE LINES 30-31
 
 Outline the holes in the mesh
 
-.. GENERATED FROM PYTHON SOURCE LINES 33-40
+.. GENERATED FROM PYTHON SOURCE LINES 31-38
 
 .. code-block:: default
 
     p = pv.Plotter()
     p.add_mesh(mesh)
-    p.add_mesh(holes, color='r', line_width=8)
-    p.enable_eye_dome_lighting() # helps with depth perception
+    p.add_mesh(holes, color="r", line_width=8)
+    p.enable_eye_dome_lighting()  # helps with depth perception
     p.camera_position = cpos
     p.show()
 
@@ -128,23 +125,21 @@ Outline the holes in the mesh
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 41-43
+.. GENERATED FROM PYTHON SOURCE LINES 39-41
 
 Emphasize the hole near the ear - this needs to be repaired so that the mesh
 is absolutely water tight.
 
-.. GENERATED FROM PYTHON SOURCE LINES 43-54
+.. GENERATED FROM PYTHON SOURCE LINES 41-50
 
 .. code-block:: default
 
-    cpos_ear = [(180., -206., 17.),
-                (107., -122.9, -11.9),
-                (-0.13, 0.22, 0.96)]
+    cpos_ear = [(180.0, -206.0, 17.0), (107.0, -122.9, -11.9), (-0.13, 0.22, 0.96)]
 
     p = pv.Plotter()
     p.add_mesh(mesh)
-    p.add_mesh(holes, color='r', line_width=8)
-    p.enable_eye_dome_lighting() # helps with depth perception
+    p.add_mesh(holes, color="r", line_width=8)
+    p.enable_eye_dome_lighting()  # helps with depth perception
     p.camera_position = cpos_ear
     p.show()
 
@@ -160,11 +155,11 @@ is absolutely water tight.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 55-56
+.. GENERATED FROM PYTHON SOURCE LINES 51-52
 
-Perfrom the mesh repair
+Perform the mesh repair
 
-.. GENERATED FROM PYTHON SOURCE LINES 56-58
+.. GENERATED FROM PYTHON SOURCE LINES 52-54
 
 .. code-block:: default
 
@@ -176,8 +171,6 @@ Perfrom the mesh repair
 
 .. rst-class:: sphx-glr-script-out
 
- Out:
-
  .. code-block:: none
 
     Removed 6 small components
@@ -188,11 +181,11 @@ Perfrom the mesh repair
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 59-60
+.. GENERATED FROM PYTHON SOURCE LINES 55-56
 
 Show the repaired mesh
 
-.. GENERATED FROM PYTHON SOURCE LINES 60-61
+.. GENERATED FROM PYTHON SOURCE LINES 56-57
 
 .. code-block:: default
 
@@ -212,28 +205,23 @@ Show the repaired mesh
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  5.677 seconds)
+   **Total running time of the script:** ( 0 minutes  4.502 seconds)
 
 
 .. _sphx_glr_download_examples_torso.py:
 
+.. only:: html
 
-.. only :: html
-
- .. container:: sphx-glr-footer
-    :class: sphx-glr-footer-example
+  .. container:: sphx-glr-footer sphx-glr-footer-example
 
 
+    .. container:: sphx-glr-download sphx-glr-download-python
 
-  .. container:: sphx-glr-download sphx-glr-download-python
+      :download:`Download Python source code: torso.py <torso.py>`
 
-     :download:`Download Python source code: torso.py <torso.py>`
+    .. container:: sphx-glr-download sphx-glr-download-jupyter
 
-
-
-  .. container:: sphx-glr-download sphx-glr-download-jupyter
-
-     :download:`Download Jupyter notebook: torso.ipynb <torso.ipynb>`
+      :download:`Download Jupyter notebook: torso.ipynb <torso.ipynb>`
 
 
 .. only:: html

@@ -23,16 +23,17 @@ Holey Cow
 
 Repair a holey cow
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-14
+.. GENERATED FROM PYTHON SOURCE LINES 7-15
 
 .. code-block:: default
 
 
+    import numpy as np
+    import pymeshfix as mf
+
     # sphinx_gallery_thumbnail_number = 1
     import pyvista as pv
-    import pymeshfix as mf
     from pyvista import examples
-    import numpy as np
 
 
 
@@ -41,14 +42,14 @@ Repair a holey cow
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 15-22
+.. GENERATED FROM PYTHON SOURCE LINES 16-23
 
 .. code-block:: default
 
     cow = examples.download_cow()
 
     # Add holes and cast to triangulated PolyData
-    cow['random'] = np.random.rand(cow.n_cells)
+    cow["random"] = np.random.rand(cow.n_cells)
     holy_cow = cow.threshold(0.9, invert=True).extract_geometry().triangulate()
     print(holy_cow)
 
@@ -58,13 +59,12 @@ Repair a holey cow
 
 .. rst-class:: sphx-glr-script-out
 
- Out:
-
  .. code-block:: none
 
-    PolyData (0x7fe47da9e820)
-      N Cells:      5252
+    PolyData (0x7f0cb5e57d60)
+      N Cells:      5214
       N Points:     2903
+      N Strips:     0
       X Bounds:     -4.446e+00, 5.998e+00
       Y Bounds:     -3.637e+00, 2.760e+00
       Z Bounds:     -1.701e+00, 1.701e+00
@@ -74,15 +74,13 @@ Repair a holey cow
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 23-41
+.. GENERATED FROM PYTHON SOURCE LINES 24-40
 
 .. code-block:: default
 
 
     # A nice camera location of the cow
-    cpos= [(6.56, 8.73, 22.03),
-           (0.77, -0.44, 0.0),
-           (-0.13, 0.93, -0.35)]
+    cpos = [(6.56, 8.73, 22.03), (0.77, -0.44, 0.0), (-0.13, 0.93, -0.35)]
 
     meshfix = mf.MeshFix(holy_cow)
     holes = meshfix.extract_holes()
@@ -90,9 +88,9 @@ Repair a holey cow
     # Render the mesh and outline the holes
     p = pv.Plotter()
     p.add_mesh(holy_cow, color=True)
-    p.add_mesh(holes, color='r', line_width=8)
+    p.add_mesh(holes, color="r", line_width=8)
     p.camera_position = cpos
-    p.enable_eye_dome_lighting() # helps depth perception
+    p.enable_eye_dome_lighting()  # helps depth perception
     p.show()
 
 
@@ -108,11 +106,11 @@ Repair a holey cow
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 42-43
+.. GENERATED FROM PYTHON SOURCE LINES 41-42
 
 Repair the holey cow
 
-.. GENERATED FROM PYTHON SOURCE LINES 43-46
+.. GENERATED FROM PYTHON SOURCE LINES 42-45
 
 .. code-block:: default
 
@@ -125,22 +123,20 @@ Repair the holey cow
 
 .. rst-class:: sphx-glr-script-out
 
- Out:
-
  .. code-block:: none
 
     Patching holes...
-    Patched 203 holes
+    Patched 210 holes
     Fixing degeneracies and intersections
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 47-48
+.. GENERATED FROM PYTHON SOURCE LINES 46-47
 
 Show the repaired result
 
-.. GENERATED FROM PYTHON SOURCE LINES 48-52
+.. GENERATED FROM PYTHON SOURCE LINES 47-51
 
 .. code-block:: default
 
@@ -154,14 +150,13 @@ Show the repaired result
 
 .. rst-class:: sphx-glr-script-out
 
- Out:
-
  .. code-block:: none
 
-    PolyData (0x7fe47c6f7a60)
-      N Cells:      5440
-      N Points:     2722
-      X Bounds:     -3.696e+00, 5.998e+00
+    PolyData (0x7f0cb5c7fe20)
+      N Cells:      5698
+      N Points:     2851
+      N Strips:     0
+      X Bounds:     -4.446e+00, 5.998e+00
       Y Bounds:     -3.637e+00, 2.760e+00
       Z Bounds:     -1.701e+00, 1.701e+00
       N Arrays:     0
@@ -170,7 +165,7 @@ Show the repaired result
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 53-54
+.. GENERATED FROM PYTHON SOURCE LINES 52-53
 
 .. code-block:: default
 
@@ -190,28 +185,23 @@ Show the repaired result
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  2.204 seconds)
+   **Total running time of the script:** ( 0 minutes  1.696 seconds)
 
 
 .. _sphx_glr_download_examples_cow.py:
 
+.. only:: html
 
-.. only :: html
-
- .. container:: sphx-glr-footer
-    :class: sphx-glr-footer-example
+  .. container:: sphx-glr-footer sphx-glr-footer-example
 
 
+    .. container:: sphx-glr-download sphx-glr-download-python
 
-  .. container:: sphx-glr-download sphx-glr-download-python
+      :download:`Download Python source code: cow.py <cow.py>`
 
-     :download:`Download Python source code: cow.py <cow.py>`
+    .. container:: sphx-glr-download sphx-glr-download-jupyter
 
-
-
-  .. container:: sphx-glr-download sphx-glr-download-jupyter
-
-     :download:`Download Jupyter notebook: cow.ipynb <cow.ipynb>`
+      :download:`Download Jupyter notebook: cow.ipynb <cow.ipynb>`
 
 
 .. only:: html

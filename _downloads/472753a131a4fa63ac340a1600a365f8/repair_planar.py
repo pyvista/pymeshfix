@@ -7,10 +7,10 @@ This example fills all but the largest holes in a planar mesh.
 
 # sphinx_gallery_thumbnail_number = 1
 import numpy as np
-import pyvista as pv
+from pymeshfix import MeshFix
 from pymeshfix._meshfix import PyTMesh
 from pymeshfix.examples import planar_mesh
-from pymeshfix import MeshFix
+import pyvista as pv
 
 ###############################################################################
 # plot the holes on the original mesh
@@ -23,8 +23,8 @@ holes = meshfix.extract_holes()
 # Render the mesh and outline the holes
 plotter = pv.Plotter()
 plotter.add_mesh(orig_mesh, color=True)
-plotter.add_mesh(holes, color='r', line_width=5)
-plotter.enable_eye_dome_lighting() # helps depth perception
+plotter.add_mesh(holes, color="r", line_width=5)
+plotter.enable_eye_dome_lighting()  # helps depth perception
 _ = plotter.show()
 
 
@@ -57,6 +57,6 @@ mesh = pv.PolyData(vert, triangles)
 
 plotter = pv.Plotter()
 plotter.add_mesh(mesh, color=True)
-plotter.add_mesh(holes, color='r', line_width=5)
-plotter.enable_eye_dome_lighting() # helps depth perception
+plotter.add_mesh(holes, color="r", line_width=5)
+plotter.enable_eye_dome_lighting()  # helps depth perception
 _ = plotter.show()
