@@ -1,4 +1,4 @@
-""" Demonstrates mesh repair on the standford bunny mesh """
+"""Demonstrate mesh repair on the standford bunny mesh."""
 import os
 import time
 
@@ -9,7 +9,7 @@ import pyvista as pv
 
 
 def native(outfile="repaired.ply"):
-    """Repair Stanford Bunny Mesh"""
+    """Repair the Stanford Bunny Mesh using the low level API."""
     pymeshfix._meshfix.clean_from_file(bunny_scan, outfile)
     return outfile
 

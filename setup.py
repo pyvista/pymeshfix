@@ -1,4 +1,4 @@
-"""Setup for pymeshfix"""
+"""Setup for pymeshfix."""
 from io import open as io_open
 import os
 import sys
@@ -42,20 +42,21 @@ setup(
     name="pymeshfix",
     packages=["pymeshfix", "pymeshfix/examples"],
     version=__version__,
-    description="Repairs triangular meshes",
+    description="Repair triangular meshes using MeshFix",
     long_description=open(readme_file).read(),
-    long_description_content_type='text/x-rst',
-    author='Alex Kaszynski',
-    author_email='akascap@gmail.com',
-    license='MIT',
-    classifiers=['Development Status :: 4 - Beta',
-                 'Intended Audience :: Science/Research',
-                 'License :: OSI Approved :: MIT License',
-                 'Programming Language :: Python :: 3.7',
-                 'Programming Language :: Python :: 3.8',
-                 'Programming Language :: Python :: 3.9',
-                 'Programming Language :: Python :: 3.10',
-                 'Programming Language :: Python :: 3.11',
+    long_description_content_type="text/x-rst",
+    author="PyVista Developers",
+    author_email="info@pyvista.org",
+    license="MIT",
+    classifiers=[
+        "Development Status :: 4 - Beta",
+        "Intended Audience :: Science/Research",
+        "License :: OSI Approved :: MIT License",
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
     ],
     python_requires=">=3.7",
     url="https://github.com/pyvista/pymeshfix",

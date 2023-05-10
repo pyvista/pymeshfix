@@ -22,6 +22,7 @@ dist/
 # MISC
 uploadpypi.sh
 .pytest_cache/
+.hypothesis
 
 # documentation
 _autosummary/

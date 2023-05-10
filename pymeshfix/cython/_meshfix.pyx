@@ -61,37 +61,37 @@ cdef class PyTMesh:
 
     Examples
     --------
-    Create an instance of TMesh
+    Create an instance of TMesh.
 
     >>> from pymeshfix import _meshfix
     >>> tin = _meshfix.PyTMesh()
 
-    Load a file
+    Load a file.
 
-    >>> tin.LoadFile(infile)
+    >>> tin.load_file(infile)
 
-    Load from arrays
+    Load from arrays.
 
     >>> tin.load_array(v, f)
 
-    Attempt to join nearby components
+    Attempt to join nearby components.
 
     >>> tin.join_closest_components()
 
-    Fill holes
+    Fill holes.
 
     >>> tin.fill_small_boundaries()
     >>> print('There are {:d} boundaries'.format(tin.boundaries())
 
-    Clean and remove self intersections
+    Clean and remove self intersections.
 
     >>> tin.clean(max_iters=10, inner_loops=3)
 
-    Check mesh for holes again
+    Check mesh for holes again.
 
     >>> print('There are {:d} boundaries'.format(tin.boundaries())
 
-    Output mesh
+    Output mesh.
 
     >>> tin.save_file(outfile)
 
