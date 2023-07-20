@@ -1,3 +1,9 @@
+# Integration with GitHub Actions
+# See https://pre-commit.ci/
+ci:
+    autofix_prs: true
+    autoupdate_schedule: quarterly
+
 repos:
 
 - repo: https://github.com/pycqa/isort
@@ -12,6 +18,12 @@ repos:
     args:
       - --line-length=100
 
+- repo: https://github.com/keewis/blackdoc
+  rev: v0.3.8
+  hooks:
+  - id: blackdoc
+    files: '\.py$'
+
 - repo: https://github.com/PyCQA/flake8
   rev: 6.0.0
   hooks:
@@ -24,12 +36,12 @@ repos:
     args: ["--toml", "pyproject.toml"]
     additional_dependencies: ["tomli"]
 
-# - repo: https://github.com/pycqa/pydocstyle
-#   rev: 6.1.1
-#   hooks:
-#   - id: pydocstyle
-#     additional_dependencies: [toml]
-#     exclude: "tests/"
+- repo: https://github.com/pycqa/pydocstyle
+  rev: 6.3.0
+  hooks:
+  - id: pydocstyle
+    additional_dependencies: [toml]
+    exclude: "examples/"
 
 - repo: https://github.com/pre-commit/pre-commit-hooks
   rev: v4.4.0

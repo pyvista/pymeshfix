@@ -1,3 +1,4 @@
+"""Built-in examples."""
 # get location of the example meshes
 from os.path import dirname, join, realpath
 

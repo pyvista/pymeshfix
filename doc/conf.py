@@ -1,3 +1,4 @@
+"""Configuration for the documentation generation of pymeshfix."""
 import datetime
 import os
 
