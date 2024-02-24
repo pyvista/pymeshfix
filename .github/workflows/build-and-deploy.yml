@@ -29,6 +29,7 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
+          name: pymeshfix-wheels-${{ matrix.os }}
           path: ./wheelhouse/*.whl
 
   build_sdist:
@@ -51,6 +52,7 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
+          name: pymeshfix-sdist
           path: dist/*.tar.gz
 
   upload_pypi:
