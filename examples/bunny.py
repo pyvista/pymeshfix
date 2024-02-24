@@ -5,11 +5,11 @@ Bunny
 Repair the holes in the bunny mesh.
 """
 
-import pymeshfix as mf
-
 # sphinx_gallery_thumbnail_number = 2
 import pyvista as pv
 from pyvista import examples
+
+import pymeshfix as mf
 
 ################################################################################
 bunny = examples.download_bunny()
