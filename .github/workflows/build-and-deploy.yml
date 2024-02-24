@@ -67,15 +67,15 @@ jobs:
         with:
           path: artifacts/ 
 
-      - uses: pypa/gh-action-pypi-publish@v1.8.11
-        with:
-          user: __token__
-          password: ${{ secrets.PYPI_TOKEN }}
-
       - name: Move wheel files to dist/
         run: |
           mkdir -p dist
           find artifacts -name '*.whl' -exec mv {} dist/ \;
+
+      - uses: pypa/gh-action-pypi-publish@v1.8.11
+        with:
+          user: __token__
+          password: ${{ secrets.PYPI_TOKEN }}
 
       - name: Release
         uses: softprops/action-gh-release@v1
