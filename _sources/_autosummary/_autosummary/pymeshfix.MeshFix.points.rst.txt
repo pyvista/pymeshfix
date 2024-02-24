@@ -3,4 +3,4 @@ pymeshfix.MeshFix.points
 
 .. currentmodule:: pymeshfix
 
-.. automethod:: MeshFix.points
+.. autoproperty:: MeshFix.points

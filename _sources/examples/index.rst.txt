@@ -19,7 +19,7 @@ The following examples demonstrate pymeshfix functionality using
 .. only:: html
 
   .. image:: /examples/images/thumb/sphx_glr_bunny_thumb.png
-    :alt: Bunny
+    :alt:
 
   :ref:`sphx_glr_examples_bunny.py`
 
@@ -36,7 +36,7 @@ The following examples demonstrate pymeshfix functionality using
 .. only:: html
 
   .. image:: /examples/images/thumb/sphx_glr_cow_thumb.png
-    :alt: Holey Cow
+    :alt:
 
   :ref:`sphx_glr_examples_cow.py`
 
@@ -53,7 +53,7 @@ The following examples demonstrate pymeshfix functionality using
 .. only:: html
 
   .. image:: /examples/images/thumb/sphx_glr_repair_planar_thumb.png
-    :alt: Partial Fill Holes
+    :alt:
 
   :ref:`sphx_glr_examples_repair_planar.py`
 
@@ -70,7 +70,7 @@ The following examples demonstrate pymeshfix functionality using
 .. only:: html
 
   .. image:: /examples/images/thumb/sphx_glr_torso_thumb.png
-    :alt: Torso
+    :alt:
 
   :ref:`sphx_glr_examples_torso.py`
 

@@ -6,11 +6,12 @@ Repair a holey cow
 """
 
 import numpy as np
-import pymeshfix as mf
 
 # sphinx_gallery_thumbnail_number = 1
 import pyvista as pv
 from pyvista import examples
+
+import pymeshfix as mf
 
 ################################################################################
 cow = examples.download_cow()

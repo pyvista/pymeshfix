@@ -18,16 +18,10 @@
       MeshFix.extract_holes
       
       
-      MeshFix.faces
-      
-      
       MeshFix.load_arrays
       
       
       MeshFix.plot
-      
-      
-      MeshFix.points
       
       
       MeshFix.repair
@@ -46,7 +40,13 @@
       :toctree: _autosummary
    
       
+      MeshFix.faces
+      
+      
       MeshFix.mesh
+      
+      
+      MeshFix.points
       
    
    

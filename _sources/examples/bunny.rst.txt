@@ -10,7 +10,7 @@
     .. note::
         :class: sphx-glr-download-link-note
 
-        Click :ref:`here <sphx_glr_download_examples_bunny.py>`
+        :ref:`Go to the end <sphx_glr_download_examples_bunny.py>`
         to download the full example code
 
 .. rst-class:: sphx-glr-example-title
@@ -25,14 +25,14 @@ Repair the holes in the bunny mesh.
 
 .. GENERATED FROM PYTHON SOURCE LINES 7-14
 
-.. code-block:: default
+.. code-block:: Python
 
-
-    import pymeshfix as mf
 
     # sphinx_gallery_thumbnail_number = 2
     import pyvista as pv
     from pyvista import examples
+
+    import pymeshfix as mf
 
 
 
@@ -43,7 +43,7 @@ Repair the holes in the bunny mesh.
 
 .. GENERATED FROM PYTHON SOURCE LINES 15-23
 
-.. code-block:: default
+.. code-block:: Python
 
     bunny = examples.download_bunny()
 
@@ -71,7 +71,7 @@ Generate a meshfix mesh ready for fixing and extract the holes
 
 .. GENERATED FROM PYTHON SOURCE LINES 25-28
 
-.. code-block:: default
+.. code-block:: Python
 
     meshfix = mf.MeshFix(bunny)
     holes = meshfix.extract_holes()
@@ -89,7 +89,7 @@ Render the mesh and outline the holes
 
 .. GENERATED FROM PYTHON SOURCE LINES 30-37
 
-.. code-block:: default
+.. code-block:: Python
 
     p = pv.Plotter()
     p.add_mesh(bunny, color=True)
@@ -116,7 +116,7 @@ Repair the mesh
 
 .. GENERATED FROM PYTHON SOURCE LINES 39-41
 
-.. code-block:: default
+.. code-block:: Python
 
     meshfix.repair(verbose=True)
 
@@ -141,7 +141,7 @@ Show the repaired mesh
 
 .. GENERATED FROM PYTHON SOURCE LINES 43-44
 
-.. code-block:: default
+.. code-block:: Python
 
     meshfix.mesh.plot(cpos=cpos)
 
@@ -159,7 +159,7 @@ Show the repaired mesh
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  5.738 seconds)
+   **Total running time of the script:** (0 minutes 6.591 seconds)
 
 
 .. _sphx_glr_download_examples_bunny.py:
@@ -168,14 +168,13 @@ Show the repaired mesh
 
   .. container:: sphx-glr-footer sphx-glr-footer-example
 
+    .. container:: sphx-glr-download sphx-glr-download-jupyter
+
+      :download:`Download Jupyter notebook: bunny.ipynb <bunny.ipynb>`
 
     .. container:: sphx-glr-download sphx-glr-download-python
 
       :download:`Download Python source code: bunny.py <bunny.py>`
-
-    .. container:: sphx-glr-download sphx-glr-download-jupyter
-
-      :download:`Download Jupyter notebook: bunny.ipynb <bunny.ipynb>`
 
 
 .. only:: html

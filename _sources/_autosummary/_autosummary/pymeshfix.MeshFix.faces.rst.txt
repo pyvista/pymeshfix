@@ -3,4 +3,4 @@ pymeshfix.MeshFix.faces
 
 .. currentmodule:: pymeshfix
 
-.. automethod:: MeshFix.faces
+.. autoproperty:: MeshFix.faces

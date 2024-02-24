@@ -10,7 +10,7 @@
     .. note::
         :class: sphx-glr-download-link-note
 
-        Click :ref:`here <sphx_glr_download_examples_torso.py>`
+        :ref:`Go to the end <sphx_glr_download_examples_torso.py>`
         to download the full example code
 
 .. rst-class:: sphx-glr-example-title
@@ -26,14 +26,14 @@ parts of the mesh
 
 .. GENERATED FROM PYTHON SOURCE LINES 8-18
 
-.. code-block:: default
+.. code-block:: Python
 
-
-    import pymeshfix as mf
 
     # sphinx_gallery_thumbnail_number = 2
     import pyvista as pv
     from pyvista import examples
+
+    import pymeshfix as mf
 
     mesh = examples.download_torso()
     print(mesh)
@@ -46,22 +46,21 @@ parts of the mesh
 
  .. code-block:: none
 
-    PolyData (0x7f0cb5b20580)
-      N Cells:      12448
-      N Points:     12015
-      N Strips:     0
-      X Bounds:     -1.680e+02, 1.720e+02
-      Y Bounds:     -1.624e+02, 1.320e+02
-      Z Bounds:     -6.442e+02, 9.083e+01
-      N Arrays:     0
-
+    PolyData (0x7f9a7866eb60)
+      N Cells:    12448
+      N Points:   12015
+      N Strips:   0
+      X Bounds:   -1.680e+02, 1.720e+02
+      Y Bounds:   -1.624e+02, 1.320e+02
+      Z Bounds:   -6.442e+02, 9.083e+01
+      N Arrays:   0
 
 
 
 
 .. GENERATED FROM PYTHON SOURCE LINES 19-24
 
-.. code-block:: default
+.. code-block:: Python
 
 
     cpos = [(-1053.0, -1251.0, 83.0), (2.0, -15.0, -276.0), (0.12, 0.18, 1)]
@@ -86,7 +85,7 @@ Apply a triangle filter to ensure the mesh is simply polyhedral
 
 .. GENERATED FROM PYTHON SOURCE LINES 26-29
 
-.. code-block:: default
+.. code-block:: Python
 
     meshfix = mf.MeshFix(mesh.triangulate())
     holes = meshfix.extract_holes()
@@ -104,7 +103,7 @@ Outline the holes in the mesh
 
 .. GENERATED FROM PYTHON SOURCE LINES 31-38
 
-.. code-block:: default
+.. code-block:: Python
 
     p = pv.Plotter()
     p.add_mesh(mesh)
@@ -132,7 +131,7 @@ is absolutely water tight.
 
 .. GENERATED FROM PYTHON SOURCE LINES 41-50
 
-.. code-block:: default
+.. code-block:: Python
 
     cpos_ear = [(180.0, -206.0, 17.0), (107.0, -122.9, -11.9), (-0.13, 0.22, 0.96)]
 
@@ -161,7 +160,7 @@ Perform the mesh repair
 
 .. GENERATED FROM PYTHON SOURCE LINES 52-54
 
-.. code-block:: default
+.. code-block:: Python
 
     meshfix.repair(verbose=True)
 
@@ -187,7 +186,7 @@ Show the repaired mesh
 
 .. GENERATED FROM PYTHON SOURCE LINES 56-57
 
-.. code-block:: default
+.. code-block:: Python
 
     meshfix.mesh.plot(cpos=cpos, eye_dome_lighting=True)
 
@@ -205,7 +204,7 @@ Show the repaired mesh
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  4.502 seconds)
+   **Total running time of the script:** (0 minutes 2.492 seconds)
 
 
 .. _sphx_glr_download_examples_torso.py:
@@ -214,14 +213,13 @@ Show the repaired mesh
 
   .. container:: sphx-glr-footer sphx-glr-footer-example
 
+    .. container:: sphx-glr-download sphx-glr-download-jupyter
+
+      :download:`Download Jupyter notebook: torso.ipynb <torso.ipynb>`
 
     .. container:: sphx-glr-download sphx-glr-download-python
 
       :download:`Download Python source code: torso.py <torso.py>`
-
-    .. container:: sphx-glr-download sphx-glr-download-jupyter
-
-      :download:`Download Jupyter notebook: torso.ipynb <torso.ipynb>`
 
 
 .. only:: html
