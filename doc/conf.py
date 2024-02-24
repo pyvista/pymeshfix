@@ -1,12 +1,13 @@
 """Configuration for the documentation generation of pymeshfix."""
+
 import datetime
 import os
 
 import numpy as np
-import pymeshfix
-
-# -- pyvista configuration ---------------------------------------------------
 import pyvista
+from sphinx_gallery.sorting import FileNameSortKey
+
+import pymeshfix
 
 # Manage errors
 pyvista.set_error_output_file("errors.txt")
@@ -99,7 +100,9 @@ html_context = {
     # Enable the "Edit in GitHub link within the header of each page.
     "display_github": True,
     # Set the following variables to generate the resulting github URL for each page.
-    # Format Template: https://{{ github_host|default("github.com") }}/{{ github_user }}/{{ github_repo }}/blob/{{ github_version }}{{ conf_py_path }}{{ pagename }}{{ suffix }}
+    # Format Template: https://{{ github_host|default("github.com") }}/{{
+    # github_user }}/{{ github_repo }}/blob/{{ github_version }}{{ conf_py_path
+    # }}{{ pagename }}{{ suffix }}
     "github_user": "pyvista",
     "github_repo": "pymeshfix",
     "github_version": "master/doc/",
@@ -184,8 +187,6 @@ todo_include_todos = True
 
 
 # -- Sphinx Gallery Options
-from sphinx_gallery.sorting import FileNameSortKey
-
 sphinx_gallery_conf = {
     # path to your examples scripts
     "examples_dirs": [

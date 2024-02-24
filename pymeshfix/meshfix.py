@@ -1,7 +1,9 @@
 """Python module to interface with wrapped meshfix."""
+
 import ctypes
 
 import numpy as np
+
 from pymeshfix import _meshfix
 
 try:
@@ -12,7 +14,7 @@ except ImportError:
     PV_INSTALLED = False
 
 
-class MeshFix(object):
+class MeshFix:
     """Clean and tetrahedralize surface meshes using MeshFix.
 
     Parameters

@@ -1,2 +1,3 @@
+include pymeshfix/cython/*.pyx
 include pymeshfix/cython/*.h
 include tests/*

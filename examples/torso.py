@@ -6,11 +6,11 @@ Repair the torso mesh where it was extracted and subtle holes along complex
 parts of the mesh
 """
 
-import pymeshfix as mf
-
 # sphinx_gallery_thumbnail_number = 2
 import pyvista as pv
 from pyvista import examples
+
+import pymeshfix as mf
 
 mesh = examples.download_torso()
 print(mesh)
