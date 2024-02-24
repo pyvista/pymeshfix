@@ -1,44 +1,51 @@
+# Integration with GitHub Actions
+# See https://pre-commit.ci/
+ci:
+    autofix_prs: true
+    autoupdate_schedule: quarterly
+
 repos:
-
-- repo: https://github.com/pycqa/isort
-  rev: 5.11.2
+- repo: https://github.com/astral-sh/ruff-pre-commit
+  rev: v0.1.11
   hooks:
-  - id: isort
+    - id: ruff
+      args: [--fix, --exit-non-zero-on-fix]
+      exclude: ^(docs/|tests)
+    - id: ruff-format
 
-- repo: https://github.com/psf/black
-  rev: 22.12.0
+- repo: https://github.com/keewis/blackdoc
+  rev: v0.3.9
   hooks:
-  - id: black
-    args:
-      - --line-length=100
+  - id: blackdoc
+    files: '\.py$'
 
 - repo: https://github.com/PyCQA/flake8
-  rev: 6.0.0
+  rev: 7.0.0
   hooks:
   - id: flake8
 
 - repo: https://github.com/codespell-project/codespell
-  rev: v2.2.2
+  rev: v2.2.6
   hooks:
   - id: codespell
     args: ["--toml", "pyproject.toml"]
     additional_dependencies: ["tomli"]
 
-# - repo: https://github.com/pycqa/pydocstyle
-#   rev: 6.1.1
-#   hooks:
-#   - id: pydocstyle
-#     additional_dependencies: [toml]
-#     exclude: "tests/"
+- repo: https://github.com/pycqa/pydocstyle
+  rev: 6.3.0
+  hooks:
+  - id: pydocstyle
+    additional_dependencies: [toml]
+    exclude: "examples/"
 
 - repo: https://github.com/pre-commit/pre-commit-hooks
-  rev: v4.4.0
+  rev: v4.5.0
   hooks:
   - id: check-merge-conflict
   - id: debug-statements
 
 # this validates our github workflow files
 - repo: https://github.com/python-jsonschema/check-jsonschema
-  rev: 0.19.2
+  rev: 0.28.0
   hooks:
     - id: check-github-workflows
