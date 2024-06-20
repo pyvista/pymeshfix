@@ -11,7 +11,7 @@
         :class: sphx-glr-download-link-note
 
         :ref:`Go to the end <sphx_glr_download_examples_cow.py>`
-        to download the full example code
+        to download the full example code.
 
 .. rst-class:: sphx-glr-example-title
 
@@ -62,7 +62,7 @@ Repair a holey cow
 
  .. code-block:: none
 
-    PolyData (0x7fd5474cee00)
+    PolyData (0x7fa8ca2a1960)
       N Cells:    5185
       N Points:   2903
       N Strips:   0
@@ -127,7 +127,7 @@ Repair the holey cow
 
     Removed 2 small components
     Patching holes...
-    Patched 204 holes
+    Patched 199 holes
     Fixing degeneracies and intersections
 
 
@@ -153,9 +153,9 @@ Show the repaired result
 
  .. code-block:: none
 
-    PolyData (0x7fd5475cd3c0)
-      N Cells:    5422
-      N Points:   2713
+    PolyData (0x7fa8ca2a1a80)
+      N Cells:    5448
+      N Points:   2726
       N Strips:   0
       X Bounds:   -3.696e+00, 5.998e+00
       Y Bounds:   -3.637e+00, 2.760e+00
@@ -185,7 +185,7 @@ Show the repaired result
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.923 seconds)
+   **Total running time of the script:** (0 minutes 0.882 seconds)
 
 
 .. _sphx_glr_download_examples_cow.py:

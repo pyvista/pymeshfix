@@ -11,6 +11,7 @@ The following examples demonstrate pymeshfix functionality using
 
     <div class="sphx-glr-thumbnails">
 
+.. thumbnail-parent-div-open
 
 .. raw:: html
 
@@ -79,6 +80,8 @@ The following examples demonstrate pymeshfix functionality using
       <div class="sphx-glr-thumbnail-title">Torso</div>
     </div>
 
+
+.. thumbnail-parent-div-close
 
 .. raw:: html
 
