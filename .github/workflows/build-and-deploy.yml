@@ -64,9 +64,14 @@ jobs:
     # if: github.event_name == 'release' && github.event.action == 'published'
     steps:
       - uses: actions/download-artifact@v4
-        with:
-          name: artifact
-          path: dist
+      - name: Flatten directory structure
+        run: |
+          mkdir -p dist/
+          find . -name '*.whl' -exec mv {} dist/ \;
+          find . -name '*.tar.gz' -exec mv {} dist/ \;
+
+      - name: List artifacts
+        run: ls -R
 
       - uses: pypa/gh-action-pypi-publish@v1.9.0
         with:
