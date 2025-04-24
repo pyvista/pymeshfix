@@ -58,7 +58,7 @@ setup(
         "Programming Language :: Python :: 3.11",
         "Programming Language :: Python :: 3.12",
     ],
-    python_requires=">=3.9",
+    python_requires=">=3.9, <3.14",
     url="https://github.com/pyvista/pymeshfix",
     # Build cython modules
     ext_modules=cythonize(
