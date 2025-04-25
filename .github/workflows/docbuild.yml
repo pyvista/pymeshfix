@@ -25,7 +25,7 @@ jobs:
             **/requirements*.txt
 
       - name: Setup headless display
-        uses: pyvista/setup-headless-display-action@v2
+        uses: pyvista/setup-headless-display-action@v3
 
       - name: Install pymeshfix
         run: pip install .
@@ -36,7 +36,7 @@ jobs:
           make -C doc html
 
       - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@v4.6.1
+        uses: JamesIves/github-pages-deploy-action@v4.7.3
         if: startsWith(github.ref, 'refs/tags/')
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
