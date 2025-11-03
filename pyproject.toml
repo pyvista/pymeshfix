@@ -25,6 +25,12 @@ test-command = "pytest {project}/tests"
 [tool.cibuildwheel.macos]
 archs = ["native"]
 
+[tool.cibuildwheel.windows]
+before-build = "pip install delvewheel"
+repair-wheel-command = [
+  "delvewheel repair -w {dest_dir} {wheel}",
+]
+
 [tool.codespell]
 skip = '*.cxx,*.h,*.gif,*.png,*.jpg,*.js,*.html,*.doctree,*.ttf,*.woff,*.woff2,*.eot,*.mp4,*.inv,*.pickle,*.ipynb,flycheck*,./.git/*,./.hypothesis/*,*.yml,./doc/build/*,./doc/images/*,./dist/*,*~,.hypothesis*,*.cpp,*.c'
 quiet-level = 3
