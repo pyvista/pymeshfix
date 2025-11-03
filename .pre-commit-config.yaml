@@ -14,7 +14,7 @@ repos:
     - id: ruff-format
 
 - repo: https://github.com/keewis/blackdoc
-  rev: v0.4.3
+  rev: v0.4.5
   hooks:
   - id: blackdoc
     files: '\.py$'

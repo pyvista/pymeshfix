@@ -13,7 +13,7 @@ def test_load_and_save_file(tmpdir):
         meshfix.load_file(examples.bunny_scan)
 
     v, f = meshfix.return_arrays()
-    assert f.shape[0] == bunny.n_faces
+    assert f.shape[0] == bunny.n_cells
 
     # test saving
     filename = str(tmpdir.mkdir("tmpdir").join("tmp.ply"))
@@ -31,7 +31,7 @@ def test_load_array():
     f = bunny.faces.reshape(-1, 4)[:, 1:]
     meshfix.load_array(v, f)
     v, f = meshfix.return_arrays()
-    assert f.shape[0] == bunny.n_faces
+    assert f.shape[0] == bunny.n_cells
 
     with pytest.raises(Exception):
         meshfix.load_array(v, f)
