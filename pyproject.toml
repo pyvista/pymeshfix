@@ -18,17 +18,29 @@ filterwarnings = [
 
 [tool.cibuildwheel]
 archs = ["auto64"]  # 64-bit only
-skip = "pp* *musllinux* cp38-*"  # disable PyPy and musl-based wheels and Python<3.9
+build = "cp39-* cp310-* cp311-*"  # 3.11+ are abi3 wheels
 test-requires = "pytest"
 test-command = "pytest {project}/tests"
+before-build = "pip install abi3audit"
+
+[tool.cibuildwheel.linux]
+repair-wheel-command = [
+  "auditwheel repair -w {dest_dir} {wheel}",
+  "bash tools/audit_wheel.sh {wheel}",
+]
 
 [tool.cibuildwheel.macos]
 archs = ["native"]
+repair-wheel-command = [
+  "delocate-wheel --require-archs {delocate_archs} -w {dest_dir} -v {wheel}",
+  "bash tools/audit_wheel.sh {wheel}",
+]
 
 [tool.cibuildwheel.windows]
-before-build = "pip install delvewheel"
+before-build = "pip install delvewheel abi3audit"
 repair-wheel-command = [
   "delvewheel repair -w {dest_dir} {wheel}",
+  "bash tools/audit_wheel.sh {wheel}",
 ]
 
 [tool.codespell]
