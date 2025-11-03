@@ -19,6 +19,7 @@ filterwarnings = [
 [tool.cibuildwheel]
 archs = ["auto64"]  # 64-bit only
 build = "cp39-* cp310-* cp311-*"  # 3.11+ are abi3 wheels
+skip = "*musllinux*"
 test-requires = "pytest"
 test-command = "pytest {project}/tests"
 before-build = "pip install abi3audit"
