@@ -159,8 +159,8 @@ void mc_cell::polygonize(Basic_TMesh *tin)
  int i,t[3];
  unsigned char lu = lookdown();
 
- static const char mc_triTable[256][20] =
- { 
+ static const signed char mc_triTable[256][20] =
+ {
   {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
   { 0,  8,  3, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
   { 0,  1,  9, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
@@ -545,7 +545,7 @@ void mc_grid::purgeList(List *l)
 	 count = new BYTE[numcells];
 	 onumcells = numcells;
  }
- 
+
  //int in = 0;
  //if (l->numels() < 2) return;
  //for (n = l->head(); n != NULL; n = n->next()) if (((mc_ints *)n->data)->sg == 1) in++; else in--;
@@ -561,7 +561,7 @@ void mc_grid::purgeList(List *l)
  //for (n = l->head(); n->next() != NULL;)
  //if ((mc1 = (mc_ints *)n->data)->ic == -1) { n = n->next(); l->removeCell(n->prev()); delete mc1; } else n = n->next();
  //if (l->numels() && (mc1 = (mc_ints *)l->tail()->data)->ic == -1) { l->removeCell(l->tail()); delete mc1; }
- 
+
 
  for (int i = 0; i < numcells; i++) count[i] = 0;
 
@@ -865,7 +865,7 @@ void mc_grid::remesh(bool simplify_result)
  TMesh::report_progress("99 %% done   ");
 
  FOREACHVVVERTEX((&tin->V), v, n){
- 
+
   v->info = NULL;
  }
  FOREACHVTTRIANGLE((&ntin.T), t, n) if (t->info) { delete ((Point *)t->info); t->info = NULL; }
@@ -1020,7 +1020,7 @@ void mc_grid::simplify()
 		 if (IS_VISITED2(e->v2)) e->invert();
 		 else if (IS_VISITED(e->v2) && !IS_VISITED2(e->v1)) e->invert();
 		 if (mc_safeCollapse(e)) c++;
-		} 
+		}
 
 		//FOREACHVEEDGE((&ies), e, n) if (e->isLinked() && !(IS_VISITED(e->v1) && IS_VISITED(e->v2)))
 		//{

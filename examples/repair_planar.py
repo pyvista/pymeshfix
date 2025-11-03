@@ -8,9 +8,9 @@ This example fills all but the largest holes in a planar mesh.
 # sphinx_gallery_thumbnail_number = 1
 import numpy as np
 import pyvista as pv
+from pymeshfix._meshfix import PyTMesh
 
 from pymeshfix import MeshFix
-from pymeshfix._meshfix import PyTMesh
 from pymeshfix.examples import planar_mesh
 
 ###############################################################################
