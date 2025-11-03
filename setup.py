@@ -1,17 +1,21 @@
 """Setup for pymeshfix."""
 
 import os
+import platform
 import sys
 from io import open as io_open
 
 import numpy as np
 from Cython.Build import cythonize
 from setuptools import Extension, setup
+from wheel.bdist_wheel import bdist_wheel
 
 filepath = os.path.dirname(__file__)
 
 # Define macros for cython
 macros = []
+ext_kwargs = {}
+setup_kwargs = {}
 if os.name == "nt":  # windows
     extra_compile_args = ["/openmp", "/O2", "/w", "/GS"]
     extra_link_args = []
@@ -27,6 +31,24 @@ else:
 # Check if 64-bit
 if sys.maxsize > 2**32:
     macros.append(("IS64BITPLATFORM", None))
+
+
+# https://github.com/joerick/python-abi3-package-sample/blob/main/setup.py
+class bdist_wheel_abi3(bdist_wheel):  # noqa: D101
+    def get_tag(self):  # noqa: D102
+        python, abi, plat = super().get_tag()
+
+        if python.startswith("cp"):
+            return "cp311", "abi3", plat
+
+        return python, abi, plat
+
+
+if sys.version_info.minor >= 11 and platform.python_implementation() == "CPython":
+    # Can create an abi3 wheel (typed memoryviews first available in 3.11)!
+    macros.append(("Py_LIMITED_API", "0x030B0000"))
+    ext_kwargs["py_limited_api"] = True
+    setup_kwargs["cmdclass"] = {"bdist_wheel": bdist_wheel_abi3}
 
 
 # Get version from version info
@@ -57,8 +79,10 @@ setup(
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",
         "Programming Language :: Python :: 3.12",
+        "Programming Language :: Python :: 3.13",
+        "Programming Language :: Python :: 3.14",
     ],
-    python_requires=">=3.9, <3.14",
+    python_requires=">=3.9",
     url="https://github.com/pyvista/pymeshfix",
     # Build cython modules
     ext_modules=cythonize(
@@ -91,10 +115,12 @@ setup(
                 extra_compile_args=extra_compile_args,
                 define_macros=macros,
                 include_dirs=[np.get_include()],
+                **ext_kwargs,
             )
         ]
     ),
     keywords="meshfix",
     package_data={"pymeshfix/examples": ["StanfordBunny.ply", "planar_mesh.ply"]},
     install_requires=["numpy>1.11.0", "pyvista>=0.30.0"],
+    **setup_kwargs,
 )
