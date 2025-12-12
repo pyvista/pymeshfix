@@ -71,8 +71,11 @@ jobs:
     steps:
       - uses: actions/download-artifact@v6
         with:
-          name: artifact
+          pattern: pymeshfix-*
           path: dist
+          merge-multiple: true
+
+      - run: ls -alR dist/
 
       - uses: pypa/gh-action-pypi-publish@v1.13.0
         with:
