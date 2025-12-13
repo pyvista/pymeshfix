@@ -22,7 +22,7 @@ The following examples demonstrate pymeshfix functionality using
   .. image:: /examples/images/thumb/sphx_glr_bunny_thumb.png
     :alt:
 
-  :ref:`sphx_glr_examples_bunny.py`
+  :doc:`/examples/bunny`
 
 .. raw:: html
 
@@ -39,7 +39,7 @@ The following examples demonstrate pymeshfix functionality using
   .. image:: /examples/images/thumb/sphx_glr_cow_thumb.png
     :alt:
 
-  :ref:`sphx_glr_examples_cow.py`
+  :doc:`/examples/cow`
 
 .. raw:: html
 
@@ -56,7 +56,7 @@ The following examples demonstrate pymeshfix functionality using
   .. image:: /examples/images/thumb/sphx_glr_repair_planar_thumb.png
     :alt:
 
-  :ref:`sphx_glr_examples_repair_planar.py`
+  :doc:`/examples/repair_planar`
 
 .. raw:: html
 
@@ -73,7 +73,7 @@ The following examples demonstrate pymeshfix functionality using
   .. image:: /examples/images/thumb/sphx_glr_torso_thumb.png
     :alt:
 
-  :ref:`sphx_glr_examples_torso.py`
+  :doc:`/examples/torso`
 
 .. raw:: html
 
