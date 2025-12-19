@@ -61,30 +61,29 @@ jobs:
           name: pymeshfix-sdist
           path: dist/*.tar.gz
 
-  upload_pypi:
+  release:
+    name: Release
+    if: github.event_name == 'push' && contains(github.ref, 'refs/tags')
     needs: [build_wheels, build_sdist]
     runs-on: ubuntu-latest
-    # upload to PyPI on every tag
-    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
-    # alternatively, to publish when a GitHub Release is created, use the following rule:
-    # if: github.event_name == 'release' && github.event.action == 'published'
+    environment:
+      name: pypi
+      url: https://pypi.org/p/pymeshfix
+    permissions:
+      id-token: write  # this permission is mandatory for trusted publishing
+      contents: write  # required to create a release
     steps:
-      - uses: actions/download-artifact@v6
-        with:
-          pattern: pymeshfix-*
-          path: dist
-          merge-multiple: true
-
-      - run: ls -alR dist/
-
-      - uses: pypa/gh-action-pypi-publish@v1.13.0
-        with:
-          user: __token__
-          password: ${{ secrets.PYPI_TOKEN }}
-
-      - name: Release
-        uses: softprops/action-gh-release@v2
-        with:
-          generate_release_notes: true
-          files: |
-            ./dist/*.whl
+    - uses: actions/download-artifact@v7
+      with:
+        pattern: pymeshfix-*
+        path: dist
+        merge-multiple: true
+    - run: ls -alR dist/
+    - name: Publish package distributions to PyPI
+      uses: pypa/gh-action-pypi-publish@release/v1
+    - name: Create GitHub Release
+      uses: softprops/action-gh-release@v2
+      with:
+        generate_release_notes: true
+        files: |
+          ./dist/*.whl
