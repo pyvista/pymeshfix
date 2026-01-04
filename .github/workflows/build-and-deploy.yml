@@ -27,7 +27,7 @@ jobs:
       - name: Build wheels
         uses: pypa/cibuildwheel@v3.3.0
 
-      - uses: actions/upload-artifact@v5
+      - uses: actions/upload-artifact@v6
         with:
           name: pymeshfix-wheels-${{ matrix.os }}
           path: ./wheelhouse/*.whl
@@ -56,7 +56,7 @@ jobs:
       - name: Run tests
         run: pytest
 
-      - uses: actions/upload-artifact@v5
+      - uses: actions/upload-artifact@v6
         with:
           name: pymeshfix-sdist
           path: dist/*.tar.gz
