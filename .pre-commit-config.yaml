@@ -6,7 +6,7 @@ ci:
 
 repos:
 - repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: v0.13.3
+  rev: v0.14.10
   hooks:
     - id: ruff
       args: [--fix, --exit-non-zero-on-fix]
@@ -14,7 +14,7 @@ repos:
     - id: ruff-format
 
 - repo: https://github.com/keewis/blackdoc
-  rev: v0.4.5
+  rev: v0.4.6
   hooks:
   - id: blackdoc
     files: '\.py$'
@@ -46,6 +46,6 @@ repos:
 
 # this validates our github workflow files
 - repo: https://github.com/python-jsonschema/check-jsonschema
-  rev: 0.34.0
+  rev: 0.36.0
   hooks:
     - id: check-github-workflows
