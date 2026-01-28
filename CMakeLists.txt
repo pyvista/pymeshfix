@@ -58,7 +58,7 @@ if(MSVC)
   # /openmp:llvm
 else()
   # Assuming GCC or Clang
-  target_compile_options(_meshfix PRIVATE -O2)
+  target_compile_options(_meshfix PRIVATE -O3)
   # -fopenmp
 endif()
 

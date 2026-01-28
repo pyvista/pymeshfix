@@ -75,15 +75,23 @@ def test_remove_components() -> None:
     assert mfix.remove_smallest_components()
 
 
-# def test_select_intersecting_triangles():
-#     mfix = _meshfix.PyTMesh(verbose=0)
-#     mfix.load_file(examples.bunny_scan)
-#     faces = mfix.select_intersecting_triangles()
-#     assert faces.any()
+def test_select_intersecting_triangles() -> None:
+    mfix = _meshfix.PyTMesh()
+    mfix.load_file(examples.bunny_scan)
+    faces = mfix.select_intersecting_triangles()
+    assert faces.any()
 
 
-# def clean_from_file(tmpdir):
-#     outfile = str(tmpdir.mkdir("tmpdir").join("tmp.ply"))
-#     clean_from_file(examples.bunny_scan, outfile, verbose=False, joincomp=False)
-#     outfile = str(tmpdir.mkdir("tmpdir").join("tmp2.ply"))
-#     examples.native(outfile)
+def test_clean_from_file(tmp_path: Path) -> None:
+    outfile = str(tmp_path / "tmp.ply")
+    _meshfix.clean_from_file(examples.bunny_scan, outfile, verbose=False, joincomp=False)
+
+    mfix = _meshfix.PyTMesh()
+    mfix.load_file(outfile)
+    assert not mfix.n_boundaries
+
+
+def test_native_example(tmp_path) -> None:
+    outfile = tmp_path / "tmp2.ply"
+    examples.native(str(outfile))
+    assert outfile.exists()

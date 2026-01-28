@@ -1,5 +1,6 @@
 // Python interface to meshfix via nanobind.
 #include <cstring>
+#include <iostream>
 #include <stdexcept>
 
 #include <nanobind/nanobind.h>
@@ -311,7 +312,118 @@ class PyTMesh : public Basic_TMesh {
         return fillSmallBoundaries(nbe, refine);
     }
 
+    // Selects all intersecting triangles.
+    // Selects all the triangles that improperly intersect other
+    // parts of the mesh and return their number. The parameter
+    // 'tris_per_cell' determines the depth of the recursive space
+    // subdivision used to keep the complexity under a reasonable
+    // threshold. The default value is safe in most cases.
+    //
+    // If ``justproper`` is true, coincident edges and vertices are not
+    // regarded as intersections even if they are not common
+    // subsimplexes.
+    NDArray<int, 2>
+    select_intersecting_triangles(int tris_per_cell = 50, bool justproper = false) {
+        // Return the number of intersecting triangles
+        int n_intersecting = selectIntersectingTriangles(tris_per_cell, justproper);
+
+        // Create a face array and populate it with the intersecting faces
+        NDArray<int, 2> faces_arr = MakeNDArray<int, 2>({n_intersecting, 3});
+        int *faces = faces_arr.data();
+
+        // populate the array
+        Node *n;
+        Triangle *t;
+
+        int c = 0;
+        int i = 0;
+        FOREACHTRIANGLE(t, n) {
+            if (IS_VISITED(t)) {
+                faces[i] = c;
+                i++;
+            }
+            c++;
+        }
+
+        return faces_arr;
+    }
+
+    int remove_smallest_components() { return removeSmallestComponents(); };
+
 }; // class
+
+void repair(
+    PyTMesh &tin,
+    bool verbose = false,
+    bool joincomp = true,
+    bool remove_smallest_components = true) {
+
+    if (remove_smallest_components) {
+        int sc = tin.remove_smallest_components();
+        if (sc && verbose) {
+            std::cout << "Removed " << sc << " small components\n";
+        }
+    }
+
+    if (joincomp) {
+        tin.join_closest_components();
+    }
+
+    if (tin.n_boundaries()) {
+        if (verbose) {
+            std::cout << "Patching holes...\n";
+        }
+        int holespatched = tin.fill_small_boundaries();
+        if (verbose) {
+            std::cout << "Patched " << holespatched << " holes\n";
+        }
+    }
+
+    if (verbose) {
+        std::cout << "Fixing degeneracies and intersections\n";
+    }
+
+    bool result = tin.clean();
+
+    if (tin.n_boundaries()) {
+        if (verbose) {
+            std::cout << "Patching holes...\n";
+        }
+        int holespatched = tin.fill_small_boundaries();
+        if (verbose) {
+            std::cout << "Patched " << holespatched << " holes\n";
+        }
+
+        if (verbose) {
+            std::cout << "Performing final check...\n";
+        }
+        result = tin.clean();
+    }
+
+    if (result) {
+        std::cerr << "MeshFix could not fix everything\n";
+    }
+}
+
+void clean_from_file_cpp(
+    const std::string &infile,
+    const std::string &outfile,
+    bool verbose = false,
+    bool joincomp = false) {
+
+    PyTMesh tin;
+
+    tin.set_quiet(verbose ? 0 : 1);
+    tin.load_file(infile, true);
+
+    if (joincomp) {
+        tin.join_closest_components();
+    }
+
+    repair(tin, verbose, joincomp);
+
+    tin.save_file(outfile, false);
+}
 
 NB_MODULE(_meshfix, m) { // "_meshfix" must match library name from CMakeLists.txt
     nb::class_<PyTMesh>(m, "PyTMesh")
@@ -342,9 +454,23 @@ NB_MODULE(_meshfix, m) { // "_meshfix" must match library name from CMakeLists.t
             nb::arg("back_approx") = false)
         .def("boundaries", &PyTMesh::_boundaries)
         .def(
+            "select_intersecting_triangles",
+            &PyTMesh::select_intersecting_triangles,
+            nb::arg("tris_per_cell") = 50,
+            nb::arg("justproper") = false)
+        .def("remove_smallest_components", &PyTMesh::remove_smallest_components)
+        .def(
             "load_array",
             &PyTMesh::load_array,
             nb::arg("points_arr"),
             nb::arg("faces_arr"),
             nb::arg("fix_connectivity") = true);
+
+    m.def(
+        "clean_from_file",
+        &clean_from_file_cpp,
+        nb::arg("infile"),
+        nb::arg("outfile"),
+        nb::arg("verbose") = false,
+        nb::arg("joincomp") = false);
 }
