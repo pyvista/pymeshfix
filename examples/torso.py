@@ -22,8 +22,9 @@ cpos = [(-1053.0, -1251.0, 83.0), (2.0, -15.0, -276.0), (0.12, 0.18, 1)]
 mesh.plot(color=True, show_edges=True, cpos=cpos)
 
 ################################################################################
-# Apply a triangle filter to ensure the mesh is simply polyhedral
-meshfix = mf.MeshFix(mesh.triangulate())
+# Apply a triangle filter to ensure the mesh contains only triangles.
+
+meshfix = mf.MeshFix(mesh.triangulate(), verbose=True)
 holes = meshfix.extract_holes()
 
 ################################################################################
@@ -49,7 +50,7 @@ p.show()
 
 ################################################################################
 # Perform the mesh repair
-meshfix.repair(verbose=True)
+meshfix.repair()
 
 ################################################################################
 # Show the repaired mesh
