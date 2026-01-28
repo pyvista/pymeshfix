@@ -22,7 +22,7 @@ All the singularities, self-intersections and degenerate elements are
 removed from the input, while regions of the surface without defects are
 left unmodified.
 
-C++ source last updated 1 Jul 2020
+Uses MeshFix v2.1 with several quality of life fixes.
 
 **************
  Installation
@@ -122,8 +122,8 @@ memory and wish to repair it using MeshFix.
    mesh = meshfix.mesh
 
    # Or, access the resulting arrays directly from the object
-   meshfix.v # numpy np.float64 array
-   meshfix.f # numpy np.int32 array
+   meshfix.points # numpy np.float64 array
+   meshfix.faces # numpy np.int32 array
 
    # View the repaired mesh (requires pyvista)
    meshfix.plot()
@@ -150,13 +150,13 @@ cleaning algorithm.
 
    # Fill holes
    tin.fill_small_boundaries()
-   print('There are {:d} boundaries'.format(tin.boundaries()))
+   print(f'There are {tin.boundaries()} boundaries')
 
    # Clean (removes self intersections)
    tin.clean(max_iters=10, inner_loops=3)
 
    # Check mesh for holes again
-   print('There are {:d} boundaries'.format(tin.boundaries()))
+   print(f'There are {tin.boundaries()} boundaries')
 
    # Clean again if necessary...
 
