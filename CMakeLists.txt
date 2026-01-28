@@ -20,9 +20,6 @@ nanobind_add_module(
   # does nothing on older Python versions
   STABLE_ABI
 
-  # conserve space by reusing a shared libnanobind across libraries (necessary here?)
-  NB_STATIC
-
   src/_meshfix.cpp
   src/checkAndRepair.cpp
   src/coordinates.cpp
@@ -45,20 +42,15 @@ nanobind_add_module(
 
 )
 
-# Link OpenMP
-# if(OpenMP_CXX_FOUND)
-#   target_link_libraries(_meshfix PRIVATE OpenMP::OpenMP_CXX)
-# endif()
+set(CMAKE_OSX_DEPLOYMENT_TARGET 10.13)
 
 # Compiler-specific options
 if(MSVC)
   # Use MSVC optimization levels and OpenMP setup
   target_compile_options(_meshfix PRIVATE /O2 /std:c++17)
-  # /openmp:llvm
 else()
   # Assuming GCC or Clang
   target_compile_options(_meshfix PRIVATE -O3)
-  # -fopenmp
 endif()
 
 # Install directive for scikit-build-core
