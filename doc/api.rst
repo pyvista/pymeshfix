@@ -1,9 +1,10 @@
 API Reference
 =============
-These are the two public classes that expose the meshfix API to
-Python.  The pure Python python class is ``MeshFix``, which requires
-``pyvista``.  The lower level cython extension of meshfix is
-``PyTMesh``, which does not require `pyvista <https://docs.pyvista.org/>`__.
+These are the two public classes that expose the meshfix API to Python.  The
+pure Python python class is ``MeshFix``, which requires ``pyvista`` for some of
+its features. The lower level cython extension of meshfix is ``PyTMesh``, which
+does not require `pyvista <https://docs.pyvista.org/>`__ for any of its
+functionality.
 
 
 .. autosummary::

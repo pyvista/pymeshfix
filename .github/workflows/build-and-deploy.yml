@@ -4,9 +4,9 @@ on:
   pull_request:
   push:
     tags:
-      - "*"
+    - v*
     branches:
-      - "main"
+    - main
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -19,47 +19,84 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, ubuntu-24.04-arm, windows-latest, macos-latest, macos-15-intel]
+        os: [ubuntu-24.04, windows-2025, macos-latest, macos-15-intel, ubuntu-24.04-arm]
 
     steps:
-      - uses: actions/checkout@v6
+    - uses: actions/checkout@v6
 
-      - name: Build wheels
-        uses: pypa/cibuildwheel@v3.3.0
+    - name: Build wheels
+      uses: pypa/cibuildwheel@v3.3.0
 
-      - uses: actions/upload-artifact@v6
-        with:
-          name: pymeshfix-wheels-${{ matrix.os }}
-          path: ./wheelhouse/*.whl
+    - uses: actions/upload-artifact@v6
+      with:
+        name: pymeshfix-wheels-${{ matrix.os }}
+        path: ./wheelhouse/*.whl
+
+  test_abi3:
+    name: Test ABI3 wheels
+    needs: build_wheels
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.13'] # , '3.14']  # skip 3.14 testing until vtk 9.6 is released
+        os: [ubuntu-24.04, windows-2025, macos-latest, macos-15-intel, ubuntu-24.04-arm]  # must match build_wheels os
+    steps:
+    - uses: actions/checkout@v6
+    - uses: actions/setup-python@v6
+      with:
+        python-version: ${{ matrix.python-version }}
+    - uses: actions/download-artifact@v7
+      with:
+        pattern: pymeshfix-wheels-${{ matrix.os }}
+        path: wheels/
+    - name: Find ABI3 wheel
+      id: find_wheel
+      shell: bash
+      run: |
+        WHEEL=$(ls wheels/*abi3*.whl | head -n 1)
+        echo "wheel=$WHEEL" >> "$GITHUB_OUTPUT"
+    - name: Install wheel
+      run: pip install "${{ steps.find_wheel.outputs.wheel }}"
+    - name: Install test dependencies from source
+      run: |
+        pip install tomli
+        python tools/extract-deps.py
+        pip install -r requirements-tests.txt
+    - name: Run tests
+      run: pytest
 
   build_sdist:
     name: Build source distribution
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
-      - uses: actions/setup-python@v6
-        with:
-          python-version: 3.12
+    - uses: actions/checkout@v6
+    - uses: actions/setup-python@v6
+      with:
+        python-version: 3.13
 
-      - name: Install pipx
-        run: python -m pip install --upgrade pipx pip
+    - name: Install pipx
+      run: python -m pip install --upgrade pipx pip
 
-      - name: Build sdist
-        run: pipx run build --sdist
+    - name: Build sdist
+      run: pipx run build --sdist
 
-      - name: Install package from sdist
-        run: pip install dist/*.tar.gz
+    - name: Install package from sdist
+      run: pip install dist/*.tar.gz
 
-      - name: Install test requirements
-        run: pip install -r requirements_test.txt
+    - name: Install test dependencies from source
+      run: |
+        pip install tomli
+        python tools/extract-deps.py
+        pip install -r requirements-tests.txt
 
-      - name: Run tests
-        run: pytest
+    - name: Run tests
+      run: pytest
 
-      - uses: actions/upload-artifact@v6
-        with:
-          name: pymeshfix-sdist
-          path: dist/*.tar.gz
+    - uses: actions/upload-artifact@v6
+      with:
+        name: pymeshfix-sdist
+        path: dist/*.tar.gz
 
   release:
     name: Release

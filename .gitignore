@@ -5,8 +5,12 @@
 *.so
 *.o
 
-# Cython generated files #
-pymeshfix/cython/_meshfix.cpp
+# Cmake
+CMakeFiles/
+Makefile
+cmake_install.cmake
+compile_commands.json
+.clangd
 
 # OS generated files #
 ######################
@@ -20,7 +24,6 @@ build/
 dist/
 
 # MISC
-uploadpypi.sh
 .pytest_cache/
 .hypothesis
 
