@@ -24,7 +24,7 @@ description = "Repair triangular meshes using MeshFix"
 name = "pymeshfix"
 readme = "README.rst"
 requires-python = ">=3.10,<3.15"
-version = "0.19.dev0"
+version = "0.18.0"
 
 [project.optional-dependencies]
 docs = [
