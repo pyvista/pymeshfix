@@ -67,3 +67,4 @@ repos:
   rev: v0.0.14
   hooks:
   - id: rstfmt
+    exclude: ^(doc/_templates/|doc/api\.rst$)

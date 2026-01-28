@@ -4,6 +4,10 @@ from pymeshfix.examples import bunny_scan
 import pyvista as pv
 
 
+def test_version() -> None:
+    assert pymeshfix.__version__ != "unknown"
+
+
 def test_repair_vtk() -> None:
     meshin = pv.PolyData(bunny_scan)
     meshfix = pymeshfix.MeshFix(meshin)

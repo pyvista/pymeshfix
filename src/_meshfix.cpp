@@ -436,42 +436,179 @@ nb::tuple clean_from_arrays(
 }
 
 NB_MODULE(_meshfix, m) { // "_meshfix" must match library name from CMakeLists.txt
-    nb::class_<PyTMesh>(m, "PyTMesh")
+    nb::class_<PyTMesh>(
+        m,
+        "PyTMesh",
+        R"doc(
+Mesh repair and cleaning class.
+
+Wraps the MeshFix Basic_TMesh functionality and exposes it to Python.
+Provides methods to inspect, repair, and extract mesh data.
+)doc")
         .def(nb::init<>())
-        .def_prop_ro("n_boundaries", &PyTMesh::n_boundaries)
-        .def_prop_ro("n_faces", &PyTMesh::n_faces)
-        .def_prop_ro("n_points", &PyTMesh::n_points)
-        .def("join_closest_components", &PyTMesh::join_closest_components)
-        .def("set_quiet", &PyTMesh::set_quiet)
-        .def("fix_connectivity", &PyTMesh::fix_connectivity)
-        .def("return_arrays", &PyTMesh::return_arrays)
+        .def_prop_ro(
+            "n_boundaries",
+            &PyTMesh::n_boundaries,
+            R"doc(
+Number of boundary loops in the mesh.
+)doc")
+        .def_prop_ro(
+            "n_faces",
+            &PyTMesh::n_faces,
+            R"doc(
+Number of faces in the mesh.
+)doc")
+        .def_prop_ro(
+            "n_points",
+            &PyTMesh::n_points,
+            R"doc(
+Number of points in the mesh.
+)doc")
+        .def(
+            "join_closest_components",
+            &PyTMesh::join_closest_components,
+            R"doc(
+Join the closest disconnected mesh components.
+)doc")
+        .def(
+            "set_quiet",
+            &PyTMesh::set_quiet,
+            R"doc(
+Enable or disable console output.
+
+Parameters
+----------
+quiet : bool
+    If True, suppress output.
+)doc")
+        .def(
+            "fix_connectivity",
+            &PyTMesh::fix_connectivity,
+            R"doc(
+Repair mesh connectivity issues.
+)doc")
+        .def(
+            "return_arrays",
+            &PyTMesh::return_arrays,
+            R"doc(
+Return mesh data as vertex and face arrays.
+
+Returns
+-------
+numpy.ndarray
+    Vertex array of shape (N, 3).
+numpy.ndarray
+    Face array of shape (M, 3).
+)doc")
         .def(
             "load_file",
             &PyTMesh::load_file,
+            R"doc(
+Load a surface mesh from a file.
+
+Parameters
+----------
+filename : str
+    Path to the input mesh file.
+fix_connectivity : bool, default: True
+    Repair connectivity issues after loading.
+)doc",
             nb::arg("filename"),
             nb::arg("fix_connectivity") = true)
         .def(
             "fill_small_boundaries",
             &PyTMesh::fill_small_boundaries,
+            R"doc(
+Fill small boundary loops (holes) in the mesh.
+
+Parameters
+----------
+nbe : int, default: 0
+    Maximum number of boundary edges to fill. If 0, fill all.
+refine : bool, default: True
+    Refine filled regions.
+)doc",
             nb::arg("nbe") = 0,
             nb::arg("refine") = true)
-        .def("clean", &PyTMesh::clean, nb::arg("max_iters") = 10, nb::arg("inner_loops") = 3)
+        .def(
+            "clean",
+            &PyTMesh::clean,
+            R"doc(
+Perform iterative mesh cleaning and repair.
+
+Parameters
+----------
+max_iters : int, default: 10
+    Maximum number of cleaning iterations.
+inner_loops : int, default: 3
+    Number of inner optimization loops per iteration.
+)doc",
+            nb::arg("max_iters") = 10,
+            nb::arg("inner_loops") = 3)
         .def("boundaries", &PyTMesh::_boundaries)
         .def(
             "save_file",
             &PyTMesh::save_file,
+            R"doc(
+Save the mesh to a file.
+
+Parameters
+----------
+filename : str
+    Output filename.
+back_approx : bool, default: False
+    Use backward approximation when writing.
+)doc",
             nb::arg("filename"),
             nb::arg("back_approx") = false)
         .def("boundaries", &PyTMesh::_boundaries)
         .def(
             "select_intersecting_triangles",
             &PyTMesh::select_intersecting_triangles,
+            R"doc(
+Select intersecting triangles in the mesh.
+
+Parameters
+----------
+tris_per_cell : int, default: 50
+    The depth of the recursive space subdivision used to keep
+    the complexity under a reasonable threshold. The default value
+    is safe in most cases.
+
+justproper : bool, default: False
+    If ``justproper`` is true, coincident edges and vertices are not
+    regarded as intersections even if they are not common
+    subsimplexes.
+
+Returns
+-------
+np.ndarray[np.int32]
+   Face array shaped ``(m, 3)`` of self-intersecting triangles.
+
+)doc",
             nb::arg("tris_per_cell") = 50,
             nb::arg("justproper") = false)
-        .def("remove_smallest_components", &PyTMesh::remove_smallest_components)
+        .def(
+            "remove_smallest_components",
+            &PyTMesh::remove_smallest_components,
+            R"doc(
+Remove all but the largest connected mesh component.
+)doc")
         .def(
             "load_array",
             &PyTMesh::load_array,
+            R"doc(
+Load a surface mesh from vertex and face arrays.
+
+Parameters
+----------
+points_arr : numpy.ndarray
+    Vertex array of shape ``(n, 3)``.
+faces_arr : numpy.ndarray
+    Face array of shape ``(m, 3)``.
+fix_connectivity : bool, default: True
+    Repair connectivity issues after loading.
+)doc",
             nb::arg("points_arr"),
             nb::arg("faces_arr"),
             nb::arg("fix_connectivity") = true);
@@ -479,6 +616,38 @@ NB_MODULE(_meshfix, m) { // "_meshfix" must match library name from CMakeLists.t
     m.def(
         "clean_from_arrays",
         &clean_from_arrays,
+        R"doc(
+Clean and repair a triangular surface mesh from vertex and face arrays.
+
+Parameters
+----------
+v : numpy.ndarray[np.float64]
+    Vertex array of shape ``(n, 3)``.
+f : numpy.ndarray[np.int32]
+    Face array of shape ``(m, 3)``.
+verbose : bool, default: False
+    Enable verbose output.
+joincomp : bool, default: False
+    Attempt to join nearby open components.
+remove_smallest_components : bool, default: True
+    Remove all but the largest connected component before repair.
+
+Returns
+-------
+numpy.ndarray
+    Cleaned vertex array.
+numpy.ndarray
+    Cleaned face array.
+
+Examples
+--------
+>>> import pymeshfix
+>>> import numpy as np
+>>> points = np.load('points.npy')
+>>> faces = np.load('faces.npy')
+>>> clean_points, clean_faces = pymeshfix.clean_from_arrays(points, faces)
+
+)doc",
         nb::arg("v"),
         nb::arg("f"),
         nb::arg("verbose") = false,
@@ -488,6 +657,28 @@ NB_MODULE(_meshfix, m) { // "_meshfix" must match library name from CMakeLists.t
     m.def(
         "clean_from_file",
         &clean_from_file,
+        R"doc(
+Clean and repair a triangular surface mesh from a file.
+
+Parameters
+----------
+infile : str
+    Input mesh filename.
+outfile : str
+    Output mesh filename.
+verbose : bool, default: False
+    Enable verbose output.
+joincomp : bool, default False
+    Attempt to join nearby open components.
+
+Examples
+--------
+Clean a mesh without using pyvista or vtk.
+
+>>> import pymeshfix
+>>> pymeshfix.clean_from_file('inmesh.ply', 'outmesh.ply')
+
+)doc",
         nb::arg("infile"),
         nb::arg("outfile"),
         nb::arg("verbose") = false,

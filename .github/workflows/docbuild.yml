@@ -4,42 +4,42 @@ on:
   pull_request:
   push:
     tags:
-      - "*"
+    - '*'
 
 jobs:
   docs_build:
     runs-on: ubuntu-22.04
 
     env:
-      PYANSYS_OFF_SCREEN: True
+      PYANSYS_OFF_SCREEN: true
 
     steps:
-      - uses: actions/checkout@v6
+    - uses: actions/checkout@v6
 
-      - name: Setup Python
-        uses: actions/setup-python@v6
-        with:
-          python-version: '3.11'
-          cache: 'pip'
-          cache-dependency-path: |
-            **/requirements*.txt
+    - name: Setup Python
+      uses: actions/setup-python@v6
+      with:
+        python-version: '3.11'
+        cache: pip
+        cache-dependency-path: |
+          **/requirements*.txt
 
-      - name: Setup headless display
-        uses: pyvista/setup-headless-display-action@v4
+    - name: Setup headless display
+      uses: pyvista/setup-headless-display-action@v4
 
-      - name: Install pymeshfix
-        run: pip install .
-  
-      - name: Build Documentation
-        run: |
-          pip install -r requirements_docs.txt
-          make -C doc html
+    - name: Install pymeshfix
+      run: pip install .
 
-      - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@v4.7.6
-        if: startsWith(github.ref, 'refs/tags/')
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH: gh-pages
-          FOLDER: doc/_build/html
-          CLEAN: true
+    - name: Build Documentation
+      run: |
+        pip install -r requirements_docs.txt
+        make -C doc html
+
+    - name: Deploy
+      uses: JamesIves/github-pages-deploy-action@v4.7.6
+      if: startsWith(github.ref, 'refs/tags/')
+      with:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        BRANCH: gh-pages
+        FOLDER: doc/_build/html
+        CLEAN: true

@@ -24,7 +24,7 @@ description = "Python interface to tetgen"
 name = "pymeshfix"
 readme = "README.rst"
 requires-python = ">=3.10,<3.15"
-version = "0.9.dev0"
+version = "0.19.dev0"
 
 [project.optional-dependencies]
 docs = [
@@ -40,6 +40,7 @@ extras = [
   "pyvista"
 ]
 tests = [
+  "pyvista",
   "pytest",
   "pytest-cov"
 ]
@@ -87,6 +88,8 @@ junit_family = "legacy"
 
 [tool.ruff]
 line-length = 100
+
+[tool.ruff.lint]
 # pyflakes, pycodestyle, isort
 select = ["F", "E", "W", "I001"]
 
