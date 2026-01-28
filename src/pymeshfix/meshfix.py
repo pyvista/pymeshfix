@@ -13,6 +13,17 @@ if TYPE_CHECKING:
     from pyvista.core.pointset import PolyData
 
 
+class InvalidMeshFixInputError(TypeError):
+    def __init__(self, message=None):
+        if message is None:
+            message = (
+                "Invalid input. Please input a surface mesh, vertex and face arrays, or a "
+                "file name. Note that pyvista is required when loading anything other "
+                "than arrays."
+            )
+        super().__init__(message)
+
+
 def _polydata_from_faces(points: NDArray[np.float64], faces: NDArray[np.int32]) -> "PolyData":
     """
     Generate a polydata from a faces array containing no padding and all triangles.
@@ -65,9 +76,10 @@ class MeshFix:
 
     Parameters
     ----------
-    args : pyvista.PolyData | (np.ndarray, np.ndarray)
+    args : pyvista.PolyData | (np.ndarray, np.ndarray) | pathlib.Path | str
         Either a pyvista surface mesh :class:`pyvista.PolyData` or a ``n x 3``
-        vertex array and ``n x 3`` face array (indices of the triangles).
+        vertex array and ``n x 3`` face array (indices of the triangles). Also
+        supports reading directly from a file.
 
     Examples
     --------
@@ -113,23 +125,40 @@ class MeshFix:
         """Initialize meshfix."""
         pv_installed = find_spec("pyvista.core")
 
+        if len(args) == 0:
+            raise InvalidMeshFixInputError()
+
         if isinstance(args[0], np.ndarray):
+            if len(args) != 2 or not isinstance(args[1], np.ndarray):
+                raise TypeError("If first argument is an array, second argument must be an array")
             self.load_arrays(args[0], args[1])
         elif pv_installed:
             import pyvista.core as pv
 
             if isinstance(args[0], pv.PolyData):
                 mesh = pv.wrap(args[0])
-                self.v = mesh.points.astype(np.float64, copy=False)
 
-                # check if triangular mesh
-                if not mesh.is_all_triangles:
-                    mesh = mesh.triangulate()
+            elif isinstance(args[0], (Path, str)):
+                mesh = pv.read(args[0])
+                if not isinstance(mesh, pv.PolyData):
+                    raise InvalidMeshFixInputError(
+                        f"Expected to load a `pyvista.PolyData` from file, but got `{type(mesh)}`"
+                    )
+            else:
+                InvalidMeshFixInputError(
+                    "Invalid input. Please input a surface mesh, vertex and face arrays, or a"
+                    " file name."
+                )
+            self.v = mesh.points.astype(np.float64, copy=False)
 
-                self.f = mesh._connectivity_array.reshape(-1, 3).astype(np.int32, copy=False)
+            # check if triangular mesh
+            if not mesh.is_all_triangles:
+                mesh = mesh.triangulate()
+
+            self.f = mesh._connectivity_array.reshape(-1, 3).astype(np.int32, copy=False)
 
         else:
-            raise TypeError("Invalid input. Please load a surface mesh or face and vertex arrays")
+            raise InvalidMeshFixInputError()
 
     def load_arrays(self, v: NDArray[np.float64], f: NDArray[np.int32]) -> None:
         """
