@@ -32,7 +32,7 @@ The following examples demonstrate pymeshfix functionality using
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="Repair a holey cow">
+    <div class="sphx-glr-thumbcontainer" tooltip="Repair a mesh of a cow.">
 
 .. only:: html
 
@@ -43,13 +43,13 @@ The following examples demonstrate pymeshfix functionality using
 
 .. raw:: html
 
-      <div class="sphx-glr-thumbnail-title">Holey Cow</div>
+      <div class="sphx-glr-thumbnail-title">Cow Mesh Repair</div>
     </div>
 
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="This example fills all but the largest holes in a planar mesh.">
+    <div class="sphx-glr-thumbcontainer" tooltip="This example fills all but the largest holes in a planar mesh using the lower level pymeshfix interface pymeshfix.PyTMesh.">
 
 .. only:: html
 

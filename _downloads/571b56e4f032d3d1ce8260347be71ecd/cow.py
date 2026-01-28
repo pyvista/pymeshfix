@@ -1,8 +1,8 @@
 """
-Holey Cow
----------
+Cow Mesh Repair
+---------------
 
-Repair a holey cow
+Repair a mesh of a cow.
 """
 
 import numpy as np
@@ -18,30 +18,32 @@ cow = examples.download_cow()
 
 # Add holes and cast to triangulated PolyData
 cow["random"] = np.random.rand(cow.n_cells)
-holy_cow = cow.threshold(0.9, invert=True).extract_geometry().triangulate()
-print(holy_cow)
+cow_w_holes = cow.threshold(0.9, invert=True).extract_geometry().triangulate()
+print(cow_w_holes)
 
 ################################################################################
 
-# A nice camera location of the cow
+# A nice camera location to view the cow
 cpos = [(6.56, 8.73, 22.03), (0.77, -0.44, 0.0), (-0.13, 0.93, -0.35)]
 
-meshfix = mf.MeshFix(holy_cow)
+meshfix = mf.MeshFix(cow_w_holes, verbose=True)
 holes = meshfix.extract_holes()
 
 # Render the mesh and outline the holes
 p = pv.Plotter()
-p.add_mesh(holy_cow, color=True)
+p.add_mesh(cow_w_holes, color=True, smooth_shading=True, split_sharp_edges=True)
 p.add_mesh(holes, color="r", line_width=8)
 p.camera_position = cpos
+p.camera.zoom(1.5)
 p.enable_eye_dome_lighting()  # helps depth perception
+p.enable_anti_aliasing("ssaa")
 p.show()
 
 
 ################################################################################
-# Repair the holey cow
+# Repair the cow mesh
 
-meshfix.repair(verbose=True)
+meshfix.repair()
 
 ################################################################################
 # Show the repaired result
@@ -50,4 +52,4 @@ repaired = meshfix.mesh
 print(repaired)
 
 ################################################################################
-repaired.plot(cpos=cpos)
+repaired.plot(cpos=cpos, zoom=1.5, smooth_shading=True, split_sharp_edges=True)

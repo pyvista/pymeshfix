@@ -1,15 +1,14 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="" >
+<html lang="en" data-content_root="../" >
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Torso &#8212; pymeshfix 0.17.2 documentation</title>
+    <title>Torso &#8212; pymeshfix 0.19.dev0 documentation</title>
   
   
   
@@ -31,12 +30,12 @@
   <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 <link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
   
   <!-- So that users can add custom icons -->
   <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -44,11 +43,11 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/doctools.js"></script>
-    <script src="../_static/sphinx_highlight.js"></script>
-    <script src="../_static/clipboard.min.js"></script>
-    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/documentation_options.js?v=95e146bd"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=49e1bf35"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'examples/torso';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -56,7 +55,7 @@
     <link rel="prev" title="Partial Fill Holes" href="repair_planar.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="0.17.2" />
+  <meta name="docsearch:version" content="0.19.dev0" />
   </head>
   
   
@@ -122,8 +121,8 @@
       
     
     
-    <img src="../_static/pyvista_logo_sm.png" class="logo__image only-light" alt="pymeshfix 0.17.2 documentation - Home"/>
-    <img src="../_static/pyvista_logo_sm.png" class="logo__image only-dark pst-js-only" alt="pymeshfix 0.17.2 documentation - Home"/>
+    <img src="../_static/pyvista_logo_sm.png" class="logo__image only-light" alt="pymeshfix 0.19.dev0 documentation - Home"/>
+    <img src="../_static/pyvista_logo_sm.png" class="logo__image only-dark pst-js-only" alt="pymeshfix 0.19.dev0 documentation - Home"/>
   
   
 </a></div>
@@ -312,7 +311,7 @@
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="bunny.html">Bunny</a></li>
-<li class="toctree-l1"><a class="reference internal" href="cow.html">Holey Cow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cow.html">Cow Mesh Repair</a></li>
 <li class="toctree-l1"><a class="reference internal" href="repair_planar.html">Partial Fill Holes</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Torso</a></li>
 </ul>
@@ -381,7 +380,7 @@
 to download the full example code.</p>
 </div>
 <section class="sphx-glr-example-title" id="torso">
-<span id="sphx-glr-examples-torso-py"></span><h1>Torso<a class="headerlink" href="#torso" title="Permalink to this heading">#</a></h1>
+<span id="sphx-glr-examples-torso-py"></span><h1>Torso<a class="headerlink" href="#torso" title="Link to this heading">#</a></h1>
 <p>Repair the torso mesh where it was extracted and subtle holes along complex
 parts of the mesh</p>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># sphinx_gallery_thumbnail_number = 2</span>
@@ -394,7 +393,7 @@ parts of the mesh</p>
 <span class="nb">print</span><span class="p">(</span><span class="n">mesh</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>PolyData (0x7f995bfc9ea0)
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>PolyData (0x7f47e12ecee0)
   N Cells:    12448
   N Points:   12015
   N Strips:   0
@@ -409,8 +408,8 @@ parts of the mesh</p>
 <span class="n">mesh</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">show_edges</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cpos</span><span class="o">=</span><span class="n">cpos</span><span class="p">)</span>
 </pre></div>
 </div>
-<img src="../_images/sphx_glr_torso_001.png" srcset="../_images/sphx_glr_torso_001.png" alt="torso" class = "sphx-glr-single-img"/><p>Apply a triangle filter to ensure the mesh is simply polyhedral</p>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">meshfix</span> <span class="o">=</span> <span class="n">mf</span><span class="o">.</span><span class="n">MeshFix</span><span class="p">(</span><span class="n">mesh</span><span class="o">.</span><span class="n">triangulate</span><span class="p">())</span>
+<img src="../_images/sphx_glr_torso_001.png" srcset="../_images/sphx_glr_torso_001.png" alt="torso" class = "sphx-glr-single-img"/><p>Apply a triangle filter to ensure the mesh contains only triangles.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">meshfix</span> <span class="o">=</span> <span class="n">mf</span><span class="o">.</span><span class="n">MeshFix</span><span class="p">(</span><span class="n">mesh</span><span class="o">.</span><span class="n">triangulate</span><span class="p">(),</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">holes</span> <span class="o">=</span> <span class="n">meshfix</span><span class="o">.</span><span class="n">extract_holes</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -436,20 +435,14 @@ is absolutely water tight.</p>
 </pre></div>
 </div>
 <img src="../_images/sphx_glr_torso_003.png" srcset="../_images/sphx_glr_torso_003.png" alt="torso" class = "sphx-glr-single-img"/><p>Perform the mesh repair</p>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">meshfix</span><span class="o">.</span><span class="n">repair</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</pre></div>
-</div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Removed 6 small components
-Patching holes...
-Patched 5 holes
-Fixing degeneracies and intersections
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">meshfix</span><span class="o">.</span><span class="n">repair</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>Show the repaired mesh</p>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">meshfix</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">cpos</span><span class="o">=</span><span class="n">cpos</span><span class="p">,</span> <span class="n">eye_dome_lighting</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">meshfix</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">cpos</span><span class="o">=</span><span class="n">cpos</span><span class="p">,</span> <span class="n">show_edges</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
-<img src="../_images/sphx_glr_torso_004.png" srcset="../_images/sphx_glr_torso_004.png" alt="torso" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 2.374 seconds)</p>
+<img src="../_images/sphx_glr_torso_004.png" srcset="../_images/sphx_glr_torso_004.png" alt="torso" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 2.420 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-torso-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../_downloads/8c2304a7db3bb5ef65786189c6b6749c/torso.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">torso.ipynb</span></code></a></p>
@@ -513,7 +506,7 @@ Fixing degeneracies and intersections
 
   <p class="copyright">
     
-      © Copyright 2017-2025, The PyVista Developers.
+      © Copyright 2017-2026, The PyVista Developers.
       <br/>
     
   </p>
@@ -522,7 +515,7 @@ Fixing degeneracies and intersections
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.1.3.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
     <br/>
   </p>
 </div>

@@ -46,7 +46,7 @@ parts of the mesh
 
  .. code-block:: none
 
-    PolyData (0x7f995bfc9ea0)
+    PolyData (0x7f47e12ecee0)
       N Cells:    12448
       N Points:   12015
       N Strips:   0
@@ -81,13 +81,14 @@ parts of the mesh
 
 .. GENERATED FROM PYTHON SOURCE LINES 25-26
 
-Apply a triangle filter to ensure the mesh is simply polyhedral
+Apply a triangle filter to ensure the mesh contains only triangles.
 
-.. GENERATED FROM PYTHON SOURCE LINES 26-29
+.. GENERATED FROM PYTHON SOURCE LINES 26-30
 
 .. code-block:: Python
 
-    meshfix = mf.MeshFix(mesh.triangulate())
+
+    meshfix = mf.MeshFix(mesh.triangulate(), verbose=True)
     holes = meshfix.extract_holes()
 
 
@@ -97,11 +98,11 @@ Apply a triangle filter to ensure the mesh is simply polyhedral
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 30-31
+.. GENERATED FROM PYTHON SOURCE LINES 31-32
 
 Outline the holes in the mesh
 
-.. GENERATED FROM PYTHON SOURCE LINES 31-38
+.. GENERATED FROM PYTHON SOURCE LINES 32-39
 
 .. code-block:: Python
 
@@ -124,12 +125,12 @@ Outline the holes in the mesh
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 39-41
+.. GENERATED FROM PYTHON SOURCE LINES 40-42
 
 Emphasize the hole near the ear - this needs to be repaired so that the mesh
 is absolutely water tight.
 
-.. GENERATED FROM PYTHON SOURCE LINES 41-50
+.. GENERATED FROM PYTHON SOURCE LINES 42-51
 
 .. code-block:: Python
 
@@ -154,41 +155,32 @@ is absolutely water tight.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 51-52
+.. GENERATED FROM PYTHON SOURCE LINES 52-53
 
 Perform the mesh repair
 
-.. GENERATED FROM PYTHON SOURCE LINES 52-54
+.. GENERATED FROM PYTHON SOURCE LINES 53-55
 
 .. code-block:: Python
 
-    meshfix.repair(verbose=True)
+    meshfix.repair()
 
 
 
 
 
-.. rst-class:: sphx-glr-script-out
-
- .. code-block:: none
-
-    Removed 6 small components
-    Patching holes...
-    Patched 5 holes
-    Fixing degeneracies and intersections
 
 
-
-
-.. GENERATED FROM PYTHON SOURCE LINES 55-56
-
-Show the repaired mesh
 
 .. GENERATED FROM PYTHON SOURCE LINES 56-57
 
+Show the repaired mesh
+
+.. GENERATED FROM PYTHON SOURCE LINES 57-58
+
 .. code-block:: Python
 
-    meshfix.mesh.plot(cpos=cpos, eye_dome_lighting=True)
+    meshfix.mesh.plot(cpos=cpos, show_edges=True)
 
 
 
@@ -204,7 +196,7 @@ Show the repaired mesh
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 2.374 seconds)
+   **Total running time of the script:** (0 minutes 2.420 seconds)
 
 
 .. _sphx_glr_download_examples_torso.py:

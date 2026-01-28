@@ -1,0 +1,6 @@
+pymeshfix.PyTMesh.n\_faces
+==========================
+
+.. currentmodule:: pymeshfix
+
+.. autoproperty:: PyTMesh.n_faces

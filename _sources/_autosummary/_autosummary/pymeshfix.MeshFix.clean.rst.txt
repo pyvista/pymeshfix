@@ -1,0 +1,6 @@
+pymeshfix.MeshFix.clean
+=======================
+
+.. currentmodule:: pymeshfix
+
+.. automethod:: MeshFix.clean

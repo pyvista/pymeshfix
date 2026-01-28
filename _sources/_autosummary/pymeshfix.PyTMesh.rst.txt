@@ -24,6 +24,9 @@
       PyTMesh.fill_small_boundaries
       
       
+      PyTMesh.fix_connectivity
+      
+      
       PyTMesh.join_closest_components
       
       
@@ -39,10 +42,25 @@
       PyTMesh.return_arrays
       
       
+      PyTMesh.return_faces
+      
+      
+      PyTMesh.return_points
+      
+      
       PyTMesh.save_file
       
       
       PyTMesh.select_intersecting_triangles
+      
+      
+      PyTMesh.set_quiet
+      
+      
+      PyTMesh.strong_degeneracy_removal
+      
+      
+      PyTMesh.strong_intersection_removal
       
    
    
@@ -54,6 +72,12 @@
    .. autosummary::
       :toctree: _autosummary
    
+      
+      PyTMesh.n_boundaries
+      
+      
+      PyTMesh.n_faces
+      
       
       PyTMesh.n_points
       

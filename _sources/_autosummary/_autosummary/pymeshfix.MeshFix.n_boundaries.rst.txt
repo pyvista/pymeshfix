@@ -1,0 +1,6 @@
+pymeshfix.MeshFix.n\_boundaries
+===============================
+
+.. currentmodule:: pymeshfix
+
+.. autoproperty:: MeshFix.n_boundaries

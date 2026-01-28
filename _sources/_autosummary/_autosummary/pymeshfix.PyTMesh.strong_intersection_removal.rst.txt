@@ -1,0 +1,6 @@
+pymeshfix.PyTMesh.strong\_intersection\_removal
+===============================================
+
+.. currentmodule:: pymeshfix
+
+.. automethod:: PyTMesh.strong_intersection_removal

@@ -3,4 +3,4 @@
 
 .. currentmodule:: pymeshfix
 
-.. autofunction:: clean_from_arrays
+.. autodata:: clean_from_arrays

@@ -1,0 +1,6 @@
+pymeshfix.PyTMesh.fix\_connectivity
+===================================
+
+.. currentmodule:: pymeshfix
+
+.. automethod:: PyTMesh.fix_connectivity

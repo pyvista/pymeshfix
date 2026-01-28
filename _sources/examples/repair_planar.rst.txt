@@ -21,7 +21,7 @@
 Partial Fill Holes
 ------------------
 
-This example fills all but the largest holes in a planar mesh.
+This example fills all but the largest holes in a planar mesh using the lower level pymeshfix interface :class:`pymeshfix.PyTMesh`.
 
 .. GENERATED FROM PYTHON SOURCE LINES 7-16
 
@@ -31,10 +31,10 @@ This example fills all but the largest holes in a planar mesh.
     # sphinx_gallery_thumbnail_number = 1
     import numpy as np
     import pyvista as pv
-    from pymeshfix._meshfix import PyTMesh
+    from pymeshfix import PyTMesh
 
     from pymeshfix import MeshFix
-    from pymeshfix.examples import planar_mesh
+    from pymeshfix import examples
 
 
 
@@ -45,24 +45,25 @@ This example fills all but the largest holes in a planar mesh.
 
 .. GENERATED FROM PYTHON SOURCE LINES 17-18
 
-plot the holes on the original mesh
+Plot the holes on the original mesh
 
-.. GENERATED FROM PYTHON SOURCE LINES 18-32
+.. GENERATED FROM PYTHON SOURCE LINES 18-33
 
 .. code-block:: Python
 
-    orig_mesh = pv.read(planar_mesh)
+
+    orig_mesh = pv.read(examples.planar_mesh)
     # orig_mesh.plot_boundaries()
 
-    meshfix = MeshFix(orig_mesh)
+    meshfix = MeshFix(orig_mesh, verbose=True)
     holes = meshfix.extract_holes()
 
     # Render the mesh and outline the holes
-    plotter = pv.Plotter()
-    plotter.add_mesh(orig_mesh, color=True)
-    plotter.add_mesh(holes, color="r", line_width=5)
-    plotter.enable_eye_dome_lighting()  # helps depth perception
-    _ = plotter.show()
+    pl = pv.Plotter()
+    pl.add_mesh(orig_mesh, color=True, smooth_shading=True)
+    pl.add_mesh(holes, color="r", line_width=8, render_lines_as_tubes=True, lighting=False)
+    pl.enable_eye_dome_lighting()  # helps depth perception
+    _ = pl.show()
 
 
 
@@ -77,20 +78,21 @@ plot the holes on the original mesh
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 33-34
+.. GENERATED FROM PYTHON SOURCE LINES 34-35
 
 This example uses the lower level C interface to the TMesh object.
 
-.. GENERATED FROM PYTHON SOURCE LINES 34-43
+.. GENERATED FROM PYTHON SOURCE LINES 35-45
 
 .. code-block:: Python
 
-    mfix = PyTMesh(False)  # False removes extra verbose output
-    mfix.load_file(planar_mesh)
+    mfix = PyTMesh()
+    mfix.set_quiet(True)
+    mfix.load_file(examples.planar_mesh)
 
     # Fills all the holes having at at most 'nbe' boundary edges. If
     # 'refine' is true, adds inner vertices to reproduce the sampling
-    # density of the surroundings. Returns number of holes patched.  If
+    # density of the surroundings. Returns number of holes patched. If
     # 'nbe' is 0 (default), all the holes are patched.
     mfix.fill_small_boundaries(nbe=100, refine=True)
 
@@ -107,20 +109,16 @@ This example uses the lower level C interface to the TMesh object.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 44-45
+.. GENERATED FROM PYTHON SOURCE LINES 46-47
 
 Convert back to a pyvista mesh
 
-.. GENERATED FROM PYTHON SOURCE LINES 45-52
+.. GENERATED FROM PYTHON SOURCE LINES 47-50
 
 .. code-block:: Python
 
     vert, faces = mfix.return_arrays()
-    triangles = np.empty((faces.shape[0], 4), dtype=faces.dtype)
-    triangles[:, -3:] = faces
-    triangles[:, 0] = 3
-
-    mesh = pv.PolyData(vert, triangles)
+    mesh = pv.make_tri_mesh(vert, faces)
 
 
 
@@ -129,24 +127,25 @@ Convert back to a pyvista mesh
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 53-58
+.. GENERATED FROM PYTHON SOURCE LINES 51-57
 
-Plot the repaired mesh along with the original holes
-Note: It seems there is a limit to the repair algorithm whereby some
-of the holes that include only a single point are not filled. These
-boundary holes are not detected by VTK's hole repair algorithm
-either.
+Plot the repaired mesh along with the original holes.
 
-.. GENERATED FROM PYTHON SOURCE LINES 58-64
+.. note::
+   It seems there is a limit to the repair algorithm whereby some of the
+   holes that include only a single point are not filled. These boundary
+   holes are not detected by VTK's hole repair algorithm either.
+
+.. GENERATED FROM PYTHON SOURCE LINES 57-63
 
 .. code-block:: Python
 
 
-    plotter = pv.Plotter()
-    plotter.add_mesh(mesh, color=True)
-    plotter.add_mesh(holes, color="r", line_width=5)
-    plotter.enable_eye_dome_lighting()  # helps depth perception
-    _ = plotter.show()
+    pl = pv.Plotter()
+    pl.add_mesh(mesh, color=True, smooth_shading=True)
+    pl.add_mesh(holes, color="r", line_width=8, render_lines_as_tubes=True, lighting=False)
+    pl.enable_eye_dome_lighting()  # helps depth perception
+    _ = pl.show()
 
 
 
@@ -162,7 +161,7 @@ either.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.790 seconds)
+   **Total running time of the script:** (0 minutes 0.783 seconds)
 
 
 .. _sphx_glr_download_examples_repair_planar.py:

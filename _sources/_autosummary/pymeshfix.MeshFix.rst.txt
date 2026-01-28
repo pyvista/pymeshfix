@@ -15,13 +15,31 @@
    
       
       
+      MeshFix.clean
+      
+      
+      MeshFix.degeneracy_removal
+      
+      
       MeshFix.extract_holes
+      
+      
+      MeshFix.fill_holes
+      
+      
+      MeshFix.intersection_removal
+      
+      
+      MeshFix.join_closest_components
       
       
       MeshFix.load_arrays
       
       
       MeshFix.plot
+      
+      
+      MeshFix.remove_smallest_components
       
       
       MeshFix.repair
@@ -44,6 +62,9 @@
       
       
       MeshFix.mesh
+      
+      
+      MeshFix.n_boundaries
       
       
       MeshFix.points

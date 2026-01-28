@@ -1,15 +1,14 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="" >
+<html lang="en" data-content_root="../" >
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>pymeshfix Examples &#8212; pymeshfix 0.17.2 documentation</title>
+    <title>pymeshfix Examples &#8212; pymeshfix 0.19.dev0 documentation</title>
   
   
   
@@ -31,12 +30,12 @@
   <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 <link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
   
   <!-- So that users can add custom icons -->
   <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -44,11 +43,11 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/doctools.js"></script>
-    <script src="../_static/sphinx_highlight.js"></script>
-    <script src="../_static/clipboard.min.js"></script>
-    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/documentation_options.js?v=95e146bd"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=49e1bf35"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'examples/index';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -56,7 +55,7 @@
     <link rel="prev" title="PyMeshFix" href="../index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="0.17.2" />
+  <meta name="docsearch:version" content="0.19.dev0" />
   </head>
   
   
@@ -122,8 +121,8 @@
       
     
     
-    <img src="../_static/pyvista_logo_sm.png" class="logo__image only-light" alt="pymeshfix 0.17.2 documentation - Home"/>
-    <img src="../_static/pyvista_logo_sm.png" class="logo__image only-dark pst-js-only" alt="pymeshfix 0.17.2 documentation - Home"/>
+    <img src="../_static/pyvista_logo_sm.png" class="logo__image only-light" alt="pymeshfix 0.19.dev0 documentation - Home"/>
+    <img src="../_static/pyvista_logo_sm.png" class="logo__image only-dark pst-js-only" alt="pymeshfix 0.19.dev0 documentation - Home"/>
   
   
 </a></div>
@@ -312,7 +311,7 @@
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="bunny.html">Bunny</a></li>
-<li class="toctree-l1"><a class="reference internal" href="cow.html">Holey Cow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cow.html">Cow Mesh Repair</a></li>
 <li class="toctree-l1"><a class="reference internal" href="repair_planar.html">Partial Fill Holes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="torso.html">Torso</a></li>
 </ul>
@@ -373,16 +372,16 @@
                 <article class="bd-article">
                   
   <section id="pymeshfix-examples">
-<h1>pymeshfix Examples<a class="headerlink" href="#pymeshfix-examples" title="Permalink to this heading">#</a></h1>
+<h1>pymeshfix Examples<a class="headerlink" href="#pymeshfix-examples" title="Link to this heading">#</a></h1>
 <p>The following examples demonstrate pymeshfix functionality using
 <a class="reference external" href="https://docs.pyvista.org/">pyvista</a>.</p>
 <div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="Repair the holes in the bunny mesh."><img alt="" src="../_images/sphx_glr_bunny_thumb.png" />
 <p><a class="reference internal" href="bunny.html"><span class="doc">Bunny</span></a></p>
   <div class="sphx-glr-thumbnail-title">Bunny</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="Repair a holey cow"><img alt="" src="../_images/sphx_glr_cow_thumb.png" />
-<p><a class="reference internal" href="cow.html"><span class="doc">Holey Cow</span></a></p>
-  <div class="sphx-glr-thumbnail-title">Holey Cow</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="This example fills all but the largest holes in a planar mesh."><img alt="" src="../_images/sphx_glr_repair_planar_thumb.png" />
+</div><div class="sphx-glr-thumbcontainer" tooltip="Repair a mesh of a cow."><img alt="" src="../_images/sphx_glr_cow_thumb.png" />
+<p><a class="reference internal" href="cow.html"><span class="doc">Cow Mesh Repair</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Cow Mesh Repair</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This example fills all but the largest holes in a planar mesh using the lower level pymeshfix interface pymeshfix.PyTMesh."><img alt="" src="../_images/sphx_glr_repair_planar_thumb.png" />
 <p><a class="reference internal" href="repair_planar.html"><span class="doc">Partial Fill Holes</span></a></p>
   <div class="sphx-glr-thumbnail-title">Partial Fill Holes</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="Repair the torso mesh where it was extracted and subtle holes along complex parts of the mesh"><img alt="" src="../_images/sphx_glr_torso_thumb.png" />
@@ -442,7 +441,7 @@
 
   <p class="copyright">
     
-      © Copyright 2017-2025, The PyVista Developers.
+      © Copyright 2017-2026, The PyVista Developers.
       <br/>
     
   </p>
@@ -451,7 +450,7 @@
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.1.3.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
     <br/>
   </p>
 </div>

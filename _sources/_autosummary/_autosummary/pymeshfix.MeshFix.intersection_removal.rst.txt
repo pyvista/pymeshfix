@@ -1,0 +1,6 @@
+pymeshfix.MeshFix.intersection\_removal
+=======================================
+
+.. currentmodule:: pymeshfix
+
+.. automethod:: MeshFix.intersection_removal

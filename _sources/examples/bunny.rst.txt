@@ -32,7 +32,7 @@ Repair the holes in the bunny mesh.
     import pyvista as pv
     from pyvista import examples
 
-    import pymeshfix as mf
+    from pymeshfix import MeshFix
 
 
 
@@ -51,7 +51,7 @@ Repair the holes in the bunny mesh.
     cpos = [(-0.2, -0.13, 0.12), (-0.015, 0.10, -0.0), (0.28, 0.26, 0.9)]
 
     # Show mesh
-    bunny.plot(cpos=cpos)
+    bunny.plot(cpos=cpos, eye_dome_lighting=True, anti_aliasing=True, smooth_shading=True)
 
 
 
@@ -67,14 +67,14 @@ Repair the holes in the bunny mesh.
 
 .. GENERATED FROM PYTHON SOURCE LINES 24-25
 
-Generate a meshfix mesh ready for fixing and extract the holes
+Create an instance of :class:`pymeshfix.MeshFix` from :class:`pyvista.PolyData`.
 
 .. GENERATED FROM PYTHON SOURCE LINES 25-28
 
 .. code-block:: Python
 
-    meshfix = mf.MeshFix(bunny)
-    holes = meshfix.extract_holes()
+    mfix = MeshFix(bunny, verbose=True)
+    holes = mfix.extract_holes()
 
 
 
@@ -87,16 +87,17 @@ Generate a meshfix mesh ready for fixing and extract the holes
 
 Render the mesh and outline the holes
 
-.. GENERATED FROM PYTHON SOURCE LINES 30-37
+.. GENERATED FROM PYTHON SOURCE LINES 30-38
 
 .. code-block:: Python
 
-    p = pv.Plotter()
-    p.add_mesh(bunny, color=True)
-    p.add_mesh(holes, color="r", line_width=8)
-    p.camera_position = cpos
-    p.enable_eye_dome_lighting()  # helps depth perception
-    p.show()
+    pl = pv.Plotter()
+    pl.add_mesh(bunny, color=True, smooth_shading=True)
+    pl.add_mesh(holes, color="r", line_width=12, render_lines_as_tubes=True, lighting=False)
+    pl.camera_position = cpos
+    pl.enable_eye_dome_lighting()  # helps depth perception
+    pl.enable_anti_aliasing("ssaa")
+    pl.show()
 
 
 
@@ -110,40 +111,32 @@ Render the mesh and outline the holes
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 38-39
+.. GENERATED FROM PYTHON SOURCE LINES 39-40
 
 Repair the mesh
 
-.. GENERATED FROM PYTHON SOURCE LINES 39-41
+.. GENERATED FROM PYTHON SOURCE LINES 40-42
 
 .. code-block:: Python
 
-    meshfix.repair(verbose=True)
+    mfix.repair()
 
 
 
 
 
-.. rst-class:: sphx-glr-script-out
-
- .. code-block:: none
-
-    Patching holes...
-    Patched 5 holes
-    Fixing degeneracies and intersections
 
 
-
-
-.. GENERATED FROM PYTHON SOURCE LINES 42-43
-
-Show the repaired mesh
 
 .. GENERATED FROM PYTHON SOURCE LINES 43-44
 
+Show the repaired mesh
+
+.. GENERATED FROM PYTHON SOURCE LINES 44-45
+
 .. code-block:: Python
 
-    meshfix.mesh.plot(cpos=cpos)
+    mfix.mesh.plot(cpos=cpos, eye_dome_lighting=True, anti_aliasing=True, smooth_shading=True)
 
 
 
@@ -159,7 +152,7 @@ Show the repaired mesh
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 5.116 seconds)
+   **Total running time of the script:** (0 minutes 10.611 seconds)
 
 
 .. _sphx_glr_download_examples_bunny.py:

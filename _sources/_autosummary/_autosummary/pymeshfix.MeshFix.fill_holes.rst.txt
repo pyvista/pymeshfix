@@ -1,0 +1,6 @@
+pymeshfix.MeshFix.fill\_holes
+=============================
+
+.. currentmodule:: pymeshfix
+
+.. automethod:: MeshFix.fill_holes

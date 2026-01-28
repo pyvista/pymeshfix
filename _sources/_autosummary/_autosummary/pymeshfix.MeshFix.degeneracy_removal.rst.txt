@@ -1,0 +1,6 @@
+pymeshfix.MeshFix.degeneracy\_removal
+=====================================
+
+.. currentmodule:: pymeshfix
+
+.. automethod:: MeshFix.degeneracy_removal

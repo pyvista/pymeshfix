@@ -3,4 +3,4 @@
 
 .. currentmodule:: pymeshfix
 
-.. autofunction:: clean_from_file
+.. autodata:: clean_from_file

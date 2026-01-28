@@ -1,0 +1,6 @@
+pymeshfix.PyTMesh.set\_quiet
+============================
+
+.. currentmodule:: pymeshfix
+
+.. automethod:: PyTMesh.set_quiet

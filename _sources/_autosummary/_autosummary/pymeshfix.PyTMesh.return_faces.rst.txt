@@ -1,0 +1,6 @@
+pymeshfix.PyTMesh.return\_faces
+===============================
+
+.. currentmodule:: pymeshfix
+
+.. automethod:: PyTMesh.return_faces

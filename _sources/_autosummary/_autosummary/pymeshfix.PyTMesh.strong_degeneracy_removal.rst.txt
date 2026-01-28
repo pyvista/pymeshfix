@@ -1,0 +1,6 @@
+pymeshfix.PyTMesh.strong\_degeneracy\_removal
+=============================================
+
+.. currentmodule:: pymeshfix
+
+.. automethod:: PyTMesh.strong_degeneracy_removal
