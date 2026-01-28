@@ -149,9 +149,9 @@ class MeshFix:
                         f"Expected to load a `pyvista.PolyData` from file, but got `{type(mesh)}`"
                     )
             else:
-                InvalidMeshFixInputError(
-                    "Invalid input. Please input a surface mesh, vertex and face arrays, or a"
-                    " file name."
+                raise InvalidMeshFixInputError(
+                    "Invalid input. Please input a pyvista.PolyData, vertex and face arrays, "
+                    "or a path to a file."
                 )
             v = mesh.points.astype(np.float64, copy=False)
 
