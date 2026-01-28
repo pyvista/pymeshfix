@@ -62,8 +62,8 @@ Repair a mesh of a cow.
 
  .. code-block:: none
 
-    PolyData (0x7f47e012c220)
-      N Cells:    5185
+    PolyData (0x7f5d7412c220)
+      N Cells:    5234
       N Points:   2903
       N Strips:   0
       X Bounds:   -4.446e+00, 5.998e+00
@@ -146,7 +146,7 @@ Show the repaired result
 
  .. code-block:: none
 
-    PolyData (0x7f47e012c640)
+    PolyData (0x7f5d7412c640)
       N Cells:    5448
       N Points:   2726
       N Strips:   0
@@ -178,7 +178,7 @@ Show the repaired result
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 1.987 seconds)
+   **Total running time of the script:** (0 minutes 2.018 seconds)
 
 
 .. _sphx_glr_download_examples_cow.py:

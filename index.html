@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>PyMeshFix &#8212; pymeshfix 0.19.dev0 documentation</title>
+    <title>PyMeshFix &#8212; pymeshfix 0.18.0 documentation</title>
   
   
   
@@ -43,7 +43,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="_static/documentation_options.js?v=95e146bd"></script>
+    <script src="_static/documentation_options.js?v=ba2e7b09"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -54,7 +54,7 @@
     <link rel="next" title="pymeshfix Examples" href="examples/index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="0.19.dev0" />
+  <meta name="docsearch:version" content="0.18.0" />
   </head>
   
   
@@ -120,8 +120,8 @@
       
     
     
-    <img src="_static/pyvista_logo_sm.png" class="logo__image only-light" alt="pymeshfix 0.19.dev0 documentation - Home"/>
-    <img src="_static/pyvista_logo_sm.png" class="logo__image only-dark pst-js-only" alt="pymeshfix 0.19.dev0 documentation - Home"/>
+    <img src="_static/pyvista_logo_sm.png" class="logo__image only-light" alt="pymeshfix 0.18.0 documentation - Home"/>
+    <img src="_static/pyvista_logo_sm.png" class="logo__image only-dark pst-js-only" alt="pymeshfix 0.18.0 documentation - Home"/>
   
   
 </a></div>
@@ -349,7 +349,7 @@ output will be a single watertight triangle mesh bounding a polyhedron.
 All the singularities, self-intersections and degenerate elements are
 removed from the input, while regions of the surface without defects are
 left unmodified.</p>
-<p>C++ source last updated 1 Jul 2020</p>
+<p>Uses MeshFix v2.1 with several quality of life fixes.</p>
 <section id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Link to this heading">#</a></h2>
 <p>From <a class="reference external" href="https://pypi.python.org/pypi/pymeshfix">PyPI</a></p>
@@ -425,8 +425,8 @@ memory and wish to repair it using MeshFix.</p>
 <span class="n">mesh</span> <span class="o">=</span> <span class="n">meshfix</span><span class="o">.</span><span class="n">mesh</span>
 
 <span class="c1"># Or, access the resulting arrays directly from the object</span>
-<span class="n">meshfix</span><span class="o">.</span><span class="n">v</span> <span class="c1"># numpy np.float64 array</span>
-<span class="n">meshfix</span><span class="o">.</span><span class="n">f</span> <span class="c1"># numpy np.int32 array</span>
+<span class="n">meshfix</span><span class="o">.</span><span class="n">points</span> <span class="c1"># numpy np.float64 array</span>
+<span class="n">meshfix</span><span class="o">.</span><span class="n">faces</span> <span class="c1"># numpy np.int32 array</span>
 
 <span class="c1"># View the repaired mesh (requires pyvista)</span>
 <span class="n">meshfix</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
@@ -451,13 +451,13 @@ cleaning algorithm.</p>
 
 <span class="c1"># Fill holes</span>
 <span class="n">tin</span><span class="o">.</span><span class="n">fill_small_boundaries</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;There are </span><span class="si">{:d}</span><span class="s1"> boundaries&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tin</span><span class="o">.</span><span class="n">boundaries</span><span class="p">()))</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;There are </span><span class="si">{</span><span class="n">tin</span><span class="o">.</span><span class="n">boundaries</span><span class="p">()</span><span class="si">}</span><span class="s1"> boundaries&#39;</span><span class="p">)</span>
 
 <span class="c1"># Clean (removes self intersections)</span>
 <span class="n">tin</span><span class="o">.</span><span class="n">clean</span><span class="p">(</span><span class="n">max_iters</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">inner_loops</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 
 <span class="c1"># Check mesh for holes again</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;There are </span><span class="si">{:d}</span><span class="s1"> boundaries&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tin</span><span class="o">.</span><span class="n">boundaries</span><span class="p">()))</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;There are </span><span class="si">{</span><span class="n">tin</span><span class="o">.</span><span class="n">boundaries</span><span class="p">()</span><span class="si">}</span><span class="s1"> boundaries&#39;</span><span class="p">)</span>
 
 <span class="c1"># Clean again if necessary...</span>
 
