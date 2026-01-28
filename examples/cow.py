@@ -1,8 +1,8 @@
 """
-Holey Cow
----------
+Cow Mesh Repair
+---------------
 
-Repair a holey cow
+Repair a mesh of a cow.
 """
 
 import numpy as np
@@ -31,10 +31,12 @@ holes = meshfix.extract_holes()
 
 # Render the mesh and outline the holes
 p = pv.Plotter()
-p.add_mesh(holy_cow, color=True)
+p.add_mesh(holy_cow, color=True, smooth_shading=True, split_sharp_edges=True)
 p.add_mesh(holes, color="r", line_width=8)
 p.camera_position = cpos
+p.camera.zoom(1.5)
 p.enable_eye_dome_lighting()  # helps depth perception
+p.enable_anti_aliasing("ssaa")
 p.show()
 
 
@@ -50,4 +52,4 @@ repaired = meshfix.mesh
 print(repaired)
 
 ################################################################################
-repaired.plot(cpos=cpos)
+repaired.plot(cpos=cpos, zoom=1.5, smooth_shading=True, split_sharp_edges=True)
