@@ -53,4 +53,4 @@ meshfix.repair(verbose=True)
 
 ################################################################################
 # Show the repaired mesh
-meshfix.mesh.plot(cpos=cpos, eye_dome_lighting=True)
+meshfix.mesh.plot(cpos=cpos, show_edges=True)

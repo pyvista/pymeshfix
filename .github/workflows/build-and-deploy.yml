@@ -82,7 +82,13 @@ jobs:
       run: pipx run build --sdist
 
     - name: Install package from sdist
-      run: pip install pymeshfix[tests] --find-links dist/
+      run: pip install dist/*.tar.gz
+
+    - name: Install test dependencies from source
+      run: |
+        pip install tomli
+        python tools/extract-deps.py
+        pip install -r requirements-tests.txt
 
     - name: Run tests
       run: pytest
