@@ -42,8 +42,6 @@ nanobind_add_module(
 
 )
 
-set(CMAKE_OSX_DEPLOYMENT_TARGET 10.13)
-
 # Compiler-specific options
 if(MSVC)
   # Use MSVC optimization levels and OpenMP setup
