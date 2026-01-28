@@ -1,17 +1,63 @@
 """Python module to interface with wrapped meshfix."""
 
-import ctypes
+from importlib.util import find_spec
+from pathlib import Path
+from typing import TYPE_CHECKING, Any
 
 import numpy as np
+from numpy.typing import NDArray
 
 from pymeshfix import _meshfix
 
-try:
-    import pyvista as pv
+if TYPE_CHECKING:
+    from pyvista.core.pointset import PolyData
 
-    PV_INSTALLED = True
-except ImportError:
-    PV_INSTALLED = False
+
+def _polydata_from_faces(points: NDArray[np.float64], faces: NDArray[np.int32]) -> "PolyData":
+    """
+    Generate a polydata from a faces array containing no padding and all triangles.
+
+    Parameters
+    ----------
+    points : np.ndarray
+        Points array.
+    faces : np.ndarray
+        ``(n, 3)`` faces array.
+
+    Returns
+    -------
+    PolyData
+        New mesh.
+
+    """
+    if find_spec("pyvista.core") is None:
+        raise ModuleNotFoundError(
+            "To use this feature install pyvista with:\n\n    `pip install pyvista"
+        )
+
+    from pyvista.core.pointset import PolyData
+    from vtkmodules.util.numpy_support import numpy_to_vtk
+    from vtkmodules.vtkCommonCore import vtkTypeInt32Array
+    from vtkmodules.vtkCommonDataModel import vtkCellArray
+
+    if faces.ndim != 2:
+        raise ValueError("Expected a two dimensional face array.")
+
+    pdata = PolyData()
+    pdata.points = points
+
+    # convert to vtk arrays without copying
+    vtk_dtype = vtkTypeInt32Array().GetDataType()
+
+    offset = np.arange(0, faces.size + 1, faces.shape[1], dtype=np.int32)
+    offset_vtk = numpy_to_vtk(offset, deep=False, array_type=vtk_dtype)
+    faces_vtk = numpy_to_vtk(faces.ravel(), deep=False, array_type=vtk_dtype)
+
+    carr = vtkCellArray()
+    carr.SetData(offset_vtk, faces_vtk)
+
+    pdata.SetPolys(carr)
+    return pdata
 
 
 class MeshFix:
@@ -65,38 +111,39 @@ class MeshFix:
 
     def __init__(self, *args):
         """Initialize meshfix."""
+        pv_installed = find_spec("pyvista.core")
+
         if isinstance(args[0], np.ndarray):
             self.load_arrays(args[0], args[1])
-        elif PV_INSTALLED:
+        elif pv_installed:
+            import pyvista.core as pv
+
             if isinstance(args[0], pv.PolyData):
                 mesh = pv.wrap(args[0])
-                self.v = mesh.points
+                self.v = mesh.points.astype(np.float64, copy=False)
 
                 # check if triangular mesh
-                faces = mesh.faces
                 if not mesh.is_all_triangles:
-                    tri_mesh = mesh.triangulate()
-                    faces = tri_mesh.faces
+                    mesh = mesh.triangulate()
 
-                self.f = np.ascontiguousarray(faces.reshape(-1, 4)[:, 1:])
+                self.f = mesh._connectivity_array.reshape(-1, 3).astype(np.int32, copy=False)
 
         else:
             raise TypeError("Invalid input. Please load a surface mesh or face and vertex arrays")
 
-    def load_arrays(self, v, f):
-        """Load triangular mesh from vertex and face numpy arrays.
+    def load_arrays(self, v: NDArray[np.float64], f: NDArray[np.int32]) -> None:
+        """
+        Load triangular mesh from vertex and face numpy arrays.
 
-        Both vertex and face arrays should be 2D arrays with each
-        vertex containing XYZ data and each face containing three
-        points.
+        Both vertex and face arrays should be 2D arrays with each vertex
+        containing XYZ data and each face containing three points.
 
         Parameters
         ----------
-        v : np.ndarray
-            n x 3 vertex array.
-
-        f : np.ndarray
-            n x 3 face array.
+        v : np.ndarray[np.float64]
+            ``(n, 3)`` vertex array.
+        f : np.ndarray[np.int32]
+            ``(m, 3)`` face array.
 
         Examples
         --------
@@ -134,7 +181,7 @@ class MeshFix:
         # Check inputs
         if not isinstance(v, np.ndarray):
             try:
-                v = np.asarray(v, np.float64)
+                v = np.asarray(v, np.float64)  # will not copy if correct type
                 if v.ndim != 2 and v.shape[1] != 3:
                     raise ValueError(
                         f"Invalid vertex shape {v.shape}.  Shape should be (npoints, 3)"
@@ -144,10 +191,10 @@ class MeshFix:
 
         if not isinstance(f, np.ndarray):
             try:
-                f = np.asarray(f, ctypes.c_int)
+                f = np.asarray(f, np.int32)  # will not copy if correct type
                 if f.ndim != 2 and f.shape[1] != 3:
                     raise ValueError(
-                        f"Invalid vertex shape {v.shape}.  Shape should be (npoints, 3)"
+                        f"Invalid faces array shape {f.shape}.  Shape should be (n_faces, 3)"
                     )
             except BaseException:
                 raise ValueError("Unable to convert face input to valid numpy array.")
@@ -156,8 +203,9 @@ class MeshFix:
         self.f = f
 
     @property
-    def mesh(self):
-        """Return the surface mesh.
+    def mesh(self) -> "PolyData":
+        """
+        Return the surface mesh.
 
         Returns
         -------
@@ -191,24 +239,18 @@ class MeshFix:
         >>> mfix.mesh.save("my_mesh.ply")
 
         """
-        if not PV_INSTALLED:
-            raise ImportError(
-                "Please install pyvista for this feature with:\n\n    pip install pyvista"
-            )
-        triangles = np.empty((self.f.shape[0], 4), dtype=pv.ID_TYPE)
-        triangles[:, -3:] = self.f
-        triangles[:, 0] = 3
-        return pv.PolyData(self.v, triangles, deep=False)
+        return _polydata_from_faces(self.v, self.f)
 
-    def extract_holes(self):
+    def extract_holes(self) -> "PolyData":
         """Extract the boundaries of the holes in this mesh to a new PyVista mesh of lines."""
         return self.mesh.extract_feature_edges(
             boundary_edges=True, feature_edges=False, manifold_edges=False
         )
 
     @property
-    def points(self):
-        """Return the points of the mesh.
+    def points(self) -> NDArray[np.float64]:
+        """
+        Return the points of the mesh.
 
         Returns
         -------
@@ -236,8 +278,9 @@ class MeshFix:
         return self.v
 
     @property
-    def faces(self):
-        """Return the indices of the faces of the mesh.
+    def faces(self) -> NDArray[np.int32]:
+        """
+        Return the indices of the faces of the mesh.
 
         Returns
         -------
@@ -264,7 +307,7 @@ class MeshFix:
         """
         return self.f
 
-    def plot(self, show_holes=True, **kwargs):
+    def plot(self, show_holes: bool = True, **kwargs: Any):
         """Plot the mesh.
 
         Parameters
@@ -286,10 +329,10 @@ class MeshFix:
         >>> mfix.plot(show_holes=True)
 
         """
-        if not PV_INSTALLED:
-            raise ImportError(
-                "Please install pyvista for this feature with:\n\n    pip install pyvista"
-            )
+        try:
+            import pyvista as pv
+        except ModuleNotFoundError:
+            raise ModuleNotFoundError("Install pyvista to use this feature")
 
         if show_holes:
             edges = self.extract_holes()
@@ -303,29 +346,29 @@ class MeshFix:
             plotter.add_mesh(self.mesh, label="mesh", **kwargs)
             if edges.n_points:
                 plotter.add_mesh(edges, "r", label="edges")
-                plotter.add_legend()
+                plotter.add_legend()  # ty: ignore[missing-argument]
             return plotter.show(screenshot=screenshot)
 
         return self.mesh.plot(**kwargs)
 
-    def repair(self, verbose=False, joincomp=False, remove_smallest_components=True):
+    def repair(
+        self, verbose: bool = False, joincomp: bool = False, remove_smallest_components: bool = True
+    ) -> None:
         """Perform mesh repair using MeshFix's default repair process.
 
         Parameters
         ----------
         verbose : bool, default: False
             Enables or disables debug printing.
-
         joincomp : bool, default: False
             Attempts to join nearby open components.
-
         remove_smallest_components : bool, default: True
-            Remove all but the largest isolated component from the
-            mesh before beginning the repair process.
+            Remove all but the largest isolated component from the mesh before
+            beginning the repair process.
 
         Notes
         -----
-        Vertex and face arrays are updated inplace.  Access them with:
+        Vertex and face arrays are updated inplace. Access them with:
 
         * :attr:`Meshfix.points`
         * :attr:`Meshfix.faces`
@@ -338,38 +381,34 @@ class MeshFix:
         >>> from pymeshfix import MeshFix
         >>> mesh = examples.download_bunny()
         >>> mfix = MeshFix(mesh)
+        >>> mfix.repair(verbose=True)
         >>> mfix.plot(show_holes=True)
 
         """
-        assert self.f.shape[1] == 3, "Face array must contain three columns"
-        assert self.f.ndim == 2, "Face array must be 2D"
         self.v, self.f = _meshfix.clean_from_arrays(
             self.v, self.f, verbose, joincomp, remove_smallest_components
         )
 
-    def save(self, filename, binary=True):
-        """Write a surface mesh to disk.
+    def save(self, filename: str | Path, binary=True):
+        """
+        Write the points and faces as a surface mesh to disk using PyVista.
 
-        Written file may be in a ASCII or binary PLY, STL, or VTK format.
-
-        This is a a simple wrapper for :pyvista:`pyvista.PolyData.save`.
+        This is a a simple wrapper for
+        :pyvista:`pyvista.PolyData.save`.
 
         Parameters
         ----------
         filename : str
-            Filename of mesh to be written.  Filetype is inferred from
+            Filename of mesh to be written. Filetype is inferred from
             the extension of the filename unless overridden with
-            ftype.  Can be one of the following types (.ply, .stl,
-            .vtk)
+            ftype. Generally one of the following types:
 
+            - ``".ply"``
+            - ``".stl"``
+            - ``".vtk"``
         binary: bool, default: True
-            Filetype.  Inferred from filename unless specified with a
-            three character string.  Can be one of the following:
-            ``'ply'``, ``'stl'``, or ``'vtk'``.
-
-        Notes
-        -----
-        Binary files write much faster than ASCII.
+            Write the file using a binary writer. Binary files read and write
+            much faster than ASCII.
 
         """
         return self.mesh.save(filename, binary)

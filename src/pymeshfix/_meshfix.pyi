@@ -32,3 +32,10 @@ class PyTMesh:
 def clean_from_file(
     infile: str, outfile: str, verbose: bool = False, joincomp: bool = False
 ) -> None: ...
+def clean_from_arrays(
+    v: NDArray[np.float64],
+    f: NDArray[np.int32],
+    verbose: bool = False,
+    joincomp: bool = False,
+    remove_smallest_components: bool = True,
+) -> tuple[NDArray[np.float64], NDArray[np.int32]]: ...

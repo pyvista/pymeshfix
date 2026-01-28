@@ -10,13 +10,13 @@ import pymeshfix
 from pymeshfix.examples import bunny_scan
 
 
-def native(outfile="repaired.ply"):
+def native(outfile: str = "repaired.ply") -> str:
     """Repair the Stanford Bunny Mesh using the low level API."""
     pymeshfix._meshfix.clean_from_file(bunny_scan, outfile)
     return outfile
 
 
-def with_vtk(plot=True):
+def with_vtk(plot: bool = True) -> pv.PolyData:
     """Tests VTK interface and mesh repair of Stanford Bunny Mesh"""
     mesh = pv.PolyData(bunny_scan)
     meshfix = pymeshfix.MeshFix(mesh)

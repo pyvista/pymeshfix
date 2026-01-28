@@ -7,7 +7,6 @@
 #include <nanobind/ndarray.h>
 #include <nanobind/stl/string.h>
 #include <nanobind/stl/vector.h>
-// #include <stdio.h>
 
 #include "array_support.h"
 #include "tmesh.h"
@@ -143,16 +142,16 @@ class PyTMesh : public Basic_TMesh {
     }
 
     // Save cleaned mesh to file
-
+    //
     // The file format is deduced from one of the following filename
     // extensions:
-
+    //
     //     - ``"wrl"`` - vrml 1.0
     //     - ``"iv"`` - OpenInventor
     //     - ``"off"`` - Object file format
     //     - ``"ply"`` - PLY format
     //     - ``"tri"`` - IMATI Ver-Tri
-
+    //
     // If 'back_approx' is set to True, vertex coordinates are approximated
     // to reflect the limited precision of floating point
     // representation in ASCII files. This should be used when
@@ -405,7 +404,7 @@ void repair(
     }
 }
 
-void clean_from_file_cpp(
+void clean_from_file(
     const std::string &infile,
     const std::string &outfile,
     bool verbose = false,
@@ -413,16 +412,27 @@ void clean_from_file_cpp(
 
     PyTMesh tin;
 
-    tin.set_quiet(verbose ? 0 : 1);
+    tin.set_quiet(!verbose);
     tin.load_file(infile, true);
-
-    if (joincomp) {
-        tin.join_closest_components();
-    }
-
     repair(tin, verbose, joincomp);
 
     tin.save_file(outfile, false);
+}
+
+nb::tuple clean_from_arrays(
+    const NDArray<const double, 2> v,
+    const NDArray<const int, 2> f,
+    bool verbose = false,
+    bool joincomp = false,
+    bool remove_smallest_components = true) {
+
+    PyTMesh tin;
+    tin.set_quiet(!verbose);
+    tin.load_array(v, f);
+
+    repair(tin, verbose, joincomp, remove_smallest_components);
+
+    return tin.return_arrays();
 }
 
 NB_MODULE(_meshfix, m) { // "_meshfix" must match library name from CMakeLists.txt
@@ -467,8 +477,17 @@ NB_MODULE(_meshfix, m) { // "_meshfix" must match library name from CMakeLists.t
             nb::arg("fix_connectivity") = true);
 
     m.def(
+        "clean_from_arrays",
+        &clean_from_arrays,
+        nb::arg("v"),
+        nb::arg("f"),
+        nb::arg("verbose") = false,
+        nb::arg("joincomp") = false,
+        nb::arg("remove_smallest_components") = true);
+
+    m.def(
         "clean_from_file",
-        &clean_from_file_cpp,
+        &clean_from_file,
         nb::arg("infile"),
         nb::arg("outfile"),
         nb::arg("verbose") = false,

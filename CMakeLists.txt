@@ -36,7 +36,6 @@ nanobind_add_module(
   src/list.cpp
   src/marchIntersections.cpp
   src/matrix.cpp
-  src/meshfix.cpp
   src/orientation.c
   src/point.cpp
   src/tin.cpp
