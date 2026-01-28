@@ -127,7 +127,7 @@ class PyTMesh : public Basic_TMesh {
 
     PyTMesh() { tmesh = T_MESH::Basic_TMesh(); }
 
-    void load_file(std::string filename_str, bool fix_connectivity = true) {
+    void load_file(std::string filename_str) {
         if (V.numels()) {
             throw std::runtime_error(
                 "Cannot load a mesh after points have already been loaded");
@@ -138,7 +138,6 @@ class PyTMesh : public Basic_TMesh {
         if (ret) {
             throw std::runtime_error("Failed to load mesh file");
         }
-        d_boundaries = d_handles = d_shells = 1;
     }
 
     // Save cleaned mesh to file
@@ -170,51 +169,73 @@ class PyTMesh : public Basic_TMesh {
     }
 
     void load_array(
-        const NDArray<const double, 2> point_arr,
-        const NDArray<const int, 2> face_arr,
-        bool fix_connectivity = true) {
+        const NDArray<const double, 2> point_arr, const NDArray<const int, 2> face_arr) {
 
         if (V.numels()) {
             throw std::runtime_error(
-                "Cannot load arrays after points have already been loaded");
+                "Cannot load arrays after arrays have already been loaded");
         }
 
-        // point_arr.shape(0), point_arr.data(), face_arr.shape(0), face_arr.data());
-        int nv = point_arr.shape(0);
-        const double *points = point_arr.data();
-        int nt = face_arr.shape(0);
-        const int *faces = face_arr.data();
-
-        Vertex *v;
-        Node *n;
-        int i;
-
-        // Parse vertices
-        for (i = 0; i < nv; i++) {
-            V.appendTail(newVertex(points[i * 3], points[i * 3 + 1], points[i * 3 + 2]));
+        if (point_arr.shape(1) != 3) {
+            throw std::runtime_error("Point array must have shape (N,3)");
+        }
+        if (face_arr.shape(1) != 3) {
+            throw std::runtime_error("Face array must have shape (M,3)");
         }
 
-        // Initialize triangle indexing array
+        const size_t nv = point_arr.shape(0);
+        const size_t nt = face_arr.shape(0);
+
+        // Load vertices
+        for (size_t i = 0; i < nv; ++i) {
+            double x = point_arr(i, 0);
+            double y = point_arr(i, 1);
+            double z = point_arr(i, 2);
+            V.appendTail(newVertex(x, y, z));
+        }
+
+        // Create ExtVertex array for indexed triangles
         ExtVertex **var = (ExtVertex **)malloc(sizeof(ExtVertex *) * nv);
-        i = 0;
-        FOREACHVERTEX(v, n) var[i++] = new ExtVertex(v);
+        size_t idx = 0;
+        Node *n;
+        Vertex *v;
+        FOREACHVERTEX(v, n) var[idx++] = new ExtVertex(v);
 
-        // Load triangles
-        for (i = 0; i < nt; i++) {
-            CreateIndexedTriangle(var, faces[i * 3], faces[i * 3 + 1], faces[i * 3 + 2]);
+        // Load faces
+        TMesh::begin_progress();
+        for (size_t i = 0; i < nt; ++i) {
+            const int *f = &face_arr(i, 0);
+            int i4 = face_arr.shape(1); // number of indices in this face
+            if (i4 < 3) {
+                TMesh::warning("Face %d has fewer than 3 vertices. Skipping.", i);
+                continue;
+            }
+
+            int i1 = f[0];
+            int i2 = f[1];
+            int i3;
+
+            for (int j = 2; j < i4; ++j) {
+                i3 = f[j];
+
+                if (i1 == i2 || i2 == i3 || i3 == i1) {
+                    TMesh::warning("Coincident indices at triangle %d. Skipping.", i);
+                } else if (!CreateIndexedTriangle(var, i1, i2, i3)) {
+                    TMesh::warning("Failed to create triangle at face %d. Skipping.", i);
+                }
+
+                i2 = i3;
+            }
+
+            if ((i % 1000) == 0) {
+                TMesh::report_progress("Loading ..%d%%", (int)((i * 100) / nt));
+            }
         }
+        TMesh::end_progress();
 
-        // Memory management
-        for (i = 0; i < nv; i++)
-            delete (var[i]);
-        free(var);
-
-        // TMesh::info("Loaded %d vertices and %d faces.\n", nv, nt);
-
-        if (fix_connectivity) {
-            fixConnectivity();
-        }
-        d_boundaries = d_handles = d_shells = 1;
+        // Optional connectivity fix
+        fixConnectivity();
+        eulerUpdate();
     }
 
     void fix_connectivity() { fixConnectivity(); }
@@ -413,7 +434,7 @@ void clean_from_file(
     PyTMesh tin;
 
     tin.set_quiet(!verbose);
-    tin.load_file(infile, true);
+    tin.load_file(infile);
     repair(tin, verbose, joincomp);
 
     tin.save_file(outfile, false);
@@ -427,9 +448,9 @@ nb::tuple clean_from_arrays(
     bool remove_smallest_components = true) {
 
     PyTMesh tin;
+
     tin.set_quiet(!verbose);
     tin.load_array(v, f);
-
     repair(tin, verbose, joincomp, remove_smallest_components);
 
     return tin.return_arrays();
@@ -510,11 +531,8 @@ Parameters
 ----------
 filename : str
     Path to the input mesh file.
-fix_connectivity : bool, default: True
-    Repair connectivity issues after loading.
 )doc",
-            nb::arg("filename"),
-            nb::arg("fix_connectivity") = true)
+            nb::arg("filename"))
         .def(
             "fill_small_boundaries",
             &PyTMesh::fill_small_boundaries,
@@ -606,12 +624,9 @@ points_arr : numpy.ndarray
     Vertex array of shape ``(n, 3)``.
 faces_arr : numpy.ndarray
     Face array of shape ``(m, 3)``.
-fix_connectivity : bool, default: True
-    Repair connectivity issues after loading.
 )doc",
             nb::arg("points_arr"),
-            nb::arg("faces_arr"),
-            nb::arg("fix_connectivity") = true);
+            nb::arg("faces_arr") = false);
 
     m.def(
         "clean_from_arrays",

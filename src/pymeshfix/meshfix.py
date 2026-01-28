@@ -352,7 +352,10 @@ class MeshFix:
         return self.mesh.plot(**kwargs)
 
     def repair(
-        self, verbose: bool = False, joincomp: bool = False, remove_smallest_components: bool = True
+        self,
+        verbose: bool = False,
+        joincomp: bool = False,
+        remove_smallest_components: bool = True,
     ) -> None:
         """Perform mesh repair using MeshFix's default repair process.
 
@@ -386,7 +389,11 @@ class MeshFix:
 
         """
         self.v, self.f = _meshfix.clean_from_arrays(
-            self.v, self.f, verbose, joincomp, remove_smallest_components
+            self.v,
+            self.f,
+            verbose,
+            joincomp,
+            remove_smallest_components,
         )
 
     def save(self, filename: str | Path, binary=True):

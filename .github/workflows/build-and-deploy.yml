@@ -48,7 +48,7 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - uses: actions/download-artifact@v7
       with:
-        pattern: tetgen-wheels-${{ matrix.os }}
+        pattern: pymeshfix-wheels-${{ matrix.os }}
         path: wheels/
     - name: Find ABI3 wheel
       id: find_wheel
