@@ -9,7 +9,7 @@ Repair the holes in the bunny mesh.
 import pyvista as pv
 from pyvista import examples
 
-import pymeshfix as mf
+from pymeshfix import MeshFix
 
 ################################################################################
 bunny = examples.download_bunny()
@@ -21,8 +21,8 @@ cpos = [(-0.2, -0.13, 0.12), (-0.015, 0.10, -0.0), (0.28, 0.26, 0.9)]
 bunny.plot(cpos=cpos, eye_dome_lighting=True, anti_aliasing=True, smooth_shading=True)
 
 ################################################################################
-# Generate a meshfix mesh ready for fixing and extract the holes
-mfix = mf.MeshFix(bunny)
+# Create an instance of :class:`pymeshfix.MeshFix` from :class:`pyvista.PolyData`.
+mfix = MeshFix(bunny, verbose=True)
 holes = mfix.extract_holes()
 
 ################################################################################
@@ -37,7 +37,7 @@ pl.show()
 
 ################################################################################
 # Repair the mesh
-mfix.repair(verbose=True)
+mfix.repair()
 
 ################################################################################
 # Show the repaired mesh

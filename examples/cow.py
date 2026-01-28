@@ -23,10 +23,10 @@ print(cow_w_holes)
 
 ################################################################################
 
-# A nice camera location of the cow
+# A nice camera location to view the cow
 cpos = [(6.56, 8.73, 22.03), (0.77, -0.44, 0.0), (-0.13, 0.93, -0.35)]
 
-meshfix = mf.MeshFix(cow_w_holes)
+meshfix = mf.MeshFix(cow_w_holes, verbose=True)
 holes = meshfix.extract_holes()
 
 # Render the mesh and outline the holes
@@ -41,9 +41,9 @@ p.show()
 
 
 ################################################################################
-# Repair the holey cow
+# Repair the cow mesh
 
-meshfix.repair(verbose=True)
+meshfix.repair()
 
 ################################################################################
 # Show the repaired result

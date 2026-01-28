@@ -14,11 +14,12 @@ from pymeshfix import MeshFix
 from pymeshfix import examples
 
 ###############################################################################
-# plot the holes on the original mesh
+# Plot the holes on the original mesh
+
 orig_mesh = pv.read(examples.planar_mesh)
 # orig_mesh.plot_boundaries()
 
-meshfix = MeshFix(orig_mesh)
+meshfix = MeshFix(orig_mesh, verbose=True)
 holes = meshfix.extract_holes()
 
 # Render the mesh and outline the holes
