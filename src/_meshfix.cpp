@@ -303,6 +303,59 @@ class PyTMesh : public Basic_TMesh {
         return nb::make_tuple(points_arr, faces_arr);
     }
 
+    NDArray<double, 2> return_points() {
+        Node *n;
+        Vertex *v;
+
+        int n_points = V.numels();
+        NDArray<double, 2> points_arr = MakeNDArray<double, 2>({n_points, 3});
+        double *points = points_arr.data();
+
+        // Populate points
+        int c = 0;
+        FOREACHVERTEX(v, n) {
+            points[c] = v->x;
+            points[c + 1] = v->y;
+            points[c + 2] = v->z;
+            c += 3;
+        }
+
+        return points_arr;
+    }
+
+    NDArray<int, 2> return_faces() {
+        Node *n;
+        Vertex *v;
+        coord *ocds;
+        int i, c;
+
+        ocds = new coord[V.numels()];
+        i = 0;
+        FOREACHVERTEX(v, n) ocds[i++] = v->x;
+        i = 0;
+        FOREACHVERTEX(v, n) v->x = i++;
+
+        int n_faces = T.numels();
+        NDArray<int, 2> faces_arr = MakeNDArray<int, 2>({n_faces, 3});
+        int *faces = faces_arr.data();
+
+        // Populate faces
+        c = 0;
+        FOREACHNODE(T, n) {
+            faces[c] = TVI1(n);
+            faces[c + 1] = TVI2(n);
+            faces[c + 2] = TVI3(n);
+            c += 3;
+        }
+
+        // clean up
+        i = 0;
+        FOREACHVERTEX(v, n) v->x = ocds[i++];
+        delete[] ocds;
+
+        return faces_arr;
+    }
+
     int n_boundaries() { return boundaries(); }
 
     void _boundaries() {
@@ -321,8 +374,15 @@ class PyTMesh : public Basic_TMesh {
         return meshclean(max_iters, inner_loops);
     }
 
-    // Fill small boundaries.
+    bool strong_degeneracy_removal(int max_iters) {
+        return strongDegeneracyRemoval(max_iters);
+    };
+    bool strong_intersection_removal(int max_iters) {
+        return strongIntersectionRemoval(max_iters);
+    };
 
+    // Fill small boundaries.
+    //
     // Fills all the holes having less than ``nbe`` boundary
     // edges. If ``refine`` is true, adds inner vertices to reproduce
     // the sampling density of the surroundings. Returns number of
@@ -520,6 +580,40 @@ numpy.ndarray
     Vertex array of shape (N, 3).
 numpy.ndarray
     Face array of shape (M, 3).
+)doc")
+        .def(
+            "return_points",
+            &PyTMesh::return_points,
+            R"doc(
+Return the vertex array.
+
+Returns
+-------
+numpy.ndarray
+    Vertex array of shape ``(N, 3)``.
+)doc")
+        .def(
+            "strong_intersection_removal",
+            &PyTMesh::strong_intersection_removal,
+            R"doc(
+Iteratively removes self-intersecting triangles.
+)doc")
+        .def(
+            "strong_degeneracy_removal",
+            &PyTMesh::strong_degeneracy_removal,
+            R"doc(
+Iteratively removes degenerate triangles and closes holes.
+)doc")
+        .def(
+            "return_faces",
+            &PyTMesh::return_faces,
+            R"doc(
+Return the face array.
+
+Returns
+-------
+numpy.ndarray[np.int32]
+    Fase array of shape ``(M, 3)``.
 )doc")
         .def(
             "load_file",

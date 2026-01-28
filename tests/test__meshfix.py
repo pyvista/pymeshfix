@@ -11,6 +11,7 @@ bunny.points = bunny.points.astype(np.float64)
 
 def test_load_array() -> None:
     mfix = _meshfix.PyTMesh()
+    mfix.set_quiet(True)
     assert mfix.n_faces == 0
     v = bunny.points
     with pytest.raises(TypeError):
@@ -29,10 +30,15 @@ def test_load_array() -> None:
     # assert np.array_equal(v, v_out)
     assert f.shape == f_out.shape
 
+    v_out = mfix.return_points()
+    assert v_out.shape
+    f_out = mfix.return_faces()
+    assert f.shape == f_out.shape
+
 
 def test_load_and_save_file(tmp_path: Path) -> None:
     mfix = _meshfix.PyTMesh()
-    mfix.set_quiet(1)
+    mfix.set_quiet(True)
     mfix.load_file(examples.bunny_scan)
 
     with pytest.raises(RuntimeError):
@@ -71,6 +77,7 @@ def test_clean_from_arrays() -> None:
     f = bunny._connectivity_array.reshape(-1, 3).astype(np.int32, copy=False)
 
     mfix = _meshfix.PyTMesh()
+    mfix.set_quiet(1)
     mfix.load_array(v, f)
     assert mfix.n_boundaries
 
@@ -105,6 +112,7 @@ def test_remove_components() -> None:
 
 def test_select_intersecting_triangles() -> None:
     mfix = _meshfix.PyTMesh()
+    mfix.set_quiet(1)
     mfix.load_file(examples.bunny_scan)
     faces = mfix.select_intersecting_triangles()
     assert faces.any()
@@ -115,6 +123,7 @@ def test_clean_from_file(tmp_path: Path) -> None:
     _meshfix.clean_from_file(examples.bunny_scan, outfile, verbose=False, joincomp=False)
 
     mfix = _meshfix.PyTMesh()
+    mfix.set_quiet(1)
     mfix.load_file(outfile)
     assert not mfix.n_boundaries
 

@@ -80,6 +80,8 @@ class MeshFix:
         Either a pyvista surface mesh :class:`pyvista.PolyData` or a ``n x 3``
         vertex array and ``n x 3`` face array (indices of the triangles). Also
         supports reading directly from a file.
+    verbose : bool, default: False
+        Set this to ``True`` to enable additional output from MeshFix.
 
     Examples
     --------
@@ -121,9 +123,11 @@ class MeshFix:
 
     """
 
-    def __init__(self, *args):
+    def __init__(self, *args, verbose: bool = False):
         """Initialize meshfix."""
         pv_installed = find_spec("pyvista.core")
+        self._mfix = _meshfix.PyTMesh()
+        self._mfix.set_quiet(not verbose)
 
         if len(args) == 0:
             raise InvalidMeshFixInputError()
@@ -149,16 +153,22 @@ class MeshFix:
                     "Invalid input. Please input a surface mesh, vertex and face arrays, or a"
                     " file name."
                 )
-            self.v = mesh.points.astype(np.float64, copy=False)
+            v = mesh.points.astype(np.float64, copy=False)
 
             # check if triangular mesh
             if not mesh.is_all_triangles:
                 mesh = mesh.triangulate()
 
-            self.f = mesh._connectivity_array.reshape(-1, 3).astype(np.int32, copy=False)
+            f = mesh._connectivity_array.reshape(-1, 3).astype(np.int32, copy=False)
+            self.load_arrays(v, f)
 
         else:
             raise InvalidMeshFixInputError()
+
+    @property
+    def n_boundaries(self) -> int:
+        """Return the number of boundaries (holes) in this mesh."""
+        return self._mfix.n_boundaries
 
     def load_arrays(self, v: NDArray[np.float64], f: NDArray[np.int32]) -> None:
         """
@@ -207,29 +217,24 @@ class MeshFix:
         >>> mfix = MeshFix(points, faces)
 
         """
-        # Check inputs
-        if not isinstance(v, np.ndarray):
-            try:
-                v = np.asarray(v, np.float64)  # will not copy if correct type
-                if v.ndim != 2 and v.shape[1] != 3:
-                    raise ValueError(
-                        f"Invalid vertex shape {v.shape}.  Shape should be (npoints, 3)"
-                    )
-            except BaseException:
-                raise ValueError("Unable to convert vertex input to valid numpy array.")
+        self._mfix.load_array(
+            v.astype(np.float64, copy=False),
+            f.astype(np.int32, copy=False),
+        )
 
-        if not isinstance(f, np.ndarray):
-            try:
-                f = np.asarray(f, np.int32)  # will not copy if correct type
-                if f.ndim != 2 and f.shape[1] != 3:
-                    raise ValueError(
-                        f"Invalid faces array shape {f.shape}.  Shape should be (n_faces, 3)"
-                    )
-            except BaseException:
-                raise ValueError("Unable to convert face input to valid numpy array.")
+    def _return_arrays(self) -> tuple[NDArray[np.float64], NDArray[np.int32]]:
+        """
+        Return the arrays from the mesh fix instance.
 
-        self.v = v
-        self.f = f
+        Returns
+        -------
+        np.ndarray[np.float64]
+            Array of points shaped ``(n, 3)``.
+        np.ndarray[np.float64]
+            Array of faces shaped ``(m, 3)``.
+
+        """
+        return self._mfix.return_arrays()
 
     @property
     def mesh(self) -> "PolyData":
@@ -268,7 +273,7 @@ class MeshFix:
         >>> mfix.mesh.save("my_mesh.ply")
 
         """
-        return _polydata_from_faces(self.v, self.f)
+        return _polydata_from_faces(self.points, self.faces)
 
     def extract_holes(self) -> "PolyData":
         """Extract the boundaries of the holes in this mesh to a new PyVista mesh of lines."""
@@ -304,7 +309,7 @@ class MeshFix:
                          [4.232341, 1.903079, 0.534362]], dtype=float32)
 
         """
-        return self.v
+        return self._mfix.return_points()
 
     @property
     def faces(self) -> NDArray[np.int32]:
@@ -334,7 +339,7 @@ class MeshFix:
                [ 966,  961,  970]])
 
         """
-        return self.f
+        return self._mfix.return_faces()
 
     def plot(self, show_holes: bool = True, **kwargs: Any):
         """Plot the mesh.
@@ -382,16 +387,16 @@ class MeshFix:
 
     def repair(
         self,
-        verbose: bool = False,
         joincomp: bool = False,
         remove_smallest_components: bool = True,
     ) -> None:
-        """Perform mesh repair using MeshFix's default repair process.
+        """
+        Perform mesh repair using MeshFix's default repair process.
 
         Parameters
         ----------
-        verbose : bool, default: False
-            Enables or disables debug printing.
+        fill_holes : bool, default: True
+            Call meshfix's internal ``fill_small_boundaries``.
         joincomp : bool, default: False
             Attempts to join nearby open components.
         remove_smallest_components : bool, default: True
@@ -400,10 +405,13 @@ class MeshFix:
 
         Notes
         -----
-        Vertex and face arrays are updated inplace. Access them with:
+        Vertex and face arrays can be accessed from:
 
         * :attr:`Meshfix.points`
         * :attr:`Meshfix.faces`
+
+        You can alternatively call individual repair functions if you desire
+        specific fixes. For example :func:`MeshFix.fill_holes`.
 
         Examples
         --------
@@ -412,18 +420,97 @@ class MeshFix:
         >>> from pyvista import examples
         >>> from pymeshfix import MeshFix
         >>> mesh = examples.download_bunny()
-        >>> mfix = MeshFix(mesh)
-        >>> mfix.repair(verbose=True)
+        >>> mfix = MeshFix(mesh, verbose=True)
+        >>> mfix.repair()
         >>> mfix.plot(show_holes=True)
 
         """
-        self.v, self.f = _meshfix.clean_from_arrays(
-            self.v,
-            self.f,
-            verbose,
-            joincomp,
-            remove_smallest_components,
-        )
+        self._mfix.fill_small_boundaries(0, True)
+        if joincomp:
+            self._mfix.join_closest_components()
+        if remove_smallest_components:
+            self._mfix.remove_smallest_components()
+        self._mfix.clean()
+
+    def fill_holes(self, n_edges: int = 0, refine: bool = True) -> int:
+        """
+        Fill small boundary loops (holes) in the mesh.
+
+        Parameters
+        ----------
+        nbe : int, default: 0
+            Maximum number of boundary edges to fill. If 0, fill all.
+        refine : bool, default: True
+            Refine filled regions.
+
+        Returns
+        -------
+        int
+            Number of holes filled.
+
+        """
+        return self._mfix.fill_small_boundaries(n_edges, refine)
+
+    def join_closest_components(self) -> None:
+        """Attempt to join nearby open components."""
+        self._mfix.join_closest_components()
+
+    def remove_smallest_components(self) -> None:
+        """Remove all but the largest connected component."""
+        self._mfix.remove_smallest_components()
+
+    def clean(self, max_iters: int = 10, inner_loops: int = 3) -> bool:
+        """
+        Remove degenerate triangles and self-intersections.
+
+        Iteratively calls :func:`MeshFix.strong_degeneracy_removal` and
+        :func:MeshFix.strong_intersection_removal to produce a clean mesh
+        without degeneracies and intersections.  The two aforementioned methods
+        are called up to max_iter times and each of them is called using
+        'inner_loops' as a parameter.  Returns ``True`` only if the mesh could
+        be completely cleaned.
+
+        Parameters
+        ----------
+        max_iters
+
+        """
+        return self._mfix.clean(max_iters, inner_loops)
+
+    def degeneracy_removal(self, max_iter: int = 3) -> bool:
+        """
+        Remove degenerate triangles.
+
+
+        Parameters
+        ----------
+        max_iter : int, default: 3
+            Maximum number of iterations to perform.
+
+        Returns
+        -------
+        bool
+            ``True`` when successful.
+
+        """
+        return self._mfix.strong_degeneracy_removal(max_iter)
+
+    def intersection_removal(self, max_iter: int = 3) -> bool:
+        """
+        Remove self-intersecting triangles.
+
+        Parameters
+        ----------
+        max_iter : int, default: 3
+            Maximum number of iterations to perform.
+
+        Returns
+        -------
+        bool
+            ``True`` when successful.
+
+        """
+        return self._mfix.strong_intersection_removal(max_iter)
 
     def save(self, filename: str | Path, binary=True):
         """

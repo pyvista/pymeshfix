@@ -19,7 +19,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, ubuntu-24.04-arm, windows-latest, macos-latest, macos-15-intel]
+        os: [ubuntu-24.04, windows-2025, macos-latest, macos-15-intel, ubuntu-24.04-arm]
 
     steps:
     - uses: actions/checkout@v6
@@ -40,7 +40,7 @@ jobs:
       fail-fast: false
       matrix:
         python-version: ['3.13'] # , '3.14']  # skip 3.14 testing until vtk 9.6 is released
-        os: [ubuntu-24.04, windows-2025, macos-latest, macos-15-intel, ubuntu-24.04-arm]
+        os: [ubuntu-24.04, windows-2025, macos-latest, macos-15-intel, ubuntu-24.04-arm]  # must match build_wheels os
     steps:
     - uses: actions/checkout@v6
     - uses: actions/setup-python@v6

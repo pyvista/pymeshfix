@@ -17,8 +17,8 @@ def test_repair_vtk() -> None:
     mfix.repair()
 
     # check arrays and output mesh
-    assert np.any(mfix.v)
-    assert np.any(mfix.f)
+    assert np.any(mfix.points)
+    assert np.any(mfix.faces)
     meshout = mfix.mesh
     assert mfix.mesh.n_points
 
@@ -29,14 +29,24 @@ def test_repair_vtk() -> None:
     assert pdata.n_points == 0
 
 
+def test_repair_incremental() -> None:
+    meshin = pv.PolyData(bunny_scan)
+    mfix = pymeshfix.MeshFix(meshin, verbose=False)
+    assert mfix.n_boundaries
+    assert mfix.degeneracy_removal()
+    assert mfix.intersection_removal()
+    assert not mfix.fill_holes()  # should be no holes after degeneracy removal
+    assert not mfix.n_boundaries
+
+
 def test_from_filename() -> None:
     mfix = pymeshfix.MeshFix(bunny_scan)
-    assert mfix.v.shape[0]
-    assert mfix.f.shape[0]
+    assert mfix.points.shape[0]
+    assert mfix.faces.shape[0]
 
     mfix = pymeshfix.MeshFix(Path(bunny_scan))
-    assert mfix.v.shape[0]
-    assert mfix.f.shape[0]
+    assert mfix.points.shape[0]
+    assert mfix.faces.shape[0]
 
 
 def test_from_arrays() -> None:
@@ -47,5 +57,5 @@ def test_from_arrays() -> None:
     f = meshin._connectivity_array.reshape(-1, 3).astype(np.int32, copy=False)
 
     mfix = pymeshfix.MeshFix(meshin.points, f)
-    assert mfix.v.shape[0]
-    assert mfix.f.shape[0]
+    assert mfix.points.shape[0]
+    assert mfix.faces.shape[0]
