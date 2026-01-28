@@ -4,7 +4,7 @@ on:
   pull_request:
   push:
     tags:
-    - '*'
+    - v*
     branches:
     - main
 
@@ -39,7 +39,7 @@ jobs:
     - uses: actions/checkout@v6
     - uses: actions/setup-python@v6
       with:
-        python-version: 3.12
+        python-version: 3.13
 
     - name: Install pipx
       run: python -m pip install --upgrade pipx pip

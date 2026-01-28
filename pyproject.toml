@@ -20,7 +20,7 @@ classifiers = [
 dependencies = [
   "numpy"
 ]
-description = "Python interface to tetgen"
+description = "Repair triangular meshes using MeshFix"
 name = "pymeshfix"
 readme = "README.rst"
 requires-python = ">=3.10,<3.15"
@@ -30,7 +30,6 @@ version = "0.19.dev0"
 docs = [
   "Sphinx",
   "pydata-sphinx-theme",
-  "matplotlib",
   "pyvista",
   "sphinx_gallery",
   "sphinx-notfound-page>=0.3.0",
