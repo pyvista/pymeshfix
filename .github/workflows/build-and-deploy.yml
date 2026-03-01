@@ -27,7 +27,7 @@ jobs:
     - name: Build wheels
       uses: pypa/cibuildwheel@v3.3.1
 
-    - uses: actions/upload-artifact@v6
+    - uses: actions/upload-artifact@v7
       with:
         name: pymeshfix-wheels-${{ matrix.os }}
         path: ./wheelhouse/*.whl
@@ -46,7 +46,7 @@ jobs:
     - uses: actions/setup-python@v6
       with:
         python-version: ${{ matrix.python-version }}
-    - uses: actions/download-artifact@v7
+    - uses: actions/download-artifact@v8
       with:
         pattern: pymeshfix-wheels-${{ matrix.os }}
         path: wheels/
@@ -93,7 +93,7 @@ jobs:
     - name: Run tests
       run: pytest
 
-    - uses: actions/upload-artifact@v6
+    - uses: actions/upload-artifact@v7
       with:
         name: pymeshfix-sdist
         path: dist/*.tar.gz
@@ -110,7 +110,7 @@ jobs:
       id-token: write  # this permission is mandatory for trusted publishing
       contents: write  # required to create a release
     steps:
-    - uses: actions/download-artifact@v7
+    - uses: actions/download-artifact@v8
       with:
         pattern: pymeshfix-*
         path: dist
