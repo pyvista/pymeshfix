@@ -5,7 +5,7 @@ ci:
 
 repos:
 - repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: v0.14.14
+  rev: v0.15.9
   hooks:
   - id: ruff-check
     args: [--fix, --exit-non-zero-on-fix]
@@ -19,7 +19,7 @@ repos:
     exclude: README.rst
 
 - repo: https://github.com/codespell-project/codespell
-  rev: v2.4.1
+  rev: v2.4.2
   hooks:
   - id: codespell
     args: [--skip=*.vt*]
@@ -39,7 +39,7 @@ repos:
   - id: trailing-whitespace
 
 - repo: https://github.com/pre-commit/mirrors-mypy
-  rev: v1.19.1
+  rev: v1.20.0
   hooks:
   - id: mypy
     additional_dependencies: [numpy>=2.0]
@@ -54,12 +54,12 @@ repos:
     args: [--autofix, --indent, '2']
 
 - repo: https://github.com/pre-commit/mirrors-clang-format
-  rev: v21.1.8
+  rev: v22.1.2
   hooks:
   - id: clang-format
 
 - repo: https://github.com/python-jsonschema/check-jsonschema
-  rev: 0.36.1
+  rev: 0.37.1
   hooks:
   - id: check-github-workflows
 
