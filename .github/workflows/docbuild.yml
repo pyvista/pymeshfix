@@ -32,7 +32,7 @@ jobs:
       run: make -C doc html
 
     - name: Deploy
-      uses: JamesIves/github-pages-deploy-action@v4.7.6
+      uses: JamesIves/github-pages-deploy-action@v4.8.0
       if: startsWith(github.ref, 'refs/tags/')
       with:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
