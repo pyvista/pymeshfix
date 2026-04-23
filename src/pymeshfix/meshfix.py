@@ -125,7 +125,7 @@ class MeshFix:
 
     def __init__(self, *args, verbose: bool = False):
         """Initialize meshfix."""
-        pv_installed = find_spec("pyvista.core")
+
         self._mfix = _meshfix.PyTMesh()
         self._mfix.set_quiet(not verbose)
 
@@ -136,7 +136,10 @@ class MeshFix:
             if len(args) != 2 or not isinstance(args[1], np.ndarray):
                 raise TypeError("If first argument is an array, second argument must be an array")
             self.load_arrays(args[0], args[1])
-        elif pv_installed:
+        else:
+            if find_spec("pyvista.core") is None:
+                raise InvalidMeshFixInputError()
+
             import pyvista.core as pv
 
             if isinstance(args[0], pv.PolyData):
@@ -161,9 +164,6 @@ class MeshFix:
 
             f = mesh._connectivity_array.reshape(-1, 3).astype(np.int32, copy=False)
             self.load_arrays(v, f)
-
-        else:
-            raise InvalidMeshFixInputError()
 
     @property
     def n_boundaries(self) -> int:
