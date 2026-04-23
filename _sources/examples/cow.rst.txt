@@ -62,8 +62,10 @@ Repair a mesh of a cow.
 
  .. code-block:: none
 
-    PolyData (0x7f5d7412c220)
-      N Cells:    5234
+    /home/runner/work/pymeshfix/pymeshfix/examples/cow.py:21: PyVistaDeprecationWarning: `extract_geometry` is deprecated. Use `extract_surface(algorithm=None)` instead.
+      cow_w_holes = cow.threshold(0.9, invert=True).extract_geometry().triangulate()
+    PolyData (0x7fe5ac241c00)
+      N Cells:    5233
       N Points:   2903
       N Strips:   0
       X Bounds:   -4.446e+00, 5.998e+00
@@ -146,7 +148,7 @@ Show the repaired result
 
  .. code-block:: none
 
-    PolyData (0x7f5d7412c640)
+    PolyData (0x7fe5ac241f60)
       N Cells:    5448
       N Points:   2726
       N Strips:   0
@@ -178,7 +180,7 @@ Show the repaired result
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 2.018 seconds)
+   **Total running time of the script:** (0 minutes 1.401 seconds)
 
 
 .. _sphx_glr_download_examples_cow.py:

@@ -6,7 +6,7 @@
 
 Computation times
 =================
-**00:23.392** total execution time for 4 files **from examples**:
+**00:08.184** total execution time for 4 files **from examples**:
 
 .. container::
 
@@ -33,14 +33,14 @@ Computation times
      - Time
      - Mem (MB)
    * - :ref:`sphx_glr_examples_bunny.py` (``bunny.py``)
-     - 00:17.895
+     - 00:04.378
      - 0.0
    * - :ref:`sphx_glr_examples_torso.py` (``torso.py``)
-     - 00:02.691
+     - 00:01.890
      - 0.0
    * - :ref:`sphx_glr_examples_cow.py` (``cow.py``)
-     - 00:02.018
+     - 00:01.401
      - 0.0
    * - :ref:`sphx_glr_examples_repair_planar.py` (``repair_planar.py``)
-     - 00:00.788
+     - 00:00.515
      - 0.0
