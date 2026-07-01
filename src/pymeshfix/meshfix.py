@@ -395,8 +395,6 @@ class MeshFix:
 
         Parameters
         ----------
-        fill_holes : bool, default: True
-            Call meshfix's internal ``fill_small_boundaries``.
         joincomp : bool, default: False
             Attempts to join nearby open components.
         remove_smallest_components : bool, default: True
