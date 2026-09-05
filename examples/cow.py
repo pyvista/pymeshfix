@@ -1,8 +1,8 @@
 """
-Cow Mesh Repair
----------------
+Holy Cow
+--------
 
-Repair a mesh of a cow.
+Make the cow less holy.
 """
 
 import numpy as np
