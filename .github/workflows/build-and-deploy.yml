@@ -43,11 +43,11 @@ jobs:
         os: [ubuntu-24.04, windows-2025, macos-latest, macos-15-intel, ubuntu-24.04-arm]  # must match build_wheels os
         # abi3t wheel; vtk has no cp315t wheels for macOS arm64 or Windows
         include:
-        - python-version: '3.15t'
+        - python-version: 3.15t
           os: ubuntu-24.04
-        - python-version: '3.15t'
+        - python-version: 3.15t
           os: ubuntu-24.04-arm
-        - python-version: '3.15t'
+        - python-version: 3.15t
           os: macos-15-intel
     steps:
     - uses: actions/checkout@v7
