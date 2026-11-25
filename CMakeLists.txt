@@ -15,10 +15,10 @@ nanobind_add_module(
   # Name of the extension
   _meshfix
 
-  # Target the stable ABI for Python 3.12+, which reduces
-  # the number of binary wheels that must be built. This
-  # does nothing on older Python versions
+  # Split mode (runtime from nanobind-backend) allows abi3 below 3.12 and abi3t
   STABLE_ABI
+  FREE_THREADED
+  BACKEND_MODULE nanobind_backend
 
   src/_meshfix.cpp
   src/checkAndRepair.cpp

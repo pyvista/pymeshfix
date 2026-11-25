@@ -33,14 +33,22 @@ jobs:
         path: ./wheelhouse/*.whl
 
   test_abi3:
-    name: Test ABI3 wheels
+    name: Test stable ABI wheels (${{ matrix.os }}, ${{ matrix.python-version }})
     needs: build_wheels
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
-        python-version: ['3.13'] # , '3.14']  # skip 3.14 testing until vtk 9.6 is released
+        python-version: ['3.13', '3.14', '3.15']
         os: [ubuntu-24.04, windows-2025, macos-latest, macos-15-intel, ubuntu-24.04-arm]  # must match build_wheels os
+        # abi3t wheel; vtk has no cp315t wheels for macOS arm64 or Windows
+        include:
+        - python-version: 3.15t
+          os: ubuntu-24.04
+        - python-version: 3.15t
+          os: ubuntu-24.04-arm
+        - python-version: 3.15t
+          os: macos-15-intel
     steps:
     - uses: actions/checkout@v7
     - uses: actions/setup-python@v7
@@ -50,14 +58,21 @@ jobs:
       with:
         pattern: pymeshfix-wheels-${{ matrix.os }}
         path: wheels/
-    - name: Find ABI3 wheel
+    - name: Find stable ABI wheel
       id: find_wheel
       shell: bash
       run: |
-        WHEEL=$(ls wheels/*abi3*.whl | head -n 1)
+        if [[ "${{ matrix.python-version }}" == *t ]]; then
+          WHEEL=$(ls wheels/*-cp315-abi3t-*.whl | head -n 1)
+        else
+          WHEEL=$(ls wheels/*-cp310-abi3-*.whl | head -n 1)
+        fi
         echo "wheel=$WHEEL" >> "$GITHUB_OUTPUT"
     - name: Install wheel
       run: pip install "${{ steps.find_wheel.outputs.wheel }}"
+    - name: Check the GIL stays disabled
+      if: endsWith(matrix.python-version, 't')
+      run: python -c "import sys, pymeshfix; assert not sys._is_gil_enabled()"
     - name: Install test dependencies from source
       run: |
         pip install tomli
