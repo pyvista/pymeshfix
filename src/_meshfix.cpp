@@ -516,7 +516,15 @@ nb::tuple clean_from_arrays(
     return tin.return_arrays();
 }
 
+// MeshFix keeps process-global state (TMesh::quiet, progress timers), so serialize all calls.
+static nb::ft_mutex meshfix_mutex;
+struct meshfix_guard {
+    nb::ft_lock_guard lock{meshfix_mutex};
+};
+
 NB_MODULE(_meshfix, m) { // "_meshfix" must match library name from CMakeLists.txt
+    const auto locked = nb::call_guard<meshfix_guard>();
+
     nb::class_<PyTMesh>(
         m,
         "PyTMesh",
@@ -526,34 +534,39 @@ Mesh repair and cleaning class.
 Wraps the MeshFix Basic_TMesh functionality and exposes it to Python.
 Provides methods to inspect, repair, and extract mesh data.
 )doc")
-        .def(nb::init<>())
+        .def(nb::init<>(), locked)
         .def_prop_ro(
             "n_boundaries",
             &PyTMesh::n_boundaries,
+            locked,
             R"doc(
 Number of boundary loops in the mesh.
 )doc")
         .def_prop_ro(
             "n_faces",
             &PyTMesh::n_faces,
+            locked,
             R"doc(
 Number of faces in the mesh.
 )doc")
         .def_prop_ro(
             "n_points",
             &PyTMesh::n_points,
+            locked,
             R"doc(
 Number of points in the mesh.
 )doc")
         .def(
             "join_closest_components",
             &PyTMesh::join_closest_components,
+            locked,
             R"doc(
 Join the closest disconnected mesh components.
 )doc")
         .def(
             "set_quiet",
             &PyTMesh::set_quiet,
+            locked,
             R"doc(
 Enable or disable console output.
 
@@ -565,12 +578,14 @@ quiet : bool
         .def(
             "fix_connectivity",
             &PyTMesh::fix_connectivity,
+            locked,
             R"doc(
 Repair mesh connectivity issues.
 )doc")
         .def(
             "return_arrays",
             &PyTMesh::return_arrays,
+            locked,
             R"doc(
 Return mesh data as vertex and face arrays.
 
@@ -584,6 +599,7 @@ numpy.ndarray
         .def(
             "return_points",
             &PyTMesh::return_points,
+            locked,
             R"doc(
 Return the vertex array.
 
@@ -595,18 +611,21 @@ numpy.ndarray
         .def(
             "strong_intersection_removal",
             &PyTMesh::strong_intersection_removal,
+            locked,
             R"doc(
 Iteratively removes self-intersecting triangles.
 )doc")
         .def(
             "strong_degeneracy_removal",
             &PyTMesh::strong_degeneracy_removal,
+            locked,
             R"doc(
 Iteratively removes degenerate triangles and closes holes.
 )doc")
         .def(
             "return_faces",
             &PyTMesh::return_faces,
+            locked,
             R"doc(
 Return the face array.
 
@@ -618,6 +637,7 @@ numpy.ndarray[np.int32]
         .def(
             "load_file",
             &PyTMesh::load_file,
+            locked,
             R"doc(
 Load a surface mesh from a file.
 
@@ -630,6 +650,7 @@ filename : str
         .def(
             "fill_small_boundaries",
             &PyTMesh::fill_small_boundaries,
+            locked,
             R"doc(
 Fill small boundary loops (holes) in the mesh.
 
@@ -645,6 +666,7 @@ refine : bool, default: True
         .def(
             "clean",
             &PyTMesh::clean,
+            locked,
             R"doc(
 Perform iterative mesh cleaning and repair.
 
@@ -657,10 +679,11 @@ inner_loops : int, default: 3
 )doc",
             nb::arg("max_iters") = 10,
             nb::arg("inner_loops") = 3)
-        .def("boundaries", &PyTMesh::_boundaries)
+        .def("boundaries", &PyTMesh::_boundaries, locked)
         .def(
             "save_file",
             &PyTMesh::save_file,
+            locked,
             R"doc(
 Save the mesh to a file.
 
@@ -673,10 +696,11 @@ back_approx : bool, default: False
 )doc",
             nb::arg("filename"),
             nb::arg("back_approx") = false)
-        .def("boundaries", &PyTMesh::_boundaries)
+        .def("boundaries", &PyTMesh::_boundaries, locked)
         .def(
             "select_intersecting_triangles",
             &PyTMesh::select_intersecting_triangles,
+            locked,
             R"doc(
 Select intersecting triangles in the mesh.
 
@@ -703,12 +727,14 @@ np.ndarray[np.int32]
         .def(
             "remove_smallest_components",
             &PyTMesh::remove_smallest_components,
+            locked,
             R"doc(
 Remove all but the largest connected mesh component.
 )doc")
         .def(
             "load_array",
             &PyTMesh::load_array,
+            locked,
             R"doc(
 Load a surface mesh from vertex and face arrays.
 
@@ -725,6 +751,7 @@ faces_arr : numpy.ndarray
     m.def(
         "clean_from_arrays",
         &clean_from_arrays,
+        locked,
         R"doc(
 Clean and repair a triangular surface mesh from vertex and face arrays.
 
@@ -766,6 +793,7 @@ Examples
     m.def(
         "clean_from_file",
         &clean_from_file,
+        locked,
         R"doc(
 Clean and repair a triangular surface mesh from a file.
 
